@@ -25,7 +25,7 @@ public class SimWindow extends JFrame {
 		// Define a new main canvas and set its properties
 		sim = new SimulatorCanvas();
 		sim.setFocusable(true);
-//		sim.addMouseListener(sim);
+		sim.addMouseListener(sim.getSimEngine());
 //		sim.addKeyListener(sim);
 		sim.setVisible(true);
 		

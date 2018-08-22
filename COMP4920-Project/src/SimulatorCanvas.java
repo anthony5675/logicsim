@@ -82,5 +82,9 @@ public class SimulatorCanvas extends Canvas implements Runnable {
 		// Drawn any extra objects
 		se.paint(g);
 	}
+	
+	public SimulatorEngine getSimEngine() {
+		return se;
+	}
 
 }
