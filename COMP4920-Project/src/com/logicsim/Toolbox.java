@@ -22,7 +22,7 @@ public class Toolbox {
 		comps = new ArrayList<Component>();
 		comps.add(new And(width/2 - 50/2, 200));
 		comps.add(new Or(width/2 - 50/2, 260));
-		comps.add(new Input(width/2 - 30/2, 160));
+		comps.add(new Source(width/2 - 30/2, 160));
 	}
 	
 	public void paint(Graphics g) {

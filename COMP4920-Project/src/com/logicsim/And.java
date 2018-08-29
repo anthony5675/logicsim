@@ -34,11 +34,13 @@ public class And extends Gate {
 		
 		g.setColor(Color.BLACK);
 		g.drawString("AND", x + 10, y + height/2);
+		
+		for (IO s : inputs) s.paint(g);
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		
+		addInput(x - Source.WIDTH, y + height/3);
 	}
 	
 	public Component clone() {
