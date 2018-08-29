@@ -35,7 +35,7 @@ public class SimWindow extends JFrame {
 		add(sim);
 		setTitle("Logic Simulator");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setResizable(false);
+		setResizable(true);
 		pack();
 		
 		// Draw the JFrame in the middle of the screen
