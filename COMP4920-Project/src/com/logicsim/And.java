@@ -15,6 +15,8 @@ public class And extends Gate {
 		height = 50;
 		
 		inputMin = 2;
+
+		image = ImageLoader.loadImage("images/andgate.png");
 	}
 	
 	public int calculate() {
@@ -29,11 +31,15 @@ public class And extends Gate {
 	}
 	
 	public void paint(Graphics g) {
-		g.setColor(Color.WHITE);
-		g.fillRect(x, y, width, height);
-		
-		g.setColor(Color.BLACK);
-		g.drawString("AND", x + 10, y + height/2);
+		if (image == null) {
+			g.setColor(Color.WHITE);
+			g.fillRect(x, y, width, height);
+
+			g.setColor(Color.BLACK);
+			g.drawString("AND", x + 10, y + height / 2);
+		} else {
+			g.drawImage(image, x, y, width, height,null);
+		}
 	}
 
 	@Override
