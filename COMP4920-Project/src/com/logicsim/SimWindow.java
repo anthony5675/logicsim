@@ -1,3 +1,4 @@
+package com.logicsim;
 import java.awt.*;
 import javax.swing.JFrame;
 
