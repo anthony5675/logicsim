@@ -13,6 +13,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
+import javax.swing.event.MouseInputListener;
 
 /**
  * Class to handle most simulator logic and hold most of the back end of it.
@@ -20,13 +21,15 @@ import javax.swing.SwingUtilities;
  * @author Jayden, Daniel, Sharon and Shravan
  *
  */
-public class SimulatorEngine implements MouseListener {
+public class SimulatorEngine implements MouseListener, MouseInputListener {
 	
 	private SimulatorCanvas sim;
 	private ArrayList<Component> comps;
 	private Toolbox tb;
 	
 	private Component toBeAdded;
+	private Component beingDragged;
+	private boolean ioPressed;
 	
 	public SimulatorEngine(SimulatorCanvas s) {
 		sim = s;
@@ -37,6 +40,7 @@ public class SimulatorEngine implements MouseListener {
 		comps = new ArrayList<Component>();
 		
 		toBeAdded = null;
+		beingDragged = null;
 	}
 	
 	/**
@@ -56,6 +60,14 @@ public class SimulatorEngine implements MouseListener {
 	
 	public void setToBeAdded(Component tba) {
 		toBeAdded = tba;
+	}
+
+	public void setIOPressed(boolean bool) {
+		ioPressed = bool;
+	}
+	
+	public boolean getIOPressed() {
+		return ioPressed;
 	}
 	
 	@Override
@@ -80,6 +92,7 @@ public class SimulatorEngine implements MouseListener {
 			}
 			
 			comps.add(toBeAdded);
+			beingDragged = toBeAdded;
 			toBeAdded = null;
 		}
 		
@@ -106,7 +119,13 @@ public class SimulatorEngine implements MouseListener {
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		//if (tb.wasClicked(e.getX(), e.getY())) tb.mouseReleased(e);
-		
+		if (beingDragged == null) return;
+		int x = e.getX();
+		int y = e.getY();
+		beingDragged.setX(x);
+		beingDragged.setY(y);
+		beingDragged = null;
+		sim.repaint();
 	}
 
 	@Override
@@ -117,5 +136,18 @@ public class SimulatorEngine implements MouseListener {
 
 	@Override
 	public void mouseExited(MouseEvent e) {}
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		if (beingDragged == null) return;
+		int x = e.getX();
+		int y = e.getY();
+		beingDragged.setX(x);
+		beingDragged.setY(y);
+		sim.repaint();
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent arg0) {}
 
 }

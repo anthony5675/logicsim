@@ -21,6 +21,7 @@ public class Toolbox {
 		comps = new ArrayList<Component>();
 		comps.add(new And(width/2 - 50/2, 200));
 		comps.add(new Or(width/2 - 50/2, 260));
+		comps.add(new Input(width/2 - 30/2, 160));
 	}
 	
 	public void paint(Graphics g) {
@@ -44,8 +45,13 @@ public class Toolbox {
 		for (Component c : comps) {
 			if (e.getX() >= c.getX() && e.getX() <= c.getX() + c.getWidth()) {
 				if (e.getY() >= c.getY() && e.getY() <= c.getY() + c.getHeight()) {
-					if (!(c instanceof IO)) c.mousePressed(e);
-					sim.getSimEngine().setToBeAdded((Component) c.clone());
+					if (!(c instanceof IO)) {
+						c.mousePressed(e);
+						sim.getSimEngine().setToBeAdded((Component) c.clone());
+					} else {
+						sim.getSimEngine().setIOPressed(true);
+						break;
+					}
 				}
 			}
 		}
