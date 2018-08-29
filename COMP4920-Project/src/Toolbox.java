@@ -20,6 +20,7 @@ public class Toolbox {
 		
 		comps = new ArrayList<Component>();
 		comps.add(new And(width/2 - 50/2, 200));
+		comps.add(new Or(width/2 - 50/2, 260));
 	}
 	
 	public void paint(Graphics g) {
