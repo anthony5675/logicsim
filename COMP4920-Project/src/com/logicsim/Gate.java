@@ -1,3 +1,4 @@
+package com.logicsim;
 import java.util.ArrayList;
 
 public abstract class Gate extends Component {

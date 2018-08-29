@@ -1,3 +1,4 @@
+package com.logicsim;
 import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Color;
