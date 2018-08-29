@@ -4,21 +4,24 @@ import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-public class Input extends IO {
+public class Source extends IO {
+	
+	public static final int WIDTH = 30;
+	public static final int HEIGHT = 20;
 	
 	private boolean state;
 	
-	public Input(int i, int j) {
+	public Source(int i, int j) {
 		state = false;
 		
 		x = i;
 		y = j;
 		
-		width = 30;
-		height = 20;
+		width = WIDTH;
+		height = HEIGHT;
 	}
 	
-	public Input(int i, int j, boolean s) {
+	public Source(int i, int j, boolean s) {
 		state = s;
 		
 		x = i;
@@ -51,7 +54,7 @@ public class Input extends IO {
 
 	@Override
 	public Component clone() {
-		Input c = new Input(x, y);
+		Source c = new Source(x, y);
 		
 		c.width = width;
 		c.height = height;

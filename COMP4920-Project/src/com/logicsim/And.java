@@ -31,12 +31,14 @@ public class And extends Gate {
 	}
 	
 	public void paint(Graphics g) {
-		if (image == null) {
-			g.setColor(Color.WHITE);
-			g.fillRect(x, y, width, height);
-
-			g.setColor(Color.BLACK);
-			g.drawString("AND", x + 10, y + height / 2);
+	    if (image == null) {
+    		g.setColor(Color.WHITE);
+    		g.fillRect(x, y, width, height);
+    		
+    		g.setColor(Color.BLACK);
+    		g.drawString("AND", x + 10, y + height/2);
+    		
+    		for (IO s : inputs) s.paint(g);
 		} else {
 			g.drawImage(image, x, y, width, height,null);
 		}
@@ -44,7 +46,7 @@ public class And extends Gate {
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		
+		addInput(x - Source.WIDTH, y + height/3);
 	}
 	
 	public Component clone() {
