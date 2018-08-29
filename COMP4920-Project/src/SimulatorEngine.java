@@ -87,13 +87,13 @@ public class SimulatorEngine implements MouseListener {
 
 	private boolean componentColide(Component old, Component newC) {
 		// IF the left side of the component will not be inside the other component
-		if (newC.getX() >= old.getX() && newC.getX() <= old.getX() + old.getWidth() &&
+		if (newC.getX() >= old.getX() && newC.getX() <= old.getX() + old.getWidth() ||
 			// IF the right side of the component will not be inside the other component
 			newC.getX() + newC.getWidth() >= old.getX() &&
 			newC.getX() + newC.getWidth() <= old.getX() + old.getWidth()) {
 			
 			// IF the top side of the component will not be inside the other component
-			if (newC.getY() >= old.getY() && newC.getY() <= old.getY() + old.getHeight() &&
+			if (newC.getY() >= old.getY() && newC.getY() <= old.getY() + old.getHeight() ||
 				// IF the bottom side of the component will not be inside the other component
 				newC.getY() + newC.getHeight() >= old.getY() &&
 				newC.getY() + newC.getHeight() <= old.getY() + old.getHeight()) {
