@@ -12,9 +12,9 @@ public abstract class Gate extends Component {
 		output = null;
 	}
 	
-	public boolean addInput() {
+	public boolean addInput(int x, int y) {
 		if (inputs.size() == inputMin) return false;
-		inputs.add(new Input());
+		inputs.add(new Input(x, y));
 		return true;
 	}
 
