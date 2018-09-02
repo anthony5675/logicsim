@@ -6,25 +6,25 @@ public abstract class Gate extends Component {
 	protected int inputMin;
 	protected int inputMax;
 
-	protected ArrayList<IO> inputs;
-	protected IO output;
+	protected ArrayList<Connector> inputs;
+	protected Connector output;
 	
 	public Gate() {
-		inputs = new ArrayList<IO>();
+		inputs = new ArrayList<Connector>();
 		output = null;
 		
 		inputMax = 0;
 	}
 	
-	public boolean addInput(int x, int y) {
+	public boolean addInput(Connector c) {
 		if (inputMax > 0 && inputs.size() >= inputMax) return false;
-		inputs.add(new Source(x, y));
+		inputs.add(c);
 		return true;
 	}
 
-	public boolean addOutput() {
+	public boolean addOutput(Connector c) {
 		if (output != null) return false;
-		output = new Output();
+		output = c;
 		return true;
 	}
 	

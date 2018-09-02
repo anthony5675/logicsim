@@ -46,13 +46,7 @@ public class Toolbox {
 		for (Component c : comps) {
 			if (e.getX() >= c.getX() && e.getX() <= c.getX() + c.getWidth()) {
 				if (e.getY() >= c.getY() && e.getY() <= c.getY() + c.getHeight()) {
-					if (!(c instanceof IO)) {
-						c.mousePressed(e);
 						sim.getSimEngine().setToBeAdded((Component) c.clone());
-					} else {
-						sim.getSimEngine().setIOPressed(true);
-						break;
-					}
 				}
 			}
 		}

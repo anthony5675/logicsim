@@ -15,6 +15,11 @@ public class And extends Gate {
 		height = 50;
 		
 		inputMin = 2;
+
+		connectHeight = height/2;
+		connectWidth = connectHeight;
+		connectX = x - connectWidth;
+		connectY = y + height/4;
 	}
 	
 	public int calculate() {
@@ -27,20 +32,25 @@ public class And extends Gate {
 		}
 		return result;
 	}
+
+	@Override
+	public void update() {
+		connectX = x - connectWidth;
+		connectY = y + height/4;
+	}
 	
 	public void paint(Graphics g) {
 		g.setColor(Color.WHITE);
 		g.fillRect(x, y, width, height);
+		g.fillRect(connectX + 1, connectY + 1, connectWidth - 1, connectHeight - 1);
 		
 		g.setColor(Color.BLACK);
 		g.drawString("AND", x + 10, y + height/2);
-		
-		for (IO s : inputs) s.paint(g);
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		addInput(x - Source.WIDTH, y + height/3);
+		// Check if its on an input/output point and tell SE
 	}
 	
 	public Component clone() {
@@ -51,7 +61,7 @@ public class And extends Gate {
 		
 		c.inputMin = inputMin;
 		
-		c.inputs = new ArrayList<IO>();
+		c.inputs = new ArrayList<Connector>();
 		c.output = null;
 		
 		return c;

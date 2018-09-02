@@ -5,8 +5,12 @@ import java.awt.event.MouseEvent;
 public abstract class Component {
 
 	protected int x, y, width, height;
+	
+	protected int connectX, connectY, connectWidth, connectHeight;
 
 	public abstract int calculate();
+
+	public abstract void update();
 
 	public abstract void paint(Graphics g);
 
@@ -15,8 +19,8 @@ public abstract class Component {
 	public abstract Component clone();
 
 	public boolean wasClicked(int i, int j) {
-		if (i >= x && i <= width) {
-			if (j >= y && j <= height) {
+		if (i >= x && i <= x + width) {
+			if (j >= y && j <= y + height) {
 				return true;
 			}
 		}

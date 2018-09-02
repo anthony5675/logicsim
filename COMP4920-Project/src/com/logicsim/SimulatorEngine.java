@@ -48,6 +48,7 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 	 * Runs any updates necessary on any objects
 	 */
 	public void update() {
+		for(Component c : comps) c.update();
 	}
 	
 	/**
@@ -75,6 +76,15 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 	public void mousePressed(MouseEvent e) {
 		if (tb.wasClicked(e.getX(), e.getY())) {
 			tb.mousePressed(e);
+
+			if (toBeAdded != null) {
+				toBeAdded.setX(e.getX());
+				toBeAdded.setY(e.getY());
+				
+				comps.add(toBeAdded);
+				beingDragged = toBeAdded;
+				toBeAdded = null;
+			}
 			return;
 		}
 		
@@ -84,19 +94,6 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 				return;
 			}
 		}
-		
-		if (toBeAdded != null) {
-			toBeAdded.setX(e.getX());
-			toBeAdded.setY(e.getY());
-			for (Component c : comps) {
-				if (componentColide(c, toBeAdded)) return;
-			}
-			
-			comps.add(toBeAdded);
-			beingDragged = toBeAdded;
-			toBeAdded = null;
-		}
-		
 	}
 
 	private boolean componentColide(Component old, Component newC) {
@@ -119,12 +116,17 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		//if (tb.wasClicked(e.getX(), e.getY())) tb.mouseReleased(e);
 		if (beingDragged == null) return;
 		int x = e.getX();
 		int y = e.getY();
 		beingDragged.setX(x);
 		beingDragged.setY(y);
+
+		// Need to check for collisions properly
+//		for (Component c : comps) {
+//			if (c != beingDragged && componentColide(c, beingDragged)) comps.remove(beingDragged);
+//		}
+
 		beingDragged = null;
 		sim.repaint();
 	}
