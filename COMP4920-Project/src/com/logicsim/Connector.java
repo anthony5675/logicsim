@@ -3,15 +3,22 @@ import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 
 public class Connector extends IO {
+	
+	private Component input;
+	private Component output;
 
 	@Override
 	public int calculate() {
-		return 0;
+		return input.calculate();
 	}
 
 	@Override
-	public void paint(Graphics g) {
-		
+	public void update() {
+	}
+
+	@Override
+	public void paint(Graphics g) {	
+		// Draw Straight Line
 	}
 
 	@Override

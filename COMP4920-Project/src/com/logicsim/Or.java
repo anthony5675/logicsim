@@ -30,6 +30,10 @@ public class Or extends Gate {
 	}
 
 	@Override
+	public void update() {
+	}
+
+	@Override
 	public void paint(Graphics g) {
 		g.setColor(Color.WHITE);
 		g.fillOval(x, y, width, height);
@@ -40,7 +44,7 @@ public class Or extends Gate {
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
+		// Check if its on an input/output point and tell SE
 
 	}
 
@@ -53,7 +57,7 @@ public class Or extends Gate {
 		
 		c.inputMin = inputMin;
 		
-		c.inputs = new ArrayList<IO>();
+		c.inputs = new ArrayList<Connector>();
 		c.output = null;
 		
 		return c;

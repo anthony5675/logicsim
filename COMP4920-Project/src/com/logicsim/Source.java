@@ -16,21 +16,15 @@ public class Source extends IO {
 		
 		x = i;
 		y = j;
-		
 		width = WIDTH;
 		height = HEIGHT;
+		
+		connectX = x + width;
+		connectY = y + height/4;
+		connectHeight = height/2;
+		connectWidth = connectHeight;
 	}
 	
-	public Source(int i, int j, boolean s) {
-		state = s;
-		
-		x = i;
-		y = j;
-		
-		width = 50;
-		height = 50;
-	}
-
 	@Override
 	public int calculate() {
 		if (state == false) return 0;
@@ -38,13 +32,24 @@ public class Source extends IO {
 	}
 
 	@Override
+	public void update() {
+		connectX = x + width;
+		connectY = y + height/4;
+	}
+
+	@Override
 	public void paint(Graphics g) {
 		g.setColor(Color.WHITE);
-		g.fillRect(x + 1, y + 1, width - 1, height -1);
+		g.fillRect(x + 1, y + 1, width - 1, height - 1);
+		g.fillRect(connectX + 1, connectY + 1, connectWidth - 1, connectHeight - 1);
 		
-		g.setColor(Color.GREEN);
+		if (state) {
+			g.setColor(Color.GREEN);
+		} else {
+			g.setColor(Color.RED);
+		}
 		g.drawRect(x, y, width, height);
-		g.drawLine(x + width + 1, y + height/2, x + width + 20, y + height/2);
+		g.drawRect(connectX, connectY, connectWidth, connectHeight);
 	}
 
 	@Override
