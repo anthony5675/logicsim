@@ -1,8 +1,10 @@
 package com.logicsim;
-import java.awt.Graphics;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 
 public abstract class Component {
+
+	public Image image;
 
 	protected int x, y, width, height;
 	
