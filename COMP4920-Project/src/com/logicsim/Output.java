@@ -10,6 +10,10 @@ public class Output extends IO {
 	}
 
 	@Override
+	public void update() {
+	}
+
+	@Override
 	public void paint(Graphics g) {
 		
 	}
