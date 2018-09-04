@@ -27,11 +27,12 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 	private SimulatorCanvas sim;
 	private ArrayList<Component> comps;
 	private Toolbox tb;
+	private Tooltip tt;
 	
 	private Component toBeAdded;
 	private Component beingDragged;
 	private boolean ioPressed;
-	
+
 	public SimulatorEngine(SimulatorCanvas s) {
 		sim = s;
 		
@@ -39,7 +40,9 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 		tb = new Toolbox(sim);
 		
 		comps = new ArrayList<Component>();
-		
+
+		tt = new Tooltip();
+
 		toBeAdded = null;
 		beingDragged = null;
 	}
@@ -58,6 +61,10 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 	public void paint(Graphics g) {
 		tb.paint(g);
 		for(Component c : comps) c.paint(g);
+
+		if(tt.isToggled()) {
+			tt.paint(g);
+		}
 	}
 	
 	public void setToBeAdded(Component tba) {
@@ -74,29 +81,57 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 	
 	@Override
 	public void mousePressed(MouseEvent e) {
-		if (tb.wasClicked(e.getX(), e.getY())) {
-			tb.mousePressed(e);
+	    if (tt.isToggled()) {
+	    	tt.toggleTip();
+		}
+
+		if (SwingUtilities.isLeftMouseButton(e)) {
+			if (tb.wasClicked(e.getX(), e.getY())) {
+				tb.mousePressed(e);
+
+				if (toBeAdded != null) {
+					toBeAdded.setX(e.getX());
+					toBeAdded.setY(e.getY());
+
+					comps.add(toBeAdded);
+					beingDragged = toBeAdded;
+					toBeAdded = null;
+				}
+				return;
+			}
+
+			for (Component c : comps) {
+				if (c.wasClicked(e.getX(), e.getY())) {
+					c.mousePressed(e);
+					return;
+				}
+			}
 
 			if (toBeAdded != null) {
 				toBeAdded.setX(e.getX());
 				toBeAdded.setY(e.getY());
-				
+				for (Component c : comps) {
+					if (componentCollide(c, toBeAdded)) return;
+				}
+
 				comps.add(toBeAdded);
 				beingDragged = toBeAdded;
 				toBeAdded = null;
 			}
-			return;
-		}
-		
-		for (Component c : comps) {
-			if (c.wasClicked(e.getX(), e.getY())) {
-				c.mousePressed(e);
-				return;
+		} else if (SwingUtilities.isRightMouseButton(e)) {
+	        for (Component c : tb.getComponents()) {
+	        	if (e.getX() >= c.getX() && e.getX() < c.getX() + c.getWidth()) {
+	        		if (e.getY() >= c.getY() && e.getY() <= c.getY() + c.getHeight()) {
+	        			tt.setX(c.getX() + (c.getWidth()/2));
+	        			tt.setY(c.getY() + (c.getHeight()/2));
+	        			tt.toggleTip();
+					}
+				}
 			}
 		}
 	}
 
-	private boolean componentColide(Component old, Component newC) {
+	private boolean componentCollide(Component old, Component newC) {
 		// IF the left side of the component will not be inside the other component
 		if (newC.getX() >= old.getX() && newC.getX() <= old.getX() + old.getWidth() ||
 			// IF the right side of the component will not be inside the other component
