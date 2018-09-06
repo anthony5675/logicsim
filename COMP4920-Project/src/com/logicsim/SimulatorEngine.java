@@ -27,6 +27,7 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 	private SimulatorCanvas sim;
 	private ArrayList<Component> comps;
 	private Toolbox tb;
+	private Tooltip tt;
 	
 	// Simulator objects
 	private Component toBeAdded;
@@ -44,7 +45,9 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 		tb = new Toolbox(sim);
 		
 		comps = new ArrayList<Component>();
-		
+
+		tt = new Tooltip();
+
 		toBeAdded = null;
 		beingDragged = null;
 		
@@ -67,6 +70,10 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 		// Ask each object to draw itself
 		tb.paint(g);
 		for(Component c : comps) c.paint(g);
+
+		if(tt.isToggled()) {
+			tt.paint(g);
+		}
 	}
 	
 	/**
@@ -99,37 +106,52 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// If the click was made inside the toolbox
-		if (tb.wasClicked(e.getX(), e.getY())) {
-			// Let the toolbox handle what goes on inside it
-			// when clicked
-			tb.mousePressed(e);
+	    if (tt.isToggled()) {
+	    	tt.toggleTip();
+		}
 
-			// If afterwards there is a new object to 
-			// then add it and prep it for being dragged
-			if (toBeAdded != null) {
-				toBeAdded.setX(e.getX());
-				toBeAdded.setY(e.getY());
-				
-				comps.add(toBeAdded);
-				beingDragged = toBeAdded;
-				toBeAdded = null;
+		if (SwingUtilities.isLeftMouseButton(e)) {
+		    // If the click was made inside the toolbox
+			if (tb.wasClicked(e.getX(), e.getY())) {
+			    // Let the toolbox handle what goes on inside it
+			    // when clicked
+				tb.mousePressed(e);
+
+                // If afterwards there is a new object to 
+			    // then add it and prep it for being dragged
+				if (toBeAdded != null) {
+					toBeAdded.setX(e.getX());
+					toBeAdded.setY(e.getY());
+
+					comps.add(toBeAdded);
+					beingDragged = toBeAdded;
+					toBeAdded = null;
+				}
+				// Inside toolbox mean not any object so return
+				return;
 			}
 			
-			// Inside toolbox mean not any object so return
-			return;
-		}
-		
-		// If the click was not the toolbox then check if it was any component
-		for (Component c : comps) {
-			if (c.wasClicked(e.getX(), e.getY())) {
-				// Let it handle what happens to it (Might need to change)
-				c.mousePressed(e);
-				return;
+			// If the click was not the toolbox then check if it was any component
+			for (Component c : comps) {
+				if (c.wasClicked(e.getX(), e.getY())) {
+					// Let it handle what happens to it (Might need to change
+					c.mousePressed(e);
+					return;
+				}
+			}
+		} else if (SwingUtilities.isRightMouseButton(e)) {
+	        for (Component c : tb.getComponents()) {
+	        	if (e.getX() >= c.getX() && e.getX() < c.getX() + c.getWidth()) {
+	        		if (e.getY() >= c.getY() && e.getY() <= c.getY() + c.getHeight()) {
+	        			tt.setX(c.getX() + (c.getWidth()/2));
+	        			tt.setY(c.getY() + (c.getHeight()/2));
+	        			tt.toggleTip();
+					}
+				}
 			}
 		}
 	}
-
+	
 	/**
 	 * (Currently not used)
 	 * This checks if at all two different components collide (one would draw on top of the other)

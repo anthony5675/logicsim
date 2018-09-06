@@ -19,10 +19,10 @@ public class And extends Gate {
 		super();
 		this.x = x;
 		this.y = y;
-		
+
 		width = 50;
 		height = 50;
-		
+
 		inputMin = 2;
 
 		// These will soon be updated to a better format
@@ -41,7 +41,7 @@ public class And extends Gate {
 	public int calculate() {
 		// Are there enough inputs to calculate
 		if (inputs.size() < inputMin) return -1;
-		
+
 		// Get first input and bitwise AND with any further inputs
 		int result = inputs.get(0).calculate();
 		for (int i = 1; i < inputs.size(); i++) {
@@ -94,15 +94,15 @@ public class And extends Gate {
 	 */
 	public Component clone() {
 		And c = new And(x, y);
-		
+
 		c.width = width;
 		c.height = height;
-		
+
 		c.inputMin = inputMin;
-		
+
 		c.inputs = new ArrayList<Connector>();
 		c.output = null;
-		
+
 		return c;
 	}
 }
