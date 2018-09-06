@@ -2,6 +2,10 @@ package com.logicsim;
 import java.awt.*;
 import javax.swing.JFrame;
 
+/**
+ * Class to create in initialize a window for the simulator to run in
+ * @author Jayden, Andre, Mitchell, Anthony
+ */
 public class SimWindow extends JFrame {
 
 	public static final int WINWIDTH = 800;
@@ -46,7 +50,7 @@ public class SimWindow extends JFrame {
 	
 	/**
 	 * Provides the simulator canvas
-	 * @return usual front most canvas used for menu
+	 * @return SimulatorCanvas currently displaying everything
 	 */
 	public SimulatorCanvas getSimulator() {
 		return sim;
