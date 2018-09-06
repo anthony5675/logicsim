@@ -6,6 +6,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.SwingUtilities;
 
+/**
+ * Class to handle everything going with the Canvas object
+ * @author Jayden, Andre, Mitchell, Anthony
+ */
 public class SimulatorCanvas extends Canvas implements Runnable {
 	
 	private SimulatorEngine se;
@@ -13,14 +17,13 @@ public class SimulatorCanvas extends Canvas implements Runnable {
 	private Graphics buffer;
 	
 	/**
-	 * Initializes a Game Object
-	 * @param map == A generated map which will be used to draw the game
-	 * @param m == the main menu to fall back to once the game closes
+	 * Initializes a SimulatorCanvas Object
 	 */
 	public SimulatorCanvas() {
 
 		setSize(800, 600); // TODO: need to get correctly
 		
+		// Setup back end and start running the simulation
 		se = new SimulatorEngine(this);
 		Thread  thread = new Thread(this);
 		thread.start();
@@ -33,6 +36,7 @@ public class SimulatorCanvas extends Canvas implements Runnable {
 	@Override
 	public void run() {
 		while(true) {
+			// Run object updates through SimulatorEngine
 			se.update();
 			repaint();
 			try {
@@ -76,7 +80,7 @@ public class SimulatorCanvas extends Canvas implements Runnable {
 	 */
 	@Override
 	public void paint(Graphics g) {
-		// Draw a dark navy background to start with
+		// Draw a black background to start with
 		g.setColor(Color.black);
 		g.fillRect(0, 0, getWidth(), getHeight());
 		
@@ -84,6 +88,10 @@ public class SimulatorCanvas extends Canvas implements Runnable {
 		se.paint(g);
 	}
 	
+	/**
+     * Provides access to the Simulator Engine
+     * @return SimulatorEnginue which is currently handling the back of this Canvas
+     */
 	public SimulatorEngine getSimEngine() {
 		return se;
 	}

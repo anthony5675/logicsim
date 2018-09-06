@@ -18,8 +18,8 @@ import javax.swing.event.MouseInputListener;
 
 /**
  * Class to handle most simulator logic and hold most of the back end of it.
- * Including all the different sim objects and their different states
- * @author Jayden, Daniel, Sharon and Shravan
+ * Including all the different sim objects
+ * @author Jayden, Andre, Mitchell, Anthony
  *
  */
 public class SimulatorEngine implements MouseListener, MouseInputListener {
@@ -28,10 +28,15 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 	private ArrayList<Component> comps;
 	private Toolbox tb;
 	
+	// Simulator objects
 	private Component toBeAdded;
 	private Component beingDragged;
 	private boolean ioPressed;
 	
+	/**
+     * Initializes a SimulatorEngine object
+     * @param s == Canvas object which has generated this back end engine
+     */
 	public SimulatorEngine(SimulatorCanvas s) {
 		sim = s;
 		
@@ -42,12 +47,15 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 		
 		toBeAdded = null;
 		beingDragged = null;
+		
+		ioPressed = false;
 	}
 	
 	/**
 	 * Runs any updates necessary on any objects
 	 */
 	public void update() {
+		// Asks each component to update its own state
 		for(Component c : comps) c.update();
 	}
 	
@@ -56,27 +64,49 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 	 * @param g == Outward facing Graphics object to draw to
 	 */
 	public void paint(Graphics g) {
+		// Ask each object to draw itself
 		tb.paint(g);
 		for(Component c : comps) c.paint(g);
 	}
 	
+	/**
+     * Allows an object to be preped for adding to the canvas
+	 * @param tba == a new component which will be added to the canvas eventually
+     */
 	public void setToBeAdded(Component tba) {
 		toBeAdded = tba;
 	}
 
+	/**
+	 * Allows indication of an IO point has just been pressed
+	 * @param bool == has an IO point been pressed
+	 */
 	public void setIOPressed(boolean bool) {
 		ioPressed = bool;
 	}
 	
+	/**
+     * Provides if an IO point has just been pressed
+     * @return boolean describing if an IO point was just pressed
+     */
 	public boolean getIOPressed() {
 		return ioPressed;
 	}
 	
+	/**
+	 * Handles what clicking somewhere on the canvas will do at a specific time
+	 * @param e == A mouse event object describing what happened when clicked
+	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
+		// If the click was made inside the toolbox
 		if (tb.wasClicked(e.getX(), e.getY())) {
+			// Let the toolbox handle what goes on inside it
+			// when clicked
 			tb.mousePressed(e);
 
+			// If afterwards there is a new object to 
+			// then add it and prep it for being dragged
 			if (toBeAdded != null) {
 				toBeAdded.setX(e.getX());
 				toBeAdded.setY(e.getY());
@@ -85,21 +115,32 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 				beingDragged = toBeAdded;
 				toBeAdded = null;
 			}
+			
+			// Inside toolbox mean not any object so return
 			return;
 		}
 		
+		// If the click was not the toolbox then check if it was any component
 		for (Component c : comps) {
 			if (c.wasClicked(e.getX(), e.getY())) {
+				// Let it handle what happens to it (Might need to change)
 				c.mousePressed(e);
 				return;
 			}
 		}
 	}
 
+	/**
+	 * (Currently not used)
+	 * This checks if at all two different components collide (one would draw on top of the other)
+	 * @param old == one of the components (usually the one already there)
+	 * @param newC == Another component which might collide with old
+	 * @return If the components collide of not
+	 */
 	private boolean componentColide(Component old, Component newC) {
-		// IF the left side of the component will not be inside the other component
+		// IF the left side of the component will be inside the other component
 		if (newC.getX() >= old.getX() && newC.getX() <= old.getX() + old.getWidth() ||
-			// IF the right side of the component will not be inside the other component
+			// IF the right side of the component will be inside the other component
 			newC.getX() + newC.getWidth() >= old.getX() &&
 			newC.getX() + newC.getWidth() <= old.getX() + old.getWidth()) {
 			
@@ -114,9 +155,16 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 		return false;
 	}
 
+	/**
+	 * Handles what happens when a click is stopped somewhere on the canvas at a specific time
+	 * @param e == A mouse event object describing what happened when mouse was released
+	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {
+		// If nothing to drag do not continue
 		if (beingDragged == null) return;
+		
+		// Set final coordinates for component
 		int x = e.getX();
 		int y = e.getY();
 		beingDragged.setX(x);
@@ -127,22 +175,21 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 //			if (c != beingDragged && componentColide(c, beingDragged)) comps.remove(beingDragged);
 //		}
 
+		// Make sure nothing will continue to drag and draw everything again
 		beingDragged = null;
 		sim.repaint();
 	}
 
-	@Override
-	public void mouseClicked(MouseEvent e) {}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {}
-
-	@Override
-	public void mouseExited(MouseEvent e) {}
-
+	/**
+	 * Handles what happens when the mouse is dragged somewhere on the canvas at a specific time
+	 * @param e == A mouse event object describing what happened when the mouse was dragged
+	 */
 	@Override
 	public void mouseDragged(MouseEvent e) {
+		// If nothing to drag do not continue
 		if (beingDragged == null) return;
+
+		// Set new coordinates for component
 		int x = e.getX();
 		int y = e.getY();
 		beingDragged.setX(x);
@@ -150,6 +197,31 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 		sim.repaint();
 	}
 
+	/**
+	 * Auto imported method, not used
+	 * @param e == A mouse event object describing what happened
+	 */
+	@Override
+	public void mouseClicked(MouseEvent e) {}
+
+	/**
+	 * Auto imported method, not used
+	 * @param e == A mouse event object describing what happened
+	 */
+	@Override
+	public void mouseEntered(MouseEvent e) {}
+
+	/**
+	 * Auto imported method, not used
+	 * @param e == A mouse event object describing what happened
+	 */
+	@Override
+	public void mouseExited(MouseEvent e) {}
+
+	/**
+	 * Auto imported method, not used
+	 * @param e == A mouse event object describing what happened
+	 */
 	@Override
 	public void mouseMoved(MouseEvent arg0) {}
 
