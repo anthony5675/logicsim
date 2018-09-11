@@ -191,6 +191,15 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 		// Set final coordinates for component
 		int x = e.getX();
 		int y = e.getY();
+
+		// Check if releasing dragged component only allowed outside toolbox
+		// Possibly have a workspace region instead
+		if (tb.wasClicked(x, y)) {
+			comps.remove(beingDragged);
+			beingDragged = null;
+			return;
+		}
+
 		beingDragged.setX(x);
 		beingDragged.setY(y);
 
@@ -247,6 +256,6 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 	 * @param e == A mouse event object describing what happened
 	 */
 	@Override
-	public void mouseMoved(MouseEvent arg0) {}
+	public void mouseMoved(MouseEvent e) {}
 
 }
