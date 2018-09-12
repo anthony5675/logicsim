@@ -1,6 +1,5 @@
 package com.logicsim;
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
@@ -44,6 +43,11 @@ public class Toolbox {
 	public void paint(Graphics g) {
 		g.setColor(new Color(150, 150, 150));
 		g.fillRect(x, y, width, height);
+
+		g.setColor(Color.GREEN);
+
+		// Draw Toolbox title
+		g.drawString("Toolbox", 50, 50);
 		
 		for (Component c : comps) c.paint(g);
 	}
