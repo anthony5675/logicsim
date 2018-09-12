@@ -32,6 +32,7 @@ public class Toolbox {
 		comps.add(new And(width/2 - 50/2, 200));
 		comps.add(new Or(width/2 - 50/2, 260));
 		comps.add(new Source(width/2 - 30/2, 160));
+		comps.add(new Output(width/2 - 30/2, 320));
 	}
 	
 	/**

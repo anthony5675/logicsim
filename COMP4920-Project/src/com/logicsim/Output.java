@@ -1,4 +1,5 @@
 package com.logicsim;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 
@@ -8,6 +9,24 @@ import java.awt.event.MouseEvent;
  */
 public class Output extends IO {
 
+	/**
+     * Initializes an Output object
+     * @param x == x coordinate to set where the Source will draw
+     * @param y == y coordinate to set where the Source will draw
+     */
+	public Output(int i, int j) {
+		x = i;
+		y = j;
+		width = Source.WIDTH;
+		height = Source.HEIGHT;
+		
+		// These will soon be updated to a better format
+		connectX = x + width;
+		connectY = y + height/4;
+		connectHeight = height/2;
+		connectWidth = connectHeight;
+	}
+	
 	/**
 	 * Figures out the current state of the output (1 or 0)
 	 * @return Integer value indicating if it is on or off
@@ -31,7 +50,8 @@ public class Output extends IO {
 	 */
 	@Override
 	public void paint(Graphics g) {
-		
+		g.setColor(Color.BLUE);
+		g.fillRoundRect(x, y, width, height, 10, 10);
 	}
 
 	/**

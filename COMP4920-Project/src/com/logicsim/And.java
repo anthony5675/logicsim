@@ -31,7 +31,7 @@ public class And extends Gate {
 		connectX = x - connectWidth;
 		connectY = y + height/4;
 
-		// image = ImageLoader.loadImage("images/andgate.png");
+		image = ImageLoader.loadImage("images/andgate.png");
 	}
 	
 	/**

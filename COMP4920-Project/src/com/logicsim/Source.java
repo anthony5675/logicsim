@@ -16,7 +16,7 @@ public class Source extends IO {
 	private boolean state;
 	
 	/**
-     * Initializes an And object
+     * Initializes an Source object
      * @param x == x coordinate to set where the Source will draw
      * @param y == y coordinate to set where the Source will draw
      */
