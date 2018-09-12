@@ -1,7 +1,9 @@
 package com.logicsim;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.net.URL;
 
 /**
  * Class to allow easy image retrieval
@@ -15,8 +17,16 @@ public class ImageLoader {
 	 * @return An image object that can be used to draw
 	 */
     public static Image loadImage(String location) {
-        ImageIcon imageIcon = new ImageIcon(location);
-        Image image = imageIcon.getImage();
+//        ImageIcon imageIcon = new ImageIcon(location);
+        Image image = null;
+    	// Attempt to get images from the paths provided for both button states
+		try {
+			URL url = ImageLoader.class.getResource(location);
+			image = ImageIO.read(url);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	
         return image;
     }
 }
