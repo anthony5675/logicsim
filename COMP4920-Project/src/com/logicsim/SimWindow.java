@@ -20,6 +20,8 @@ public class SimWindow extends JFrame {
 	public static void main(String[] args) {
 		SimWindow sw = new SimWindow();
 		sw.setVisible(true);
+		sw.pack();
+		sw.setResizable(false);
 	}
 	
 	/**
@@ -42,7 +44,6 @@ public class SimWindow extends JFrame {
 		setTitle("Logic Simulator");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		pack();
-		setResizable(false);
 		
 		// Draw the JFrame in the middle of the screen
 		setLocationRelativeTo(null);
