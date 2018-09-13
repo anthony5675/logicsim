@@ -139,18 +139,6 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 					return;
 				}
 			}
-		} else if (SwingUtilities.isRightMouseButton(e)) {
-	        for (Component c : tb.getComponents()) {
-	        	// TODO: Could use c.wasClicked()
-	        	// Also why not use e.getX and e.getY for the x, y of the tooltip?
-	        	if (e.getX() >= c.getX() && e.getX() < c.getX() + c.getWidth()) {
-	        		if (e.getY() >= c.getY() && e.getY() <= c.getY() + c.getHeight()) {
-	        			tt.setX(c.getX() + (c.getWidth()/2));
-	        			tt.setY(c.getY() + (c.getHeight()/2));
-	        			tt.toggleTip();
-					}
-				}
-			}
 		}
 	}
 	
@@ -235,7 +223,21 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 	 * @param e == A mouse event object describing what happened
 	 */
 	@Override
-	public void mouseClicked(MouseEvent e) {}
+	public void mouseClicked(MouseEvent e) {
+		if (SwingUtilities.isRightMouseButton(e)) {
+			for (Component c : tb.getComponents()) {
+				if (e.getX() >= c.getX() && e.getX() < c.getX() + c.getWidth()) {
+					if (e.getY() >= c.getY() && e.getY() <= c.getY() + c.getHeight()) {
+						tt.setX(c.getX() + (c.getWidth()/2));
+						tt.setY(c.getY() + (c.getHeight()/2));
+						tt.setInfo(c.getClass().getSimpleName());
+						tt.toggleTip();
+						break;
+					}
+				}
+			}
+		}
+	}
 
 	/**
 	 * Auto imported method, not used
