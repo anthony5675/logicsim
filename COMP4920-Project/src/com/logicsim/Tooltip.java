@@ -73,6 +73,13 @@ public class Tooltip {
                 g.drawString("Input source of a logic gate.", x + 10, y + 15);
                 g.drawString("Can be either 1 or 0.", x + 10, y + 30);
                 break;
+            case "Output":
+                setHeight(50);
+                g.fillRect(x, y, width, height);
+                g.setColor(new Color(255, 146, 208));
+                // Is the description correct??
+                g.drawString("Output of the digital circuit.", x + 10, y + 15);
+                g.drawString("Can be either 1 or 0.", x + 10, y + 30);
             default:
                 break;
         }
