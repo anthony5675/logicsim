@@ -35,6 +35,21 @@ public class ConnectPoint {
 		}
 		g.drawRect(x, y, width, height);
 	}
+	
+	/**
+	 * Was the point clicked on?
+	 * @param i == the x part of the click
+	 * @param j == the y part of the click
+	 * @return If the click at (i, j) was inside the component
+	 */
+	public boolean wasClicked(int i, int j) {
+		if (i >= x && i <= x + width) {
+			if (j >= y && j <= y + height) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	public int getX() {
 		return x;
