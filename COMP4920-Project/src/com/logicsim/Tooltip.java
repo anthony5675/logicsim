@@ -21,7 +21,7 @@ public class Tooltip {
         x = 0;
         y = 0;
         width = 200;
-        height = 100;
+        height = 140;
         toggled = false;
         componentType = null;
     }
@@ -32,37 +32,50 @@ public class Tooltip {
      */
     public void paint(Graphics g) {
         g.setColor(new Color(77, 77, 77));
-        g.fillRect(x, y, width, height);
-        g.setColor(new Color(255, 146, 208));
 
-        String text = "placeholder";
-        int rowPosY = this.y + 10;
-        if (componentType.equals("And")) {
-            text = "This is an AND gate.";
-            for (int i = 0; i < 4; i++) {
-                String tableRow = "";
-                rowPosY += 10;
-                int p = truthTable[i][0];
-                int q = truthTable[i][1];
-                int result = p & q;
-                tableRow += p + "  " + q + "   " + result;
-                g.drawString(tableRow, x + 10, rowPosY);
-            }
-        } else if (componentType.equals("Or")) {
-            text = "This is an OR gate.";
-            for (int i = 0; i < 4; i++) {
-                String tableRow = "";
-                rowPosY += 10;
-                int p = truthTable[i][0];
-                int q = truthTable[i][1];
-                int result = p | q;
-                tableRow += p + "  " + q + "   " + result;
-                g.drawString(tableRow, x + 10, rowPosY);
-            }
-        } else if (componentType.equals("Source")) {
-            text = "This is an input";
+        int rowPos = y + 60;
+        String gap = "            ";
+        switch(componentType) {
+            case "And":
+                setHeight(150);
+                setWidth(210);
+                g.fillRect(x, y, width, height);
+                g.setColor(new Color(255, 146, 208));
+                g.drawString("Input 1    Input 2    Output", x + 10, rowPos);
+                for (int i = 0; i < 4; i++) {
+                    rowPos += 15;
+                    int p = truthTable[i][0];
+                    int q = truthTable[i][1];
+                    g.drawString(p + gap + q + gap + (p & q), x + 10, rowPos);
+                }
+                g.drawString("If both inputs are 1, then the", x + 10, y + 15);
+                g.drawString("output is 1, otherwise output is 0.", x + 10, y + 30);
+                break;
+            case "Or":
+                setHeight(150);
+                setWidth(210);
+                g.fillRect(x, y, width, height);
+                g.setColor(new Color(255, 146, 208));
+                g.drawString("Input 1    Input 2    Output", x + 10, rowPos);
+                for (int i = 0; i < 4; i++) {
+                    rowPos += 15;
+                    int p = truthTable[i][0];
+                    int q = truthTable[i][1];
+                    g.drawString(p + gap + q + gap + (p | q), x + 10, rowPos);
+                }
+                g.drawString("If either inputs are 1, then the", x + 10, y + 15);
+                g.drawString("output is 1, otherwise output is 0.", x + 10, y + 30);
+                break;
+            case "Source":
+                setHeight(50);
+                g.fillRect(x, y, width, height);
+                g.setColor(new Color(255, 146, 208));
+                g.drawString("Input source of a logic gate.", x + 10, y + 15);
+                g.drawString("Can be either 1 or 0.", x + 10, y + 30);
+                break;
+            default:
+                break;
         }
-        g.drawString(text, x + 10, y + 10);
     }
 
     /**
@@ -95,6 +108,22 @@ public class Tooltip {
      */
     public void setY(int y) {
     	this.y = y;
+    }
+
+    /**
+     * Allows height of the tooltip to be updated
+     * @param h == new height
+     */
+    public void setHeight(int h) {
+        height = h;
+    }
+
+    /**
+     * Allows the width of the tooltip to be updated
+     * @param w == new width
+     */
+    public void setWidth(int w) {
+        width = w;
     }
 
     /**
