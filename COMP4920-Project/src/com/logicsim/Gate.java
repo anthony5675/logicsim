@@ -21,6 +21,7 @@ public abstract class Gate extends Component {
 		output = null;
 		
 		inputMax = 0;
+		inPoints = new ArrayList<ConnectPoint>();
 	}
 	
 	/**

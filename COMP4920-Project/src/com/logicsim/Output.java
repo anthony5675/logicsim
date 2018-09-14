@@ -2,6 +2,7 @@ package com.logicsim;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 /**
  * Class to handle everything going on with an Output IO
@@ -19,6 +20,8 @@ public class Output extends IO {
 		y = j;
 		width = Source.WIDTH;
 		height = Source.HEIGHT;
+		
+		inPoints = new ArrayList<ConnectPoint>();
 	}
 	
 	/**
@@ -62,7 +65,7 @@ public class Output extends IO {
 	 * @return The horizontal location of the input point (left most point)
 	 */
 	public int getLeftEdge() {
-		return inPointX;
+		return inPoints.get(0).getX();
 	}
 	
 	/**
