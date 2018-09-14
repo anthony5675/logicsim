@@ -29,7 +29,7 @@ public class Connector extends IO {
 
 	/**
 	 * If there is an image, paint just that
-	 * If there is not an image paint a line connecting to IO points
+	 * If there is not an image paint a line connecting two IO points
 	 * @param g == Outward facing Graphics object to draw to
 	 */
 	@Override
@@ -42,8 +42,14 @@ public class Connector extends IO {
 	 * @param e == A mouse event object describing what happened when clicked
 	 */
 	@Override
-	public void mousePressed(MouseEvent e) {
-		
+	public void mousePressed(MouseEvent e) {}
+	
+	public int getLeftEdge() {
+		return x;
+	}
+	
+	public int getRightEdge() {
+		return x + width;
 	}
 
 	/**

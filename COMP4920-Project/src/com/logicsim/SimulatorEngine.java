@@ -60,6 +60,7 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 	public void update() {
 		// Asks each component to update its own state
 		for(Component c : comps) c.update();
+		if (beingDragged != null) beingDragged.update();
 	}
 	
 	/**
@@ -70,6 +71,7 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 		// Ask each object to draw itself
 		tb.paint(g);
 		for(Component c : comps) c.paint(g);
+		if (beingDragged != null) beingDragged.paint(g);
 
 		if(tt.isToggled()) {
 			tt.paint(g);
@@ -123,7 +125,6 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 					toBeAdded.setX(e.getX());
 					toBeAdded.setY(e.getY());
 
-					comps.add(toBeAdded);
 					beingDragged = toBeAdded;
 					toBeAdded = null;
 				}
@@ -163,10 +164,10 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 	 */
 	private boolean componentColide(Component old, Component newC) {
 		// IF the left side of the component will be inside the other component
-		if (newC.getX() >= old.getX() && newC.getX() <= old.getX() + old.getWidth() ||
+		if (newC.getLeftEdge() >= old.getLeftEdge() && newC.getLeftEdge() <= old.getRightEdge() ||
 			// IF the right side of the component will be inside the other component
-			newC.getX() + newC.getWidth() >= old.getX() &&
-			newC.getX() + newC.getWidth() <= old.getX() + old.getWidth()) {
+			newC.getRightEdge() >= old.getLeftEdge() &&
+			newC.getRightEdge() <= old.getRightEdge()) {
 			
 			// IF the top side of the component will not be inside the other component
 			if (newC.getY() >= old.getY() && newC.getY() <= old.getY() + old.getHeight() ||
@@ -192,9 +193,8 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 		int x = e.getX();
 		int y = e.getY();
 
-		// Check if releasing dragged component only allowed outside toolbox
-		// Possibly have a workspace region instead
-		if (tb.wasClicked(x, y)) {
+		// Detect if a component was dropped with part of it in the toolbox still
+		if (tb.wasClicked(beingDragged.getLeftEdge(), y)) {
 			comps.remove(beingDragged);
 			beingDragged = null;
 			return;
@@ -202,14 +202,21 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 
 		beingDragged.setX(x);
 		beingDragged.setY(y);
+		beingDragged.update();
 
 		// Need to check for collisions properly
-//		for (Component c : comps) {
-//			if (c != beingDragged && componentColide(c, beingDragged)) comps.remove(beingDragged);
-//		}
+		for (Component c : comps) {
+			if (c != beingDragged && componentColide(c, beingDragged)) {
+				beingDragged = null;
+				return;
+			}
+		}
+		
+		comps.add(beingDragged);
 
 		// Make sure nothing will continue to drag and draw everything again
 		beingDragged = null;
+		update();
 		sim.repaint();
 	}
 
@@ -227,6 +234,7 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 		int y = e.getY();
 		beingDragged.setX(x);
 		beingDragged.setY(y);
+		update();
 		sim.repaint();
 	}
 

@@ -26,12 +26,11 @@ public class And extends Gate {
 		inputMin = 2;
 
 		// These will soon be updated to a better format
-		connectHeight = height/2;
-		connectWidth = connectHeight;
-		connectX = x - connectWidth;
-		connectY = y + height/4;
+		ConnectPoint ip = new ConnectPoint(x - (height/2), y + height/4, height/2, height/2);
+		inPoints.add(ip);
+		outPoint = new ConnectPoint(x + width, y + height/4, height/2, height/2);
 
-		// image = ImageLoader.loadImage("images/andgate.png");
+		image = ImageLoader.loadImage("images/andgate.png");
 	}
 	
 	/**
@@ -55,10 +54,15 @@ public class And extends Gate {
 	 */
 	@Override
 	public void update() {
-		// Update connect X and Y to make the connection point
+		// Update inPoint X and Y to make the connection point
 		// Move with the rest of the gate when dragging
-		connectX = x - connectWidth;
-		connectY = y + height/4;
+		for (ConnectPoint cp : inPoints) {
+			cp.setX(x - cp.getWidth());
+			cp.setY(y + height/4);
+		}
+
+		outPoint.setX(x + width);
+		outPoint.setY(y + height/4);
 	}
 	
 	/**
@@ -70,10 +74,12 @@ public class And extends Gate {
 	    if (image == null) {
 			g.setColor(Color.WHITE);
 			g.fillRect(x, y, width, height);
-			g.fillRect(connectX + 1, connectY + 1, connectWidth - 1, connectHeight - 1);
 			
 			g.setColor(Color.BLACK);
 			g.drawString("AND", x + 10, y + height/2);
+			
+			for (ConnectPoint cp : inPoints) cp.paint(g);
+			outPoint.paint(g);
 		} else {
 			g.drawImage(image, x, y, width, height,null);
 		}
@@ -86,6 +92,22 @@ public class And extends Gate {
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO: Check if its on an input/output point and tell SE
+	}
+	
+	/**
+	 * Provides a way for left hand edge detection can be done
+	 * @return The horizontal location of the input point (left most point)
+	 */
+	public int getLeftEdge() {
+		return inPoints.get(0).getX();
+	}
+	
+	/**
+	 * Provides a way for right hand edge detection can be done
+	 * @return The horizontal location of the output point + output point width (right most point)
+	 */
+	public int getRightEdge() {
+		return outPoint.getX() + outPoint.getWidth();
 	}
 	
 	/**
