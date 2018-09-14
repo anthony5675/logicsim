@@ -29,10 +29,10 @@ public class Source extends IO {
 		height = HEIGHT;
 		
 		// These will soon be updated to a better format
-		connectX = x + width;
-		connectY = y + height/4;
-		connectHeight = height/2;
-		connectWidth = connectHeight;
+		outPointX = x + width;
+		outPointY = y + height/4;
+		outPointHeight = height/2;
+		outPointWidth = outPointHeight;
 	}
 	
 	/**
@@ -50,8 +50,8 @@ public class Source extends IO {
 	 */
 	@Override
 	public void update() {
-		connectX = x + width;
-		connectY = y + height/4;
+		outPointX = x + width;
+		outPointY = y + height/4;
 	}
 
 	/**
@@ -64,7 +64,7 @@ public class Source extends IO {
 	public void paint(Graphics g) {
 		g.setColor(Color.WHITE);
 		g.fillRect(x + 1, y + 1, width - 1, height - 1);
-		g.fillRect(connectX + 1, connectY + 1, connectWidth - 1, connectHeight - 1);
+		g.fillRect(outPointX + 1, outPointY + 1, outPointWidth - 1, outPointHeight - 1);
 		
 		if (state) {
 			g.setColor(Color.GREEN);
@@ -72,7 +72,7 @@ public class Source extends IO {
 			g.setColor(Color.RED);
 		}
 		g.drawRect(x, y, width, height);
-		g.drawRect(connectX, connectY, connectWidth, connectHeight);
+		g.drawRect(outPointX, outPointY, outPointWidth, outPointHeight);
 	}
 
 	/**
@@ -83,6 +83,22 @@ public class Source extends IO {
 	public void mousePressed(MouseEvent e) {
 		// Invert state
 		state = !state;
+	}
+	
+	/**
+	 * Provides a way for left hand edge detection can be done
+	 * @return The horizontal location of the input point (left most point)
+	 */
+	public int getLeftEdge() {
+		return x;
+	}
+	
+	/**
+	 * Provides a way for right hand edge detection can be done
+	 * @return The horizontal location of the output point + output point width (right most point)
+	 */
+	public int getRightEdge() {
+		return outPointX + outPointWidth;
 	}
 
 	/**

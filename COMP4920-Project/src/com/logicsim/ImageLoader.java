@@ -24,7 +24,6 @@ public class ImageLoader {
 			URL url = ImageLoader.class.getResource(location);
 			image = ImageIO.read(url);
 		} catch(Exception e) {
-			e.printStackTrace();
 		}
 	
         return image;

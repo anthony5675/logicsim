@@ -12,7 +12,9 @@ public abstract class Component {
 
 	protected int x, y, width, height;
 	
-	protected int connectX, connectY, connectWidth, connectHeight;
+	protected int inPointX, inPointY, inPointWidth, inPointHeight;
+	
+	protected int outPointX, outPointY, outPointWidth, outPointHeight;
 
 	public abstract int calculate();
 
@@ -21,6 +23,10 @@ public abstract class Component {
 	public abstract void paint(Graphics g);
 
 	public abstract void mousePressed(MouseEvent e);
+	
+	public abstract int getLeftEdge();
+	
+	public abstract int getRightEdge();
 	
 	public abstract Component clone();
 

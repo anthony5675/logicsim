@@ -26,10 +26,15 @@ public class And extends Gate {
 		inputMin = 2;
 
 		// These will soon be updated to a better format
-		connectHeight = height/2;
-		connectWidth = connectHeight;
-		connectX = x - connectWidth;
-		connectY = y + height/4;
+		inPointHeight = height/2;
+		inPointWidth = inPointHeight;
+		inPointX = x - inPointWidth;
+		inPointY = y + height/4;
+		
+		outPointHeight = height/2;
+		outPointWidth = outPointHeight;
+		outPointX = x + width;
+		outPointY = y + height/4;
 
 		image = ImageLoader.loadImage("images/andgate.png");
 	}
@@ -55,10 +60,10 @@ public class And extends Gate {
 	 */
 	@Override
 	public void update() {
-		// Update connect X and Y to make the connection point
+		// Update inPoint X and Y to make the connection point
 		// Move with the rest of the gate when dragging
-		connectX = x - connectWidth;
-		connectY = y + height/4;
+		inPointX = x - inPointWidth;
+		inPointY = y + height/4;
 	}
 	
 	/**
@@ -70,7 +75,7 @@ public class And extends Gate {
 	    if (image == null) {
 			g.setColor(Color.WHITE);
 			g.fillRect(x, y, width, height);
-			g.fillRect(connectX + 1, connectY + 1, connectWidth - 1, connectHeight - 1);
+			g.fillRect(inPointX + 1, inPointY + 1, inPointWidth - 1, inPointHeight - 1);
 			
 			g.setColor(Color.BLACK);
 			g.drawString("AND", x + 10, y + height/2);
@@ -86,6 +91,22 @@ public class And extends Gate {
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO: Check if its on an input/output point and tell SE
+	}
+	
+	/**
+	 * Provides a way for left hand edge detection can be done
+	 * @return The horizontal location of the input point (left most point)
+	 */
+	public int getLeftEdge() {
+		return inPointX;
+	}
+	
+	/**
+	 * Provides a way for right hand edge detection can be done
+	 * @return The horizontal location of the output point + output point width (right most point)
+	 */
+	public int getRightEdge() {
+		return outPointX + outPointWidth;
 	}
 	
 	/**
