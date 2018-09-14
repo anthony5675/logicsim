@@ -78,7 +78,7 @@ public class Or extends Gate {
 	 * @return The horizontal location of the input point (left most point)
 	 */
 	public int getLeftEdge() {
-		return inPointX;
+		return inPoints.get(0).getX();
 	}
 	
 	/**
@@ -86,7 +86,7 @@ public class Or extends Gate {
 	 * @return The horizontal location of the output point + output point width (right most point)
 	 */
 	public int getRightEdge() {
-		return outPointX + outPointWidth;
+		return outPoint.getX() + outPoint.getWidth();
 	}
 
 	/**

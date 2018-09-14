@@ -60,6 +60,7 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 	public void update() {
 		// Asks each component to update its own state
 		for(Component c : comps) c.update();
+		if (beingDragged != null) beingDragged.update();
 	}
 	
 	/**
@@ -163,10 +164,10 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 	 */
 	private boolean componentColide(Component old, Component newC) {
 		// IF the left side of the component will be inside the other component
-		if (newC.getX() >= old.getX() && newC.getX() <= old.getX() + old.getWidth() ||
+		if (newC.getLeftEdge() >= old.getLeftEdge() && newC.getLeftEdge() <= old.getRightEdge() ||
 			// IF the right side of the component will be inside the other component
-			newC.getX() + newC.getWidth() >= old.getX() &&
-			newC.getX() + newC.getWidth() <= old.getX() + old.getWidth()) {
+			newC.getRightEdge() >= old.getLeftEdge() &&
+			newC.getRightEdge() <= old.getRightEdge()) {
 			
 			// IF the top side of the component will not be inside the other component
 			if (newC.getY() >= old.getY() && newC.getY() <= old.getY() + old.getHeight() ||
@@ -201,11 +202,17 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 
 		beingDragged.setX(x);
 		beingDragged.setY(y);
+		beingDragged.update();
 
 		// Need to check for collisions properly
 		for (Component c : comps) {
-			if (c != beingDragged && componentColide(c, beingDragged)) comps.remove(beingDragged);
+			if (c != beingDragged && componentColide(c, beingDragged)) {
+				beingDragged = null;
+				return;
+			}
 		}
+		
+		comps.add(beingDragged);
 
 		// Make sure nothing will continue to drag and draw everything again
 		beingDragged = null;

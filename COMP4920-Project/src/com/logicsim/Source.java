@@ -29,10 +29,7 @@ public class Source extends IO {
 		height = HEIGHT;
 		
 		// These will soon be updated to a better format
-		outPointX = x + width;
-		outPointY = y + height/4;
-		outPointHeight = height/2;
-		outPointWidth = outPointHeight;
+		outPoint = new ConnectPoint(x + width, y + height/4, height/2, height/2, state);
 	}
 	
 	/**
@@ -50,8 +47,8 @@ public class Source extends IO {
 	 */
 	@Override
 	public void update() {
-		outPointX = x + width;
-		outPointY = y + height/4;
+		outPoint.setX(x + width);
+		outPoint.setY(y + height/4);
 	}
 
 	/**
@@ -64,7 +61,6 @@ public class Source extends IO {
 	public void paint(Graphics g) {
 		g.setColor(Color.WHITE);
 		g.fillRect(x + 1, y + 1, width - 1, height - 1);
-		g.fillRect(outPointX + 1, outPointY + 1, outPointWidth - 1, outPointHeight - 1);
 		
 		if (state) {
 			g.setColor(Color.GREEN);
@@ -72,7 +68,8 @@ public class Source extends IO {
 			g.setColor(Color.RED);
 		}
 		g.drawRect(x, y, width, height);
-		g.drawRect(outPointX, outPointY, outPointWidth, outPointHeight);
+
+		outPoint.paint(g);
 	}
 
 	/**
@@ -98,7 +95,7 @@ public class Source extends IO {
 	 * @return The horizontal location of the output point + output point width (right most point)
 	 */
 	public int getRightEdge() {
-		return outPointX + outPointWidth;
+		return outPoint.getX() + outPoint.getWidth();
 	}
 
 	/**

@@ -26,15 +26,9 @@ public class And extends Gate {
 		inputMin = 2;
 
 		// These will soon be updated to a better format
-		inPointHeight = height/2;
-		inPointWidth = inPointHeight;
-		inPointX = x - inPointWidth;
-		inPointY = y + height/4;
-		
-		outPointHeight = height/2;
-		outPointWidth = outPointHeight;
-		outPointX = x + width;
-		outPointY = y + height/4;
+		ConnectPoint ip = new ConnectPoint(x - (height/2), y + height/4, height/2, height/2);
+		inPoints.add(ip);
+		outPoint = new ConnectPoint(x + width, y + height/4, height/2, height/2);
 
 		image = ImageLoader.loadImage("images/andgate.png");
 	}
@@ -62,8 +56,13 @@ public class And extends Gate {
 	public void update() {
 		// Update inPoint X and Y to make the connection point
 		// Move with the rest of the gate when dragging
-		inPointX = x - inPointWidth;
-		inPointY = y + height/4;
+		for (ConnectPoint cp : inPoints) {
+			cp.setX(x - cp.getWidth());
+			cp.setY(y + height/4);
+		}
+
+		outPoint.setX(x + width);
+		outPoint.setY(y + height/4);
 	}
 	
 	/**
@@ -75,10 +74,12 @@ public class And extends Gate {
 	    if (image == null) {
 			g.setColor(Color.WHITE);
 			g.fillRect(x, y, width, height);
-			g.fillRect(inPointX + 1, inPointY + 1, inPointWidth - 1, inPointHeight - 1);
 			
 			g.setColor(Color.BLACK);
 			g.drawString("AND", x + 10, y + height/2);
+			
+			for (ConnectPoint cp : inPoints) cp.paint(g);
+			outPoint.paint(g);
 		} else {
 			g.drawImage(image, x, y, width, height,null);
 		}
@@ -98,7 +99,7 @@ public class And extends Gate {
 	 * @return The horizontal location of the input point (left most point)
 	 */
 	public int getLeftEdge() {
-		return inPointX;
+		return inPoints.get(0).getX();
 	}
 	
 	/**
@@ -106,7 +107,7 @@ public class And extends Gate {
 	 * @return The horizontal location of the output point + output point width (right most point)
 	 */
 	public int getRightEdge() {
-		return outPointX + outPointWidth;
+		return outPoint.getX() + outPoint.getWidth();
 	}
 	
 	/**

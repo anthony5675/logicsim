@@ -1,6 +1,7 @@
 package com.logicsim;
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 /**
  * Class to hold all information about all components (Gates and IO)
@@ -12,9 +13,9 @@ public abstract class Component {
 
 	protected int x, y, width, height;
 	
-	protected int inPointX, inPointY, inPointWidth, inPointHeight;
+	protected ArrayList<ConnectPoint> inPoints;
 	
-	protected int outPointX, outPointY, outPointWidth, outPointHeight;
+	protected ConnectPoint outPoint;
 
 	public abstract int calculate();
 
