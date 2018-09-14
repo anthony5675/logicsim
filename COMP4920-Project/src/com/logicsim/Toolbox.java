@@ -114,6 +114,8 @@ public class Toolbox {
 		return height;
 	}
 
-	public ArrayList<Component> getComponents() { return comps; }
+	public ArrayList<Component> getComponents() {
+		return comps;
+	}
 
 }

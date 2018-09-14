@@ -72,6 +72,22 @@ public class Or extends Gate {
 		// Check if its on an input/output point and tell SE
 
 	}
+	
+	/**
+	 * Provides a way for left hand edge detection can be done
+	 * @return The horizontal location of the input point (left most point)
+	 */
+	public int getLeftEdge() {
+		return inPointX;
+	}
+	
+	/**
+	 * Provides a way for right hand edge detection can be done
+	 * @return The horizontal location of the output point + output point width (right most point)
+	 */
+	public int getRightEdge() {
+		return outPointX + outPointWidth;
+	}
 
 	/**
 	 * Create an exact copy of this object

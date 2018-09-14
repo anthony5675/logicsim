@@ -19,12 +19,6 @@ public class Output extends IO {
 		y = j;
 		width = Source.WIDTH;
 		height = Source.HEIGHT;
-		
-		// These will soon be updated to a better format
-		connectX = x + width;
-		connectY = y + height/4;
-		connectHeight = height/2;
-		connectWidth = connectHeight;
 	}
 	
 	/**
@@ -61,6 +55,22 @@ public class Output extends IO {
 	@Override
 	public void mousePressed(MouseEvent e) {
 		
+	}
+	
+	/**
+	 * Provides a way for left hand edge detection can be done
+	 * @return The horizontal location of the input point (left most point)
+	 */
+	public int getLeftEdge() {
+		return inPointX;
+	}
+	
+	/**
+	 * Provides a way for right hand edge detection can be done
+	 * @return The horizontal location of the output point + output point width (right most point)
+	 */
+	public int getRightEdge() {
+		return x + width;
 	}
 
 	/**
