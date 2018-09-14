@@ -12,6 +12,7 @@ public class Tooltip {
     private int x, y, width, height;
     private boolean toggled;
     private String componentType;
+    private int[][] truthTable = {{0, 0}, {0, 1}, {1, 0}, {1, 1}};
 
     /**
      * Initializes a Tooltip object
@@ -20,7 +21,7 @@ public class Tooltip {
         x = 0;
         y = 0;
         width = 200;
-        height = 60;
+        height = 100;
         toggled = false;
         componentType = null;
     }
@@ -35,16 +36,33 @@ public class Tooltip {
         g.setColor(new Color(255, 146, 208));
 
         String text = "placeholder";
-        String table = "input1  Input2  Output";
+        int rowPosY = this.y + 10;
         if (componentType.equals("And")) {
-            text = "AND GATE TEST";
+            text = "This is an AND gate.";
+            for (int i = 0; i < 4; i++) {
+                String tableRow = "";
+                rowPosY += 10;
+                int p = truthTable[i][0];
+                int q = truthTable[i][1];
+                int result = p & q;
+                tableRow += p + "  " + q + "   " + result;
+                g.drawString(tableRow, x + 10, rowPosY);
+            }
         } else if (componentType.equals("Or")) {
-            text = "OR GATE TEST";
+            text = "This is an OR gate.";
+            for (int i = 0; i < 4; i++) {
+                String tableRow = "";
+                rowPosY += 10;
+                int p = truthTable[i][0];
+                int q = truthTable[i][1];
+                int result = p | q;
+                tableRow += p + "  " + q + "   " + result;
+                g.drawString(tableRow, x + 10, rowPosY);
+            }
         } else if (componentType.equals("Source")) {
-            text = "SOURCE TEST";
+            text = "This is an input";
         }
         g.drawString(text, x + 10, y + 10);
-        g.drawString(table, x + 10, y + 20);
     }
 
     /**
