@@ -48,7 +48,7 @@ public class Tooltip {
                     int q = truthTable[i][1];
                     g.drawString(p + gap + q + gap + (p & q), x + 10, rowPos);
                 }
-                g.drawString("If both inputs are 1, then the", x + 10, y + 15);
+                g.drawString("If all inputs are 1, then the", x + 10, y + 15);
                 g.drawString("output is 1, otherwise output is 0.", x + 10, y + 30);
                 break;
             case "Or":
@@ -63,7 +63,7 @@ public class Tooltip {
                     int q = truthTable[i][1];
                     g.drawString(p + gap + q + gap + (p | q), x + 10, rowPos);
                 }
-                g.drawString("If either inputs are 1, then the", x + 10, y + 15);
+                g.drawString("If any inputs are 1, then the", x + 10, y + 15);
                 g.drawString("output is 1, otherwise output is 0.", x + 10, y + 30);
                 break;
             case "Source":

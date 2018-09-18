@@ -38,6 +38,8 @@ public abstract class Component {
 	 * @return If the click at (i, j) was inside the component
 	 */
 	public boolean wasClicked(int i, int j) {
+		// TODO: USE THIS WHEN ALL IS WORKING
+//		if (i >= getLeftEdge() && i <= getRightEdge()) {
 		if (i >= x && i <= x + width) {
 			if (j >= y && j <= y + height) {
 				return true;
