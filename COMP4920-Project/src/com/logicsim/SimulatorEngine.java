@@ -113,14 +113,14 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 		}
 
 		if (SwingUtilities.isLeftMouseButton(e)) {
-		    // If the click was made inside the toolbox
+			// If the click was made inside the toolbox
 			if (tb.wasClicked(e.getX(), e.getY())) {
-			    // Let the toolbox handle what goes on inside it
-			    // when clicked
+				// Let the toolbox handle what goes on inside it
+				// when clicked
 				tb.mousePressed(e);
 
-                // If afterwards there is a new object to 
-			    // then add it and prep it for being dragged
+				// If afterwards there is a new object to 
+				// then add it and prep it for being dragged
 				if (toBeAdded != null) {
 					toBeAdded.setX(e.getX());
 					toBeAdded.setY(e.getY());
@@ -236,6 +236,9 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 			for (Component c : tb.getComponents()) {
 				if (e.getX() >= c.getX() && e.getX() < c.getX() + c.getWidth()) {
 					if (e.getY() >= c.getY() && e.getY() <= c.getY() + c.getHeight()) {
+				
+				// TODO: USE THIS WHEN ALL IS SETUP
+//				if (c.wasClicked(e.getX(), e.getY())) {
 						tt.setX(c.getX() + (c.getWidth()/2));
 						tt.setY(c.getY() + (c.getHeight()/2));
 						tt.setInfo(c.getClass().getSimpleName());
