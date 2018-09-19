@@ -14,11 +14,14 @@ public class Or extends Gate {
      * Initializes an Or object
      * @param x == x coordinate to set where the OR gate will draw
      * @param y == y coordinate to set where the OR gate will draw
+	 * @param s 
      */
-	public Or(int x, int y) {
+	public Or(int x, int y, SimulatorEngine s) {
 		super();
 		this.x = x;
 		this.y = y;
+		
+		se = s;
 		
 		width = 50;
 		height = 50;
@@ -32,7 +35,7 @@ public class Or extends Gate {
 	 */
 	@Override
 	public int calculate() {
-		if (inputs.size() < inputMin) return -1;
+		if (inputs.size() < inputMin) return 0;
 		
 		// Get first input and bitwise OR with any further inputs
 		int result = inputs.get(0).calculate();
@@ -78,7 +81,8 @@ public class Or extends Gate {
 	 * @return The horizontal location of the input point (left most point)
 	 */
 	public int getLeftEdge() {
-		return inPoints.get(0).getX();
+		//return inPoints.get(0).getX();
+		return x;
 	}
 	
 	/**
@@ -86,7 +90,8 @@ public class Or extends Gate {
 	 * @return The horizontal location of the output point + output point width (right most point)
 	 */
 	public int getRightEdge() {
-		return outPoint.getX() + outPoint.getWidth();
+//		return outPoint.getX() + outPoint.getWidth();
+		return x + width;
 	}
 
 	/**
@@ -95,7 +100,7 @@ public class Or extends Gate {
 	 */
 	@Override
 	public Component clone() {
-		Or c = new Or(x, y);
+		Or c = new Or(x, y, se);
 		
 		c.width = width;
 		c.height = height;

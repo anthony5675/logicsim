@@ -9,19 +9,28 @@ import java.util.ArrayList;
  * @author Jayden, Andre, Mitchell, Anthony
  */
 public class Output extends IO {
+	
+	private Connector input;
 
 	/**
      * Initializes an Output object
+	 * @param s 
      * @param x == x coordinate to set where the Source will draw
      * @param y == y coordinate to set where the Source will draw
      */
-	public Output(int i, int j) {
+	public Output(int i, int j, SimulatorEngine s) {
 		x = i;
 		y = j;
 		width = Source.WIDTH;
 		height = Source.HEIGHT;
 		
+		se = s;
+		
 		inPoints = new ArrayList<ConnectPoint>();
+		ConnectPoint ip = new ConnectPoint(x - (height/2), y + height/4, height/2, height/2, this);
+		inPoints.add(ip);
+		
+		input = null;
 	}
 	
 	/**
@@ -30,6 +39,7 @@ public class Output extends IO {
 	 */
 	@Override
 	public int calculate() {
+		if (input != null) return input.calculate();
 		return 0;
 	}
 
@@ -38,6 +48,13 @@ public class Output extends IO {
 	 */
 	@Override
 	public void update() {
+		inPoints.get(0).setX(x - (height/2));
+		inPoints.get(0).setY(y + height/4);
+		if (calculate() == 0) {
+			inPoints.get(0).setState(false);
+		} else {
+			inPoints.get(0).setState(true);
+		}
 	}
 
 	/**
@@ -47,8 +64,17 @@ public class Output extends IO {
 	 */
 	@Override
 	public void paint(Graphics g) {
-		g.setColor(Color.BLUE);
-		g.fillRoundRect(x, y, width, height, 10, 10);
+		g.setColor(Color.WHITE);
+		g.fillRect(x + 1, y + 1, width - 1, height - 1);
+		
+		if (calculate() != 0) {
+			g.setColor(Color.GREEN);
+		} else {
+			g.setColor(Color.RED);
+		}
+		g.drawRect(x, y, width, height);
+
+		inPoints.get(0).paint(g);
 	}
 
 	/**
@@ -57,7 +83,9 @@ public class Output extends IO {
 	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
-		
+		if (inPoints.get(0) != null && inPoints.get(0).wasClicked(e.getX(), e.getY())) {
+			se.setIOPressed(inPoints.get(0));
+		}
 	}
 	
 	/**
@@ -75,6 +103,10 @@ public class Output extends IO {
 	public int getRightEdge() {
 		return x + width;
 	}
+	
+	public void setInput(Connector c) {
+		input = c;
+	}
 
 	/**
 	 * Create an exact copy of this object
@@ -82,7 +114,12 @@ public class Output extends IO {
 	 */
 	@Override
 	public Component clone() {
-		return null;
+		Output c = new Output(x, y, se);
+		
+		c.width = width;
+		c.height = height;
+
+		return c;
 	}
 
 }

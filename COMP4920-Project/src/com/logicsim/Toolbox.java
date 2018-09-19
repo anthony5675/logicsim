@@ -11,15 +11,15 @@ public class Toolbox {
 	
 	private int x, y, width, height;
 	// TODO: Not sure this is necessary and you Might be able to delete
-	private SimulatorCanvas sim;
+	private SimulatorEngine se;
 	private ArrayList<Component> comps;
 	
 	/**
      * Initializes an And object
      * @param x == The canvas this object resides in
      */
-	public Toolbox(SimulatorCanvas s) {
-		sim = s;
+	public Toolbox(SimulatorEngine s) {
+		se = s;
 		
 		x = 0;
 		y = 0;
@@ -29,10 +29,10 @@ public class Toolbox {
 		
 		// Add dumby components to the toolbox
 		comps = new ArrayList<Component>();
-		comps.add(new And(width/2 - 50/2, 200));
-		comps.add(new Or(width/2 - 50/2, 260));
-		comps.add(new Source(width/2 - 30/2, 160));
-		comps.add(new Output(width/2 - 30/2, 320));
+		comps.add(new And(width/2 - 50/2, 200, se));
+		comps.add(new Or(width/2 - 50/2, 260, se));
+		comps.add(new Source(width/2 - 30/2, 160, se));
+		comps.add(new Output(width/2 - 30/2, 320, se));
 	}
 	
 	/**
@@ -77,7 +77,7 @@ public class Toolbox {
 		for (Component c : comps) {
 			// If one of the components was clicked
 			// Add a new instance of this component to the canvas
-			if (c.wasClicked(e.getX(), e.getY())) sim.getSimEngine().setToBeAdded((Component) c.clone());
+			if (c.wasClicked(e.getX(), e.getY())) se.setToBeAdded((Component) c.clone());
 		}
 		
 	}
