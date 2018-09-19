@@ -7,21 +7,24 @@ public class ConnectPoint {
 	
 	private int x, y, width, height;
 	private boolean state;
+	private Component comp;
 	
-	public ConnectPoint(int i, int j, int w, int h) {
+	public ConnectPoint(int i, int j, int w, int h, Component c) {
 		x = i;
 		y = j;
 		width = w;
 		height = h;
 		state = false;
+		comp = c;
 	}
 	
-	public ConnectPoint(int i, int j, int w, int h, boolean s) {
+	public ConnectPoint(int i, int j, int w, int h, boolean s, Component c) {
 		x = i;
 		y = j;
 		width = w;
 		height = h;
 		state = s;
+		comp = c;
 	}
 	
 	public void paint(Graphics g) {
@@ -81,6 +84,14 @@ public class ConnectPoint {
 	
 	public void setState(boolean s) {
 		state = s;
+	}
+	
+	public Component getComp() {
+		return comp;
+	}
+	
+	public void setComp(Component c) {
+		comp = c;
 	}
 
 }

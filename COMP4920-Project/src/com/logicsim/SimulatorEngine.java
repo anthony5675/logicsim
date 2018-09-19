@@ -32,7 +32,7 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 	// Simulator objects
 	private Component toBeAdded;
 	private Component beingDragged;
-	private boolean ioPressed;
+	private ConnectPoint ioPressed;
 	
 	/**
      * Initializes a SimulatorEngine object
@@ -42,7 +42,7 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 		sim = s;
 		
 		// Initialize any objects or variables that need it
-		tb = new Toolbox(sim);
+		tb = new Toolbox(this);
 		
 		comps = new ArrayList<Component>();
 
@@ -51,7 +51,7 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 		toBeAdded = null;
 		beingDragged = null;
 		
-		ioPressed = false;
+		ioPressed = null;
 	}
 	
 	/**
@@ -90,15 +90,103 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 	 * Allows indication of an IO point has just been pressed
 	 * @param bool == has an IO point been pressed
 	 */
-	public void setIOPressed(boolean bool) {
-		ioPressed = bool;
+	public void setIOPressed(ConnectPoint cp) {
+		if(ioPressed == null) {
+			ioPressed = cp;
+			return;
+		}
+		
+		// TODO: Forseeing a bug where you can click on to incompatable things
+		// Careful
+		
+		// Check if compatible ConnectPoints	
+		if(!compatibleConnectPoints(ioPressed, cp)) {
+			ioPressed = null;
+			return;
+		}
+		// Handle just one ConnectPoint
+		Connector c = buildConnector(cp, null);
+		// Handle Second
+		c = buildConnector(ioPressed, c);
+		comps.add(c);
+		ioPressed = null;
+	}
+	
+	private Connector buildConnector(ConnectPoint cp, Connector old) {
+		Connector c;
+		if (old == null) {
+			c = new Connector();
+		} else {
+			c = old;
+		}
+
+		if (cp.getComp() instanceof Gate) {
+			Gate g = (Gate)cp.getComp();
+			if(g.getOutPoint() == cp) {
+				c.setInput(g);
+				g.addOutput(c);
+			} else {
+				c.setOutput(g);
+				g.addInput(c);
+			}
+		} else if (cp.getComp() instanceof Source) {	
+			Source s = (Source)cp.getComp();
+			c.setInput(s);
+			s.setOutput(c);
+		} else if (cp.getComp() instanceof Output) {	
+			Output o = (Output)cp.getComp();
+			c.setOutput(o);
+			o.setInput(c);
+		} else {
+			return null;
+		}
+		return c;
+	}
+	
+	private boolean compatibleConnectPoints(ConnectPoint cp1, ConnectPoint cp2) {
+		if ((cp1.getComp() instanceof Source) && (cp2.getComp() instanceof Source)) return false;
+		if ((cp1.getComp() instanceof Output) && (cp2.getComp() instanceof Output)) return false;
+
+		if ((cp1.getComp() instanceof Gate) && !(cp2.getComp() instanceof Gate)) {
+			Gate g = (Gate)cp1.getComp();
+
+			if(g.getOutPoint() == cp1 && cp2.getComp() instanceof Source) {
+				// Gate out connected to Source
+				return false;
+			} else {
+				// Gate in connected to Output
+				if (cp2.getComp() instanceof Output) return false;
+			}
+		} else if (!(cp1.getComp() instanceof Gate) && (cp2.getComp() instanceof Gate)) {
+			Gate g = (Gate)cp2.getComp();
+
+			if(g.getOutPoint() == cp2 && cp1.getComp() instanceof Source) {
+				// Gate out connected to Source
+				return false;
+			} else {
+				// Gate in connected to Output
+				if (cp1.getComp() instanceof Output) return false;
+			}
+		} else if ((cp1.getComp() instanceof Gate) && (cp2.getComp() instanceof Gate)) {
+			Gate g1 = (Gate)cp1.getComp();
+			Gate g2 = (Gate)cp2.getComp();
+
+			if(g1.getOutPoint() == cp1 && g2.getOutPoint() == cp2) {
+				// Gate in connected to Gate in
+				return false;
+			} else {
+				// Gate out connected to Gate out
+				if (!(g2.getOutPoint() == cp2)) return false;
+			}
+		}
+		return true;
 	}
 	
 	/**
      * Provides if an IO point has just been pressed
      * @return boolean describing if an IO point was just pressed
      */
-	public boolean getIOPressed() {
+	public ConnectPoint getIOPressed() {
 		return ioPressed;
 	}
 	

@@ -15,10 +15,12 @@ public class And extends Gate {
      * @param x == x coordinate to set where the AND gate will draw
      * @param y == y coordinate to set where the AND gate will draw
      */
-	public And(int x, int y) {
+	public And(int x, int y, SimulatorEngine s) {
 		super();
 		this.x = x;
 		this.y = y;
+		
+		se = s;
 
 		width = 50;
 		height = 50;
@@ -26,9 +28,9 @@ public class And extends Gate {
 		inputMin = 2;
 
 		// These will soon be updated to a better format
-		ConnectPoint ip = new ConnectPoint(x - (height/2), y + height/4, height/2, height/2);
+		ConnectPoint ip = new ConnectPoint(x - (height/2), y + height/4, height/2, height/2, this);
 		inPoints.add(ip);
-		outPoint = new ConnectPoint(x + width, y + height/4, height/2, height/2);
+		outPoint = new ConnectPoint(x + width, y + height/4, height/2, height/2, this);
 
 		image = ImageLoader.loadImage("images/andgate.png");
 	}
@@ -39,7 +41,7 @@ public class And extends Gate {
 	 */
 	public int calculate() {
 		// Are there enough inputs to calculate
-		if (inputs.size() < inputMin) return -1;
+		if (inputs.size() < inputMin) return 0;
 
 		// Get first input and bitwise AND with any further inputs
 		int result = inputs.get(0).calculate();
@@ -92,6 +94,12 @@ public class And extends Gate {
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO: Check if its on an input/output point and tell SE
+		for (ConnectPoint cp : inPoints) {
+			if (cp.wasClicked(e.getX(), e.getY())) {
+				se.setIOPressed(cp);
+			}
+		}
+		if (outPoint != null && outPoint.wasClicked(e.getX(), e.getY())) se.setIOPressed(outPoint);
 	}
 	
 	/**
@@ -115,7 +123,7 @@ public class And extends Gate {
 	 * @return A new cloned object
 	 */
 	public Component clone() {
-		And c = new And(x, y);
+		And c = new And(x, y, se);
 
 		c.width = width;
 		c.height = height;
