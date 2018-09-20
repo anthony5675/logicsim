@@ -48,9 +48,9 @@ public class Toolbox {
 		g.setColor(Color.WHITE);
 
 		// Draw Toolbox title
-		FontMetrics fm = g.getFontMetrics();
 		String t = "Toolbox";
 		g.setFont(new Font("Aerial", Font.PLAIN, 24)); 
+		FontMetrics fm = g.getFontMetrics();
 		g.drawString(t, (width/2)-(fm.stringWidth(t)/2), 50);
 		
 		for (Component c : comps) c.paint(g);
