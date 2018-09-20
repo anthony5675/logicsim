@@ -10,15 +10,23 @@ import java.awt.event.MouseEvent;
 public class Connector extends IO {
 	
 	private Component input;
+	private ConnectPoint inPoint;
 	private Component output;
+	private ConnectPoint outPoint;
+	
+	private int x1, y1, x2, y2;
 	
 	public Connector() {
 		super();
+		
+		x1 = x2 = y1 = y2 = 0;
 	}
 	
 	public Connector(Component in, Component out) {
 		input = in;
 		output = out;
+
+		x1 = x2 = y1 = y2 = 0;
 	}
 
 	/**
@@ -35,6 +43,12 @@ public class Connector extends IO {
 	 */
 	@Override
 	public void update() {
+		if (inPoint == null || outPoint == null) return;
+		x1 = inPoint.getX() + inPoint.getWidth();
+		y1 = inPoint.getY() + inPoint.getHeight()/2;
+		
+		x2 = outPoint.getX();
+		y2 = outPoint.getY() + outPoint.getHeight()/2;
 	}
 
 	/**
@@ -45,12 +59,6 @@ public class Connector extends IO {
 	@Override
 	public void paint(Graphics g) {	
 		// Draw Straight Line
-		int x1 = input.getRightEdge();
-		int y1 = input.getY() + input.getHeight()/2;
-		
-		int x2 = output.getLeftEdge();
-		int y2 = output.getY() + output.getHeight()/2;
-		
 		if (calculate() == 0) {
 			g.setColor(Color.RED);
 		} else {	
@@ -80,6 +88,14 @@ public class Connector extends IO {
 
 	public void setOutput(Component c) {
 		output = c;
+	}
+
+	public void setInPoint(ConnectPoint c) {
+		inPoint = c;
+	}
+
+	public void setOutPoint(ConnectPoint c) {
+		outPoint = c;
 	}
 
 	/**

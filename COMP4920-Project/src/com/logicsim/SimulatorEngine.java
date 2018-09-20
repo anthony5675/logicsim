@@ -124,18 +124,22 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 			Gate g = (Gate)cp.getComp();
 			if(g.getOutPoint() == cp) {
 				c.setInput(g);
-				g.addOutput(c);
+				c.setInPoint(cp);
+				g.addOutput(c, cp);
 			} else {
 				c.setOutput(g);
-				g.addInput(c);
+				c.setOutPoint(cp);
+				g.addInput(c, cp);
 			}
 		} else if (cp.getComp() instanceof Source) {	
 			Source s = (Source)cp.getComp();
 			c.setInput(s);
+			c.setInPoint(cp);
 			s.setOutput(c);
 		} else if (cp.getComp() instanceof Output) {	
 			Output o = (Output)cp.getComp();
 			c.setOutput(o);
+			c.setOutPoint(cp);
 			o.setInput(c);
 		} else {
 			return null;
@@ -150,9 +154,9 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 		if ((cp1.getComp() instanceof Gate) && !(cp2.getComp() instanceof Gate)) {
 			Gate g = (Gate)cp1.getComp();
 
-			if(g.getOutPoint() == cp1 && cp2.getComp() instanceof Source) {
+			if(g.getOutPoint() == cp1) {
 				// Gate out connected to Source
-				return false;
+				if (cp2.getComp() instanceof Source) return false;
 			} else {
 				// Gate in connected to Output
 				if (cp2.getComp() instanceof Output) return false;
@@ -160,9 +164,9 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 		} else if (!(cp1.getComp() instanceof Gate) && (cp2.getComp() instanceof Gate)) {
 			Gate g = (Gate)cp2.getComp();
 
-			if(g.getOutPoint() == cp2 && cp1.getComp() instanceof Source) {
+			if(g.getOutPoint() == cp2) {
 				// Gate out connected to Source
-				return false;
+				if (cp1.getComp() instanceof Source) return false;
 			} else {
 				// Gate in connected to Output
 				if (cp1.getComp() instanceof Output) return false;
@@ -171,9 +175,9 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 			Gate g1 = (Gate)cp1.getComp();
 			Gate g2 = (Gate)cp2.getComp();
 
-			if(g1.getOutPoint() == cp1 && g2.getOutPoint() == cp2) {
+			if(g1.getOutPoint() == cp1) {
 				// Gate in connected to Gate in
-				return false;
+				if (g2.getOutPoint() == cp2) return false;
 			} else {
 				// Gate out connected to Gate out
 				if (!(g2.getOutPoint() == cp2)) return false;

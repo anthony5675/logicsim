@@ -8,6 +8,7 @@ public class ConnectPoint {
 	private int x, y, width, height;
 	private boolean state;
 	private Component comp;
+	private Connector con;
 	
 	public ConnectPoint(int i, int j, int w, int h, Component c) {
 		x = i;
@@ -16,6 +17,7 @@ public class ConnectPoint {
 		height = h;
 		state = false;
 		comp = c;
+		con = null;
 	}
 	
 	public ConnectPoint(int i, int j, int w, int h, boolean s, Component c) {
@@ -25,11 +27,20 @@ public class ConnectPoint {
 		height = h;
 		state = s;
 		comp = c;
+		con = null;
 	}
 	
 	public void paint(Graphics g) {
 		g.setColor(Color.WHITE);
 		g.fillRect(x + 1, y + 1, width - 1, height - 1);
+		
+		if (con != null) {
+			if (con.calculate() == 0) {
+				state = false;
+			} else {
+				state = true;
+			}
+		}
 		
 		if(!state) {
 			g.setColor(Color.RED);
@@ -92,6 +103,10 @@ public class ConnectPoint {
 	
 	public void setComp(Component c) {
 		comp = c;
+	}
+	
+	public void setCon(Connector c) {
+		con = c;
 	}
 
 }

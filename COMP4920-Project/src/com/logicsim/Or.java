@@ -27,6 +27,12 @@ public class Or extends Gate {
 		height = 50;
 		
 		inputMin = 2;
+
+		inPoints.add(new ConnectPoint(x - (height/4), y + height/8, height/4, height/4, this));
+		inPoints.add(new ConnectPoint(x - (height/4), y + (height*5/8), height/4, height/4, this));
+		outPoint = new ConnectPoint(x + width, y + height/4, height/2, height/2, this);
+
+		image = ImageLoader.loadImage("images/orgate.png");
 	}
 
 	/**
@@ -50,6 +56,24 @@ public class Or extends Gate {
 	 */
 	@Override
 	public void update() {
+//		for (ConnectPoint cp : inPoints) {
+//			cp.setX(x - cp.getWidth());
+//			cp.setY(y + height/4);
+//		}
+
+		inPoints.get(0).setX(x - inPoints.get(0).getWidth());
+		inPoints.get(0).setY(y + height/8);
+
+		inPoints.get(1).setX(x - inPoints.get(0).getWidth());
+		inPoints.get(1).setY(y + (height*5/8));
+
+		outPoint.setX(x + width);
+		outPoint.setY(y + height/4);
+		if (calculate() == 0) {
+			outPoint.setState(false);
+		} else {
+			outPoint.setState(true);
+		}
 	}
 
 	/**
@@ -59,11 +83,21 @@ public class Or extends Gate {
 	 */
 	@Override
 	public void paint(Graphics g) {
-		g.setColor(Color.WHITE);
-		g.fillOval(x, y, width, height);
-		
-		g.setColor(Color.BLACK);
-		g.drawString("OR", x + 17, y + height/2 + 3);
+		if (image == null) {
+			g.setColor(Color.WHITE);
+			g.fillOval(x, y, width, height);
+			
+			g.setColor(Color.BLACK);
+			g.drawString("OR", x + 17, y + height/2 + 3);
+
+			for (ConnectPoint cp : inPoints) cp.paint(g);
+			outPoint.paint(g);
+		} else {
+			g.drawImage(image, x, y, width, height,null);
+
+			for (ConnectPoint cp : inPoints) cp.paint(g);
+			outPoint.paint(g);
+		}
 	}
 
 	/**
@@ -73,7 +107,8 @@ public class Or extends Gate {
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// Check if its on an input/output point and tell SE
-
+		for (ConnectPoint cp : inPoints) if (cp.wasClicked(e.getX(), e.getY())) se.setIOPressed(cp);
+		if (outPoint != null && outPoint.wasClicked(e.getX(), e.getY())) se.setIOPressed(outPoint);
 	}
 	
 	/**
@@ -81,8 +116,7 @@ public class Or extends Gate {
 	 * @return The horizontal location of the input point (left most point)
 	 */
 	public int getLeftEdge() {
-		//return inPoints.get(0).getX();
-		return x;
+		return inPoints.get(0).getX();
 	}
 	
 	/**
@@ -90,8 +124,7 @@ public class Or extends Gate {
 	 * @return The horizontal location of the output point + output point width (right most point)
 	 */
 	public int getRightEdge() {
-//		return outPoint.getX() + outPoint.getWidth();
-		return x + width;
+		return outPoint.getX() + outPoint.getWidth();
 	}
 
 	/**
