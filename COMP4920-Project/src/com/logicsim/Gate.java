@@ -7,6 +7,9 @@ import java.util.ArrayList;
  */
 public abstract class Gate extends Component {
 	
+	public static final int WIDTH = 50;
+	public static final int HEIGHT = 50;
+	
 	protected int inputMin;
 	protected int inputMax;
 

@@ -10,9 +10,6 @@ import java.util.ArrayList;
  */
 public class Source extends IO {
 	
-	public static final int WIDTH = 30;
-	public static final int HEIGHT = 20;
-	
 	private boolean state;
 	private Connector output;
 	

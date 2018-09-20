@@ -21,8 +21,8 @@ public class Output extends IO {
 	public Output(int i, int j, SimulatorEngine s) {
 		x = i;
 		y = j;
-		width = Source.WIDTH;
-		height = Source.HEIGHT;
+		width = IO.WIDTH;
+		height = IO.HEIGHT;
 		
 		se = s;
 		

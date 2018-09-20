@@ -10,7 +10,6 @@ import java.util.ArrayList;
 public class Toolbox {
 	
 	private int x, y, width, height;
-	// TODO: Not sure this is necessary and you Might be able to delete
 	private SimulatorEngine se;
 	private ArrayList<Component> comps;
 	
@@ -25,14 +24,15 @@ public class Toolbox {
 		y = 0;
 		
 		width = 150;
-		height = 800; // TODO: Set these correctly
+		height = 800; // TODO: Set these correctly and add to update if we do resizing
 		
 		// Add dumby components to the toolbox
+		int compHeight = 550;
 		comps = new ArrayList<Component>();
-		comps.add(new And(width/2 - 50/2, 200, se));
-		comps.add(new Or(width/2 - 50/2, 260, se));
-		comps.add(new Source(width/2 - 30/2, 160, se));
-		comps.add(new Output(width/2 - 30/2, 320, se));
+		comps.add(new Source(width/2 - IO.WIDTH/2, 100, se));
+		comps.add(new And(width/2 - Gate.WIDTH/2, 100 + (compHeight/4), se));
+		comps.add(new Or(width/2 - Gate.WIDTH/2, 100 + (compHeight*2/4), se));
+		comps.add(new Output(width/2 - IO.WIDTH/2, 100 + (compHeight*3/4), se));
 	}
 	
 	/**
@@ -42,13 +42,16 @@ public class Toolbox {
 	 * @param g == Outward facing Graphics object to draw to
 	 */
 	public void paint(Graphics g) {
-		g.setColor(new Color(150, 150, 150));
+		g.setColor(new Color(50, 50, 50));
 		g.fillRect(x, y, width, height);
 
-		g.setColor(Color.GREEN);
+		g.setColor(Color.WHITE);
 
 		// Draw Toolbox title
-		g.drawString("Toolbox", 50, 50);
+		FontMetrics fm = g.getFontMetrics();
+		String t = "Toolbox";
+		g.setFont(new Font("Aerial", Font.PLAIN, 24)); 
+		g.drawString(t, (width/2)-(fm.stringWidth(t)/2), 50);
 		
 		for (Component c : comps) c.paint(g);
 	}
