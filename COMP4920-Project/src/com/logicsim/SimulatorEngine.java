@@ -363,4 +363,8 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 	@Override
 	public void mouseMoved(MouseEvent e) {}
 
+	public SimulatorCanvas getSim() {
+		return sim;
+	}
+
 }

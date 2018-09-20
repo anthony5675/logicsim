@@ -6,4 +6,7 @@ package com.logicsim;
  */
 public abstract class IO extends Component {
 
+	public static final int WIDTH = 30;
+	public static final int HEIGHT = 20;
+
 }
