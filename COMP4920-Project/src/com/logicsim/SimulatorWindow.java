@@ -6,7 +6,7 @@ import javax.swing.JFrame;
  * Class to create in initialize a window for the simulator to run in
  * @author Jayden, Andre, Mitchell, Anthony
  */
-public class SimWindow extends JFrame {
+public class SimulatorWindow extends JFrame {
 
 	public static final int WINWIDTH = 800;
 	public static final int WINHEIGHT = 600;
@@ -18,16 +18,19 @@ public class SimWindow extends JFrame {
 	 * @param args == arguments passed in a runtime
 	 */
 	public static void main(String[] args) {
-		SimWindow sw = new SimWindow();
+		SimulatorWindow sw = new SimulatorWindow();
 		sw.setVisible(true);
 		sw.pack();
 		sw.setResizable(false);
+		
+		Thread thread = new Thread(sw.sim);
+		thread.start();
 	}
 	
 	/**
 	 * Initializes a Simulator Object
 	 */
-	public SimWindow() {
+	public SimulatorWindow() {
 		
 		// Define a new main canvas and set its properties
 		sim = new SimulatorCanvas();
