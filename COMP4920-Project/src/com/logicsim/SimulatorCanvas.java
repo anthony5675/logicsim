@@ -25,8 +25,6 @@ public class SimulatorCanvas extends Canvas implements Runnable {
 		
 		// Setup back end and start running the simulation
 		se = new SimulatorEngine(this);
-		Thread  thread = new Thread(this);
-		thread.start();
 	}
 
 	/**
