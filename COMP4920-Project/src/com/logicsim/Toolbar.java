@@ -10,11 +10,14 @@ public class Toolbar{
         JToolBar toolbar = new JToolBar();
         toolbar.setRollover(true);
 
-        JButton button = new JButton("Test");
-        toolbar.add(button);
-        toolbar.addSeparator();
+        JButton saveButton = new JButton("Save");
+        saveButton.setToolTipText("save the current workspace");
 
-        toolbar.add(new JButton("Test 2"));
+        JButton clearButton = new JButton("Clear");
+        clearButton.setToolTipText("clear the current workspace");
+        
+        toolbar.add(saveButton);
+        toolbar.add(clearButton);
 
         sw.add(toolbar, BorderLayout.NORTH);
     }
