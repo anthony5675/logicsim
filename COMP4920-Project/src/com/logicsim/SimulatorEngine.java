@@ -101,6 +101,10 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 	public boolean getIOPressed() {
 		return ioPressed;
 	}
+
+	public void clearComponents() {
+		comps.clear();
+	}
 	
 	/**
 	 * Handles what clicking somewhere on the canvas will do at a specific time
