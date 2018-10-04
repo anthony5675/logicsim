@@ -10,7 +10,7 @@ public class Toolbar implements ActionListener{
 
     SimulatorCanvas s;
 
-    public Toolbar(SimWindow sw, SimulatorCanvas sim) {
+    public Toolbar(SimulatorWindow sw, SimulatorCanvas sim) {
         s = sim;
 
         JToolBar toolbar = new JToolBar();
