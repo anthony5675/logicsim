@@ -22,7 +22,9 @@ public class SimulatorWindow extends JFrame {
 		sw.setVisible(true);
 		sw.pack();
 		sw.setResizable(false);
-
+		
+		Thread thread = new Thread(sw.sim);
+		thread.start();
 	}
 	
 	/**

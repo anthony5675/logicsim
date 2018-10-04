@@ -10,18 +10,18 @@ import java.util.ArrayList;
  */
 public class Source extends IO {
 	
-	public static final int WIDTH = 30;
-	public static final int HEIGHT = 20;
-	
 	private boolean state;
+	private Connector output;
 	
 	/**
      * Initializes an Source object
      * @param x == x coordinate to set where the Source will draw
      * @param y == y coordinate to set where the Source will draw
      */
-	public Source(int i, int j) {
+	public Source(int i, int j, SimulatorEngine s) {
 		state = false;
+		
+		se = s;
 		
 		x = i;
 		y = j;
@@ -29,7 +29,8 @@ public class Source extends IO {
 		height = HEIGHT;
 		
 		// These will soon be updated to a better format
-		outPoint = new ConnectPoint(x + width, y + height/4, height/2, height/2, state);
+		outPoint = new ConnectPoint(x + width, y + height/4, height/2, height/2, state, this);
+		output = null;
 	}
 	
 	/**
@@ -49,6 +50,7 @@ public class Source extends IO {
 	public void update() {
 		outPoint.setX(x + width);
 		outPoint.setY(y + height/4);
+		outPoint.setState(state);
 	}
 
 	/**
@@ -79,7 +81,8 @@ public class Source extends IO {
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// Invert state
-		state = !state;
+		if (e.getX() < x + width) state = !state;
+		if (outPoint != null && outPoint.wasClicked(e.getX(), e.getY())) se.setIOPressed(outPoint);
 	}
 	
 	/**
@@ -97,6 +100,11 @@ public class Source extends IO {
 	public int getRightEdge() {
 		return outPoint.getX() + outPoint.getWidth();
 	}
+	
+	public void setOutput(Connector c) {
+		if (output != null) return;
+		output = c;
+	}
 
 	/**
 	 * Create an exact copy of this object
@@ -104,7 +112,7 @@ public class Source extends IO {
 	 */
 	@Override
 	public Component clone() {
-		Source c = new Source(x, y);
+		Source c = new Source(x, y, se);
 		
 		c.width = width;
 		c.height = height;

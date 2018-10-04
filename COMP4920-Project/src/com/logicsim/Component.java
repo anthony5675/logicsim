@@ -9,7 +9,9 @@ import java.util.ArrayList;
  */
 public abstract class Component {
 
-	public Image image;
+	protected SimulatorEngine se;
+	
+	protected Image image;
 
 	protected int x, y, width, height;
 	
@@ -38,7 +40,8 @@ public abstract class Component {
 	 * @return If the click at (i, j) was inside the component
 	 */
 	public boolean wasClicked(int i, int j) {
-		if (i >= x && i <= x + width) {
+		if (i >= getLeftEdge() && i <= getRightEdge()) {
+//		if (i >= x && i <= x + width) {
 			if (j >= y && j <= y + height) {
 				return true;
 			}
@@ -92,6 +95,14 @@ public abstract class Component {
      */
 	public int getHeight() {
 		return height;
+	}
+
+	public ArrayList<ConnectPoint> getInPoints() {
+		return inPoints;
+	}
+
+	public ConnectPoint getOutPoint() {
+		return outPoint;
 	}
 	
 }

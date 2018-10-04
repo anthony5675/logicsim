@@ -1,4 +1,5 @@
 package com.logicsim;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 
@@ -9,7 +10,24 @@ import java.awt.event.MouseEvent;
 public class Connector extends IO {
 	
 	private Component input;
+	private ConnectPoint inPoint;
 	private Component output;
+	private ConnectPoint outPoint;
+	
+	private int x1, y1, x2, y2;
+	
+	public Connector() {
+		super();
+		
+		x1 = x2 = y1 = y2 = 0;
+	}
+	
+	public Connector(Component in, Component out) {
+		input = in;
+		output = out;
+
+		x1 = x2 = y1 = y2 = 0;
+	}
 
 	/**
 	 * Figures out the current state of the input and send it to output (1 or 0)
@@ -25,6 +43,12 @@ public class Connector extends IO {
 	 */
 	@Override
 	public void update() {
+		if (inPoint == null || outPoint == null) return;
+		x1 = inPoint.getX() + inPoint.getWidth();
+		y1 = inPoint.getY() + inPoint.getHeight()/2;
+		
+		x2 = outPoint.getX();
+		y2 = outPoint.getY() + outPoint.getHeight()/2;
 	}
 
 	/**
@@ -35,6 +59,12 @@ public class Connector extends IO {
 	@Override
 	public void paint(Graphics g) {	
 		// Draw Straight Line
+		if (calculate() == 0) {
+			g.setColor(Color.RED);
+		} else {	
+			g.setColor(Color.GREEN);
+		}
+		g.drawLine(x1, y1, x2, y2);
 	}
 
 	/**
@@ -50,6 +80,22 @@ public class Connector extends IO {
 	
 	public int getRightEdge() {
 		return x + width;
+	}
+	
+	public void setInput(Component c) {
+		input = c;
+	}
+
+	public void setOutput(Component c) {
+		output = c;
+	}
+
+	public void setInPoint(ConnectPoint c) {
+		inPoint = c;
+	}
+
+	public void setOutPoint(ConnectPoint c) {
+		outPoint = c;
 	}
 
 	/**

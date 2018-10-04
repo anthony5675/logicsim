@@ -17,8 +17,9 @@ public class ImageLoader {
 	 * @return An image object that can be used to draw
 	 */
     public static Image loadImage(String location) {
+    	Image image = null;
 //        ImageIcon imageIcon = new ImageIcon(location);
-        Image image = null;
+//        Image image = imageIcon.getImage();
     	// Attempt to get images from the paths provided for both button states
 		try {
 			URL url = ImageLoader.class.getResource(location);
