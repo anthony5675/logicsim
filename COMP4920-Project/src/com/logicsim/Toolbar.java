@@ -8,7 +8,11 @@ import java.awt.event.ActionEvent;
 
 public class Toolbar implements ActionListener{
 
-    public Toolbar(SimWindow sw) {
+    SimulatorCanvas s;
+
+    public Toolbar(SimWindow sw, SimulatorCanvas sim) {
+        s = sim;
+
         JToolBar toolbar = new JToolBar();
         toolbar.setRollover(true);
 
@@ -36,6 +40,7 @@ public class Toolbar implements ActionListener{
             System.out.println("Saving workspace.");
         } else if (command.equals("clear")) {
             System.out.println("Clearing workspace.");
+            s.getSimEngine().clearComponents();
         }
     }
 

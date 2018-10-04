@@ -23,8 +23,6 @@ public class SimWindow extends JFrame {
 		sw.pack();
 		sw.setResizable(false);
 
-		// Add toolbar
-		Toolbar tbar = new Toolbar(sw);
 	}
 	
 	/**
@@ -50,6 +48,8 @@ public class SimWindow extends JFrame {
 		
 		// Draw the JFrame in the middle of the screen
 		setLocationRelativeTo(null);
+
+		Toolbar tbar = new Toolbar(this, sim);
 	}
 	
 	/**
