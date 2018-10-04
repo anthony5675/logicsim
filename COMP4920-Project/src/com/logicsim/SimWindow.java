@@ -22,6 +22,9 @@ public class SimWindow extends JFrame {
 		sw.setVisible(true);
 		sw.pack();
 		sw.setResizable(false);
+
+		// Add toolbar
+		Toolbar tbar = new Toolbar(sw);
 	}
 	
 	/**
