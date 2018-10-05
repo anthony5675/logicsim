@@ -32,6 +32,7 @@ public class Tooltip {
      */
     public void paint(Graphics g) {
         g.setColor(new Color(77, 77, 77));
+        g.setFont(new Font("Aerial", Font.PLAIN, 13));
 
         int rowPos = y + 60;
         String gap = "            ";
@@ -63,7 +64,7 @@ public class Tooltip {
                     int q = truthTable[i][1];
                     g.drawString(p + gap + q + gap + (p | q), x + 10, rowPos);
                 }
-                g.drawString("If any inputs are 1, then the", x + 10, y + 15);
+                g.drawString("If any input is 1, then the", x + 10, y + 15);
                 g.drawString("output is 1, otherwise output is 0.", x + 10, y + 30);
                 break;
             case "Source":

@@ -11,7 +11,7 @@ import javax.swing.SwingUtilities;
  * @author Jayden, Andre, Mitchell, Anthony
  */
 public class SimulatorCanvas extends Canvas implements Runnable {
-	
+	private int state;
 	private SimulatorEngine se;
 	private Image i;
 	private Graphics buffer;
@@ -22,11 +22,9 @@ public class SimulatorCanvas extends Canvas implements Runnable {
 	public SimulatorCanvas() {
 
 		setSize(800, 600); // TODO: need to get correctly
-		
+		state = 0;
 		// Setup back end and start running the simulation
-		se = new SimulatorEngine(this);
-		Thread  thread = new Thread(this);
-		thread.start();
+		se = new SimulatorEngine(this, state);
 	}
 
 	/**
@@ -81,11 +79,38 @@ public class SimulatorCanvas extends Canvas implements Runnable {
 	@Override
 	public void paint(Graphics g) {
 		// Draw a black background to start with
-		g.setColor(Color.black);
-		g.fillRect(0, 0, getWidth(), getHeight());
+		this.setState(0		);
+		if(this.getState() == 0) {
+			g.setColor(new Color(150, 150, 150));
+			g.fillRect(0, 0, getWidth(), getHeight());
 		
-		// Drawn any extra objects
-		se.paint(g);
+			// Drawn any extra objects
+			se.paint(g);
+		} else if(this.getState() == 1) {
+			g.setColor(new Color(150, 150, 150));
+			g.fillRect(0, 0, getWidth(), getHeight());
+		
+			// Drawn any extra objects
+			se.paint(g);
+		}
+	}
+	
+	/** 
+	 * Change state so different frames can be utilised.
+	 * 
+	 */
+	
+	public void setState(int newState) {
+		this.state = newState;
+		this.se.setState(newState);
+	}
+	
+	/**
+	 * @return current state
+	 */
+	
+	public int getState() {
+		return this.state;
 	}
 	
 	/**

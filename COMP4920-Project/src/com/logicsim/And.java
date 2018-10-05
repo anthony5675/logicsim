@@ -2,7 +2,10 @@ package com.logicsim;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
+import java.net.URL;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
 
 /**
  * Class to handle everything going on with an AND gate
@@ -28,8 +31,8 @@ public class And extends Gate {
 		inputMin = 2;
 
 		// These will soon be updated to a better format
-		ConnectPoint ip = new ConnectPoint(x - (height/2), y + height/4, height/2, height/2, this);
-		inPoints.add(ip);
+		inPoints.add(new ConnectPoint(x - (height/4), y + height/8, height/4, height/4, this));
+		inPoints.add(new ConnectPoint(x - (height/4), y + (height*5/8), height/4, height/4, this));
 		outPoint = new ConnectPoint(x + width, y + height/4, height/2, height/2, this);
 
 		image = ImageLoader.loadImage("images/andgate.png");
@@ -58,13 +61,23 @@ public class And extends Gate {
 	public void update() {
 		// Update inPoint X and Y to make the connection point
 		// Move with the rest of the gate when dragging
-		for (ConnectPoint cp : inPoints) {
-			cp.setX(x - cp.getWidth());
-			cp.setY(y + height/4);
-		}
+//		for (ConnectPoint cp : inPoints) {
+//			cp.setX(x - cp.getWidth());
+//			cp.setY(y + height/4);
+//		}
+		inPoints.get(0).setX(x - inPoints.get(0).getWidth());
+		inPoints.get(0).setY(y + height/8);
+
+		inPoints.get(1).setX(x - inPoints.get(0).getWidth());
+		inPoints.get(1).setY(y + (height*5/8));
 
 		outPoint.setX(x + width);
 		outPoint.setY(y + height/4);
+		if (calculate() == 0) {
+			outPoint.setState(false);
+		} else {
+			outPoint.setState(true);
+		}
 	}
 	
 	/**
@@ -84,6 +97,9 @@ public class And extends Gate {
 			outPoint.paint(g);
 		} else {
 			g.drawImage(image, x, y, width, height,null);
+
+			for (ConnectPoint cp : inPoints) cp.paint(g);
+			outPoint.paint(g);
 		}
 	}
 
@@ -94,12 +110,10 @@ public class And extends Gate {
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO: Check if its on an input/output point and tell SE
-		for (ConnectPoint cp : inPoints) {
-			if (cp.wasClicked(e.getX(), e.getY())) {
-				se.setIOPressed(cp);
-			}
+		for (ConnectPoint cp : inPoints) if (cp.wasClicked(e.getX(), e.getY())) se.setIOPressed(cp);
+		if (outPoint != null && outPoint.wasClicked(e.getX(), e.getY())) {
+			se.setIOPressed(outPoint);
 		}
-		if (outPoint != null && outPoint.wasClicked(e.getX(), e.getY())) se.setIOPressed(outPoint);
 	}
 	
 	/**
@@ -129,9 +143,6 @@ public class And extends Gate {
 		c.height = height;
 
 		c.inputMin = inputMin;
-
-		c.inputs = new ArrayList<Connector>();
-		c.output = null;
 
 		return c;
 	}
