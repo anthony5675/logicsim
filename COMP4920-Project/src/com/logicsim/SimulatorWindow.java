@@ -1,6 +1,6 @@
 package com.logicsim;
 import java.awt.*;
-import javax.swing.JFrame;
+import javax.swing.*;
 
 /**
  * Class to create in initialize a window for the simulator to run in
@@ -12,6 +12,7 @@ public class SimulatorWindow extends JFrame {
 	public static final int WINHEIGHT = 600;
 	
 	private SimulatorCanvas sim;
+	private SimulatorCanvas sim2;
 	
 	/**
 	 * Main method which runs the application overall
@@ -22,9 +23,11 @@ public class SimulatorWindow extends JFrame {
 		sw.setVisible(true);
 		sw.pack();
 		sw.setResizable(false);
-		
+
 		Thread thread = new Thread(sw.sim);
+		Thread thread2 = new Thread(sw.sim2);
 		thread.start();
+		thread2.start();
 	}
 	
 	/**
@@ -39,11 +42,17 @@ public class SimulatorWindow extends JFrame {
 		sim.addMouseMotionListener(sim.getSimEngine());
 //		sim.addKeyListener(sim);
 		sim.setVisible(true);
+
+		sim2 = new SimulatorCanvas();
+		sim2.setFocusable(true);
+		sim2.addMouseListener(sim2.getSimEngine());
+		sim2.addMouseMotionListener(sim2.getSimEngine());
+//		sim.addKeyListener(sim);
+		sim2.setVisible(true);
 		
 		// Set basics of the window including the dimensions (using Layout) and title
 		// Put canvases onto JFrame
 		setLayout(new BorderLayout());
-		add(sim);
 		setTitle("Logic Simulator");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		pack();
@@ -51,9 +60,19 @@ public class SimulatorWindow extends JFrame {
 		// Draw the JFrame in the middle of the screen
 		setLocationRelativeTo(null);
 
+		JTabbedPane tabbedPane = new JTabbedPane();
+		JPanel one = new JPanel(new GridLayout());
+		one.add(sim);
+		tabbedPane.add("one", one);
+		JPanel two = new JPanel();
+		two.add(sim2);
+		tabbedPane.add("two", two);
+
+		add(tabbedPane);
+
 		Toolbar tbar = new Toolbar(this, sim);
 	}
-	
+
 	/**
 	 * Provides the simulator canvas
 	 * @return SimulatorCanvas currently displaying everything
@@ -61,5 +80,5 @@ public class SimulatorWindow extends JFrame {
 	public SimulatorCanvas getSimulator() {
 		return sim;
 	}
-	
+
 }
