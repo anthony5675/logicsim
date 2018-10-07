@@ -61,6 +61,10 @@ public class Toolbox {
 			comps = new ArrayList<Component>();
 			comps.add(new Source(width/2 - IO.WIDTH/2, 100, se));
 			comps.add(new Output(width/2 - Gate.WIDTH/2, 100 + (compHeight/4), se));
+			comps.add(new TextMessage(500, 25, se, "Welcome to the Digital Logic Simulator Tutorial!\n\nIn the toolbox region you can see the different\ngates that are available.\n "
+					+ "\nTo begin try dragging one of each gate onto\nthe workspace region and connecting them up\nby clicking the small boxes on their sides\nconsecutively."
+					+ "\n\nTo see the output of the circuit, click the input\nand look at the corresponding output. \n\nRed corresponds to 0 and green corresponds\nto 1. "
+					+ "\n\nLastly to see further information of the gates,\ntry right clicking them. When you're done click \nnext to progress.\n\n"));
 		} else if (this.getState() == 2) {
 			comps = new ArrayList<Component>();
 			comps.add(new Source(width/2 - IO.WIDTH/2, 100, se));

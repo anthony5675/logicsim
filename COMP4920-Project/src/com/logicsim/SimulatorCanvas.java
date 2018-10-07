@@ -79,7 +79,7 @@ public class SimulatorCanvas extends Canvas implements Runnable {
 	@Override
 	public void paint(Graphics g) {
 		// Draw a black background to start with
-		this.setState(0		);
+		this.setState(1);
 		if(this.getState() == 0) {
 			g.setColor(new Color(150, 150, 150));
 			g.fillRect(0, 0, getWidth(), getHeight());
@@ -92,8 +92,26 @@ public class SimulatorCanvas extends Canvas implements Runnable {
 		
 			// Drawn any extra objects
 			se.paint(g);
+		} else if(this.getState() == 2) {
+			g.setColor(new Color(150, 150, 150));
+			g.fillRect(0, 0, getWidth(), getHeight());
+		
+			// Drawn any extra objects
+			se.paint(g);
+		} else if(this.getState() == 3) {
+			g.setColor(new Color(150, 150, 150));
+			g.fillRect(0, 0, getWidth(), getHeight());
+		
+			// Drawn any extra objects
+			se.paint(g);
+		} else if(this.getState() == 4) {
+			g.setColor(new Color(150, 150, 150));
+			g.fillRect(0, 0, getWidth(), getHeight());
+		
+			// Drawn any extra objects
+			se.paint(g);
 		}
-	}
+	} 
 	
 	/** 
 	 * Change state so different frames can be utilised.
