@@ -60,7 +60,8 @@ public class SimulatorWindow extends JFrame {
 	private void initTabs() {
 		tabs = new JTabbedPane(JTabbedPane.TOP, JTabbedPane.SCROLL_TAB_LAYOUT);
 		tabs.add(createWorkspace(), numSims);
-		tabs.setTabComponentAt(numSims, new JLabel("Workspace " + String.valueOf(numSims)));
+		numSims++;
+		tabs.setTabComponentAt(0, new JLabel("Workspace 0"));
 		tabs.add(new JPanel(), "+", numSims++);
 		tabs.addChangeListener(cl);
 	}
