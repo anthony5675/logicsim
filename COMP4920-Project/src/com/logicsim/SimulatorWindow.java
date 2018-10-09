@@ -74,9 +74,9 @@ public class SimulatorWindow extends JFrame {
 		sim.addMouseMotionListener(sim.getSimEngine());
 		//sim.addKeyListener(sim);
 		sim.setVisible(true);
-		JPanel panel = new JPanel(new GridLayout());
+		JPanel panel = new JPanel(new BorderLayout());
+		panel.add(new Toolbar(sim), BorderLayout.PAGE_START);
 		panel.add(sim);
-		panel.add(new Toolbar(sim), new BorderLayout().NORTH);
 
 		Thread thread = new Thread(sim);
 		thread.start();
