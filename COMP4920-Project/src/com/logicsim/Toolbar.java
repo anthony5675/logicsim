@@ -2,19 +2,19 @@ package com.logicsim;
 
 import javax.swing.JButton;
 import javax.swing.JToolBar;
+import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class Toolbar implements ActionListener{
+public class Toolbar extends JToolBar implements ActionListener {
 
     SimulatorCanvas s;
 
-    public Toolbar(SimulatorWindow sw, SimulatorCanvas sim) {
+    public Toolbar(SimulatorCanvas sim) {
         s = sim;
 
-        JToolBar toolbar = new JToolBar();
-        toolbar.setRollover(true);
+        setRollover(true);
 
         JButton saveButton = new JButton("Save");
         saveButton.setActionCommand("save");
@@ -26,10 +26,8 @@ public class Toolbar implements ActionListener{
         clearButton.setToolTipText("clear the current workspace");
         clearButton.addActionListener(this);
 
-        toolbar.add(saveButton);
-        toolbar.add(clearButton);
-
-        sw.add(toolbar, BorderLayout.NORTH);
+        add(saveButton);
+        add(clearButton);
     }
 
     public void actionPerformed(ActionEvent e) {
