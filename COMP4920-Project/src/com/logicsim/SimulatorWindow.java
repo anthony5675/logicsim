@@ -76,6 +76,10 @@ public class SimulatorWindow extends JFrame {
 		sim.setVisible(true);
 		JPanel panel = new JPanel(new GridLayout());
 		panel.add(sim);
+		panel.add(new Toolbar(sim), new BorderLayout().NORTH);
+
+		Thread thread = new Thread(sim);
+		thread.start();
 		return panel;
 	}
 
