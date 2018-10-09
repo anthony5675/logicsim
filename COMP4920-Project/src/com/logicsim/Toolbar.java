@@ -7,10 +7,19 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+/**
+ * Class to create in initialize a window for the simulator to run in
+ * @author Jayden, Andre, Mitchell, Anthony
+ */
+
 public class Toolbar extends JToolBar implements ActionListener {
 
     SimulatorCanvas s;
 
+    /**
+     * Initializes toolbar.
+     * @param sim == The simulator canvas it works on.
+     */
     public Toolbar(SimulatorCanvas sim) {
         s = sim;
 
@@ -30,9 +39,13 @@ public class Toolbar extends JToolBar implements ActionListener {
         add(clearButton);
     }
 
+    /**
+     * Used to decide what happens when toolbar button is clicked.
+     * @param e == An event representing some type of action
+     */
+    @Override
     public void actionPerformed(ActionEvent e) {
         String command = e.getActionCommand();
-        String output = null;
 
         if (command.equals("save")) {
             System.out.println("Saving workspace.");

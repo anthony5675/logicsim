@@ -45,10 +45,10 @@ public class SimulatorWindow extends JFrame {
 	 */
 	public SimulatorWindow() {
 		// Set basics of the window including the dimensions (using Layout) and title
-		// Put canvases onto JFrame
 		setLayout(new BorderLayout());
 		setTitle("Logic Simulator");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		// Setup the the canvas and tab
 		initTabs();
 		add(tabs);
 		pack();
@@ -57,6 +57,9 @@ public class SimulatorWindow extends JFrame {
 		setLocationRelativeTo(null);
 	}
 
+	/**
+	 * Initialize the JTabbedPane with a single workspace.
+	 */
 	private void initTabs() {
 		tabs = new JTabbedPane(JTabbedPane.TOP, JTabbedPane.SCROLL_TAB_LAYOUT);
 		tabs.add(createWorkspace(), numSims);
@@ -66,6 +69,11 @@ public class SimulatorWindow extends JFrame {
 		tabs.addChangeListener(cl);
 	}
 
+	/**
+	 * Create a new workspace by adding a canvas to JPanel.
+	 * Creates thread for each workspace.
+	 * @return JPanel containing canvas workspace
+	 */
 	private JPanel createWorkspace() {
 		SimulatorCanvas sim = new SimulatorCanvas();
 		sims.add(sim);
@@ -83,6 +91,9 @@ public class SimulatorWindow extends JFrame {
 		return panel;
 	}
 
+	/**
+	 * Add a workspace when plus button is clicked.
+	 */
 	private void addWorkspace() {
 		int index = numSims - 1;
 		if(tabs.getSelectedIndex() == index) {
