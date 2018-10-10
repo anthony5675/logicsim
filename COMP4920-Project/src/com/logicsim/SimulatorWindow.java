@@ -19,8 +19,6 @@ public class SimulatorWindow extends JFrame {
 	public static final int WINHEIGHT = 600;
 
 	private JTabbedPane tabs;
-	// list possibly for saving feature
-	private ArrayList<SimulatorCanvas> sims = new ArrayList<SimulatorCanvas>();
 	private int numSims;
 
 	ChangeListener cl = new ChangeListener() {
@@ -77,7 +75,6 @@ public class SimulatorWindow extends JFrame {
 	 */
 	private JPanel createWorkspace() {
 		SimulatorCanvas sim = new SimulatorCanvas();
-		sims.add(sim);
 		sim.setFocusable(true);
 		sim.addMouseListener(sim.getSimEngine());
 		sim.addMouseMotionListener(sim.getSimEngine());
@@ -107,6 +104,10 @@ public class SimulatorWindow extends JFrame {
 		}
 	}
 
+	/**
+	 * Removes a tabbed workspace via the close button
+	 * @param index == The index of the tab in JTabbedPane
+	 */
 	public void removeWorkspace(int index) {
 		tabs.remove(index);
 		numSims--;
@@ -123,13 +124,9 @@ public class SimulatorWindow extends JFrame {
 	}
 
 	/**
-	 * Provides the simulator canvas list
-	 * @return SimulatorCanvas list currently displaying everything
+	 * Get the tabbed pane of the window
+	 * @return JTabbedPane
 	 */
-	public ArrayList<SimulatorCanvas> getSimulatorList() {
-		return sims;
-	}
-
 	public JTabbedPane getTabs() {
 		return tabs;
 	}
