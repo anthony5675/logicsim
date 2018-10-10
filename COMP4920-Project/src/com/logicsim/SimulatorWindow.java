@@ -1,9 +1,10 @@
 package com.logicsim;
+import com.sun.corba.se.spi.orbutil.threadpool.Work;
+
 import java.awt.*;
-import javax.swing.JFrame;
-import javax.swing.JTabbedPane;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import javax.swing.*;
 import java.util.ArrayList;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -62,9 +63,9 @@ public class SimulatorWindow extends JFrame {
 	 */
 	private void initTabs() {
 		tabs = new JTabbedPane(JTabbedPane.TOP, JTabbedPane.SCROLL_TAB_LAYOUT);
-		tabs.add(createWorkspace(), numSims);
+		tabs.add(createWorkspace(), "Workspace 0", numSims);
 		numSims++;
-		tabs.setTabComponentAt(0, new JLabel("Workspace 0"));
+		tabs.setTabComponentAt(0, new WorkspaceTab(this));
 		tabs.add(new JPanel(), "+", numSims++);
 		tabs.addChangeListener(cl);
 	}
@@ -97,12 +98,27 @@ public class SimulatorWindow extends JFrame {
 	private void addWorkspace() {
 		int index = numSims - 1;
 		if(tabs.getSelectedIndex() == index) {
-			tabs.add(createWorkspace(), index);
-			tabs.setTabComponentAt(index, new JLabel("Workspace " + String.valueOf(index)));
+			tabs.add(createWorkspace(), "Workspace " + String.valueOf(index), index);
+			tabs.setTabComponentAt(index, new WorkspaceTab(this));
 			tabs.removeChangeListener(cl);
 			tabs.setSelectedIndex(index);
 			tabs.addChangeListener(cl);
 			numSims++;
+		}
+	}
+
+	public void removeWorkspace(int index) {
+		tabs.remove(index);
+		numSims--;
+
+		if(index == numSims - 1 && index > 0) {
+			tabs.setSelectedIndex(numSims - 2);
+		} else {
+			tabs.setSelectedIndex(index);
+		}
+
+		if(numSims == 1) {
+			addWorkspace();
 		}
 	}
 
@@ -114,5 +130,8 @@ public class SimulatorWindow extends JFrame {
 		return sims;
 	}
 
+	public JTabbedPane getTabs() {
+		return tabs;
+	}
 
 }
