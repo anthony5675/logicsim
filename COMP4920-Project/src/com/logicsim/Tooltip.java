@@ -49,8 +49,9 @@ public class Tooltip {
                     int q = truthTable[i][1];
                     g.drawString(p + gap + q + gap + (p & q), x + 10, rowPos);
                 }
-                g.drawString("If all inputs are 1, then the", x + 10, y + 15);
-                g.drawString("output is 1, otherwise output is 0.", x + 10, y + 30);
+                g.drawString("AND Gate:", x + 10, y + 15);
+                g.drawString("If all inputs are 1, then the", x + 10, y + 30);
+                g.drawString("output is 1, otherwise output is 0.", x + 10, y + 45);
                 break;
             case "Or":
                 setHeight(150);
@@ -64,23 +65,26 @@ public class Tooltip {
                     int q = truthTable[i][1];
                     g.drawString(p + gap + q + gap + (p | q), x + 10, rowPos);
                 }
-                g.drawString("If any input is 1, then the", x + 10, y + 15);
-                g.drawString("output is 1, otherwise output is 0.", x + 10, y + 30);
+                g.drawString("OR Gate:", x + 10, y + 15);
+                g.drawString("If any input is 1, then the", x + 10, y + 30);
+                g.drawString("output is 1, otherwise output is 0.", x + 10, y + 45);
                 break;
             case "Source":
                 setHeight(50);
                 g.fillRect(x, y, width, height);
                 g.setColor(new Color(255, 146, 208));
-                g.drawString("Input source of a logic gate.", x + 10, y + 15);
-                g.drawString("Can be either 1 or 0.", x + 10, y + 30);
+                g.drawString("Input Connector:", x + 10, y + 15);
+                g.drawString("Input source of a logic gate.", x + 10, y + 30);
+                g.drawString("Can be either 1 or 0.", x + 10, y + 45);
                 break;
             case "Output":
                 setHeight(50);
                 g.fillRect(x, y, width, height);
                 g.setColor(new Color(255, 146, 208));
                 // Is the description correct??
-                g.drawString("Output of the digital circuit.", x + 10, y + 15);
-                g.drawString("Can be either 1 or 0.", x + 10, y + 30);
+                g.drawString("Output Connector:", x + 10, y + 15);
+                g.drawString("Output of the digital circuit.", x + 10, y + 30);
+                g.drawString("Can be either 1 or 0.", x + 10, y + 45);
             default:
                 break;
         }

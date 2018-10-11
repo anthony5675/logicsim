@@ -84,23 +84,27 @@ public class TextMessage extends Gate {
 	@Override
 	public void paint(Graphics g) {
 		g.setFont(new Font("Aeriel", Font.PLAIN, 14)); 
+		createBox(g, message, x, y);
 		drawFormatString(g, message, x, y);
-		/*if (image == null) {
-			g.setColor(Color.WHITE);
-			g.fillOval(x, y, width, height);
-			
-			g.setColor(Color.BLACK);
-			g.drawString("OR", x + 17, y + height/2 + 3);
-
-			for (ConnectPoint cp : inPoints) cp.paint(g);
-			outPoint.paint(g);
-		} else {
-			g.drawImage(image, x, y, width, height,null);
-
-			for (ConnectPoint cp : inPoints) cp.paint(g);
-			outPoint.paint(g);
-		}*/
 	}
+	
+	void createBox(Graphics g, String text, int x, int y) {
+		int count = 0;
+		int width = 0;
+		for (String line : text.split("\n")) {
+			if(width <  g.getFontMetrics().stringWidth(line)) {
+				width = g.getFontMetrics().stringWidth(line);
+			}
+			if(line != "") {
+				count ++;
+			}
+		}
+		g.setColor(new Color(77, 77, 77));
+		g.fillRoundRect(x-7, y-5, width+13, count*g.getFontMetrics().getHeight(), 5, 5);
+		g.setColor(new Color(255, 146, 208));
+		g.drawRoundRect(x-7, y-5, width+13, count*g.getFontMetrics().getHeight(), 5, 5);
+	}
+	
 	void drawFormatString(Graphics g, String text, int x, int y) {
 		int count = 0;
 	    for (String line : text.split("\n")) {
@@ -108,7 +112,7 @@ public class TextMessage extends Gate {
 	        	int pixelWidth = g.getFontMetrics().stringWidth(line);
 	        	//int pixelHeight = g.getFontMetrics().getWidths();
 	        	g.setColor(Color.MAGENTA);
-	        	g.fillRoundRect(x-5, y, pixelWidth + 10, 15, 5, 5);
+	        	g.fillRoundRect(x-5, y, pixelWidth + 10, 15, 5, 1000);
 	        	g.setColor(Color.CYAN);
 	        	g.drawString(line, x, y += g.getFontMetrics().getHeight()-7);
 	        } else {

@@ -79,7 +79,7 @@ public class SimulatorCanvas extends Canvas implements Runnable {
 	@Override
 	public void paint(Graphics g) {
 		// Draw a black background to start with
-		this.setState(1);
+		this.setState(3);
 		if(this.getState() == 0) {
 			g.setColor(new Color(150, 150, 150));
 			g.fillRect(0, 0, getWidth(), getHeight());
