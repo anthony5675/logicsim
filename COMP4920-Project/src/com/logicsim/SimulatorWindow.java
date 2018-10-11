@@ -61,7 +61,7 @@ public class SimulatorWindow extends JFrame {
 	 */
 	private void initTabs() {
 		tabs = new JTabbedPane(JTabbedPane.TOP, JTabbedPane.SCROLL_TAB_LAYOUT);
-		tabs.add(createWorkspace(), "Workspace 0", numSims);
+		tabs.add(createWorkspace(true), "Tutorial", numSims);
 		numSims++;
 		tabs.setTabComponentAt(0, new WorkspaceTab(this));
 		tabs.add(new JPanel(), "+", numSims++);
@@ -73,13 +73,18 @@ public class SimulatorWindow extends JFrame {
 	 * Creates thread for each workspace.
 	 * @return JPanel containing canvas workspace
 	 */
-	private JPanel createWorkspace() {
+	private JPanel createWorkspace(Boolean tutFlag) {
 		SimulatorCanvas sim = new SimulatorCanvas();
 		sim.setFocusable(true);
 		sim.addMouseListener(sim.getSimEngine());
 		sim.addMouseMotionListener(sim.getSimEngine());
 		//sim.addKeyListener(sim);
 		sim.setVisible(true);
+
+		// Set the state for tutorial
+		if(tutFlag) {
+			sim.setState(1);
+		}
 		JPanel panel = new JPanel(new BorderLayout());
 		panel.add(new Toolbar(sim), BorderLayout.PAGE_START);
 		panel.add(sim);
@@ -95,7 +100,7 @@ public class SimulatorWindow extends JFrame {
 	private void addWorkspace() {
 		int index = numSims - 1;
 		if(tabs.getSelectedIndex() == index) {
-			tabs.add(createWorkspace(), "Workspace " + String.valueOf(index), index);
+			tabs.add(createWorkspace(false), "Workspace " + String.valueOf(index), index);
 			tabs.setTabComponentAt(index, new WorkspaceTab(this));
 			tabs.removeChangeListener(cl);
 			tabs.setSelectedIndex(index);

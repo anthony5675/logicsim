@@ -12,7 +12,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 /**
- * Class to create in initialize a window for the simulator to run in
+ * Class to create custom tabs for the tabbed pane
  * @author Jayden, Andre, Mitchell, Anthony
  */
 

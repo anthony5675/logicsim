@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 /**
- * Class to create in initialize a window for the simulator to run in
+ * Class that handles interaction with the toolbar
  * @author Jayden, Andre, Mitchell, Anthony
  */
 
