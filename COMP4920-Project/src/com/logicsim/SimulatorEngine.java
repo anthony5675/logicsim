@@ -23,11 +23,14 @@ import javax.swing.event.MouseInputListener;
  *
  */
 public class SimulatorEngine implements MouseListener, MouseInputListener {
+	
+	public static final int MAX_STATE = 4;
 
 	private SimulatorCanvas sim;
 	private ArrayList<Component> comps;
 	private Toolbox tb;
 	private Tooltip tt;
+	private Button next;
 
 	// Simulator objects
 	private Component toBeAdded;
@@ -39,11 +42,11 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 	 * Initializes a SimulatorEngine object
 	 * @param s == Canvas object which has generated this back end engine
 	 */
-	public SimulatorEngine(SimulatorCanvas s, int state) {
+	public SimulatorEngine(SimulatorCanvas s, int st) {
 		sim = s;
 
 		// Initialize any objects or variables that need it
-		tb = new Toolbox(this, state);
+		tb = new Toolbox(this, st);
 
 		comps = new ArrayList<Component>();
 
@@ -53,7 +56,9 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 		beingDragged = null;
 
 		ioPressed = null;
-		this.state = state;
+		state = st;
+		
+		next = new Button(650, 450, 100, 25, Color.BLACK, Color.WHITE);
 	}
 
 	/**
@@ -78,6 +83,8 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 		if(tt.isToggled()) {
 			tt.paint(g);
 		}
+		
+		if (state != 0) next.paint(g);
 	}
 
 	/**
@@ -243,6 +250,10 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 					return;
 				}
 			}
+			
+			if (next.wasClicked(e.getX(), e.getY()) && state != 0) {
+				setState(state + 1);
+			}
 		}
 	}
 
@@ -252,8 +263,9 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 	 */
 
 	public void setState(int newState) {
-		this.state = newState;
-		this.tb.setState(newState);
+		// TODO: Fix real max state
+		state = newState % SimulatorEngine.MAX_STATE;
+		tb.setState(state);
 	}
 
 	/**

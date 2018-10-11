@@ -78,37 +78,11 @@ public class SimulatorCanvas extends Canvas implements Runnable {
 	 */
 	@Override
 	public void paint(Graphics g) {
-		if(this.getState() == 0) {
-			g.setColor(new Color(150, 150, 150));
-			g.fillRect(0, 0, getWidth(), getHeight());
+		g.setColor(new Color(150, 150, 150));
+		g.fillRect(0, 0, getWidth(), getHeight());
 
-			// Drawn any extra objects
-			se.paint(g);
-		} else if(this.getState() == 1) {
-			g.setColor(new Color(150, 150, 150));
-			g.fillRect(0, 0, getWidth(), getHeight());
-
-			// Drawn any extra objects
-			se.paint(g);
-		} else if(this.getState() == 2) {
-			g.setColor(new Color(150, 150, 150));
-			g.fillRect(0, 0, getWidth(), getHeight());
-
-			// Drawn any extra objects
-			se.paint(g);
-		} else if(this.getState() == 3) {
-			g.setColor(new Color(150, 150, 150));
-			g.fillRect(0, 0, getWidth(), getHeight());
-
-			// Drawn any extra objects
-			se.paint(g);
-		} else if(this.getState() == 4) {
-			g.setColor(new Color(150, 150, 150));
-			g.fillRect(0, 0, getWidth(), getHeight());
-
-			// Drawn any extra objects
-			se.paint(g);
-		}
+		// Drawn any extra objects
+		se.paint(g);
 	}
 
 	/**

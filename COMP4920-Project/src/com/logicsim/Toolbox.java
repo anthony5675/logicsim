@@ -17,9 +17,9 @@ public class Toolbox {
 	 * Initializes an And object
 	 * @param x == The canvas this object resides in
 	 */
-	public Toolbox(SimulatorEngine s, int state) {
+	public Toolbox(SimulatorEngine s, int st) {
 		se = s;
-		this.state = state;
+		state = st;
 
 		x = 0;
 		y = 0;
@@ -178,7 +178,6 @@ public class Toolbox {
 	 * Change state so different frames can be utilised.
 	 *
 	 */
-
 	public void setState(int newState) {
 		this.state = newState;
 	}
@@ -186,7 +185,6 @@ public class Toolbox {
 	/**
 	 * @return current state
 	 */
-
 	public int getState() {
 		return this.state;
 	}
