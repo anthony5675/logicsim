@@ -105,6 +105,10 @@ public class ConnectPoint {
 		comp = c;
 	}
 	
+	public Connector getCon() {
+		return con;
+	}
+	
 	public void setCon(Connector c) {
 		con = c;
 	}
