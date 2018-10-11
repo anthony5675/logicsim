@@ -34,16 +34,15 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 	private Component beingDragged;
 	private ConnectPoint ioPressed;
 	
-	private int state;
 	/**
      * Initializes a SimulatorEngine object
      * @param s == Canvas object which has generated this back end engine
      */
-	public SimulatorEngine(SimulatorCanvas s, int state) {
+	public SimulatorEngine(SimulatorCanvas s) {
 		sim = s;
 		
 		// Initialize any objects or variables that need it
-		tb = new Toolbox(this, state);
+		tb = new Toolbox(this);
 		
 		comps = new ArrayList<Component>();
 
@@ -53,7 +52,6 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 		beingDragged = null;
 		
 		ioPressed = null;
-		this.state = state;
 	}
 	
 	/**
@@ -80,13 +78,10 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 		}
 	}
 
-	/**
-	 * Remove all components from the workspace
-	 */
 	public void clearComponents() {
 		comps.clear();
 	}
-
+	
 	/**
      * Allows an object to be preped for adding to the canvas
 	 * @param tba == a new component which will be added to the canvas eventually
@@ -244,24 +239,6 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 		}
 	}
 	
-	/** 
-	 * Change state so different frames can be utilised.
-	 * 
-	 */
-	
-	public void setState(int newState) {
-		this.state = newState;
-		this.tb.setState(newState);
-	}
-	
-	/**
-	 * @return current state
-	 */
-	
-	public int getState() {
-		return this.state;
-	}
-	
 	/**
 	 * (Currently not used)
 	 * This checks if at all two different components collide (one would draw on top of the other)
@@ -394,5 +371,4 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 		return sim;
 	}
 
-	
 }
