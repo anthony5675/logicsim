@@ -105,9 +105,6 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 			return;
 		}
 
-		// TODO: Forseeing a bug where you can click on to incompatable things
-		// Careful
-
 		// Check if compatible ConnectPoints
 		if(!compatibleConnectPoints(ioPressed, cp)) {
 			ioPressed = null;
@@ -117,6 +114,9 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 		Connector c = buildConnector(cp, null);
 		// Handle Second
 		c = buildConnector(ioPressed, c);
+		
+		cp.setCon(c);
+		ioPressed.setCon(c);
 		comps.add(c);
 		ioPressed = null;
 	}
@@ -159,6 +159,8 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 	private boolean compatibleConnectPoints(ConnectPoint cp1, ConnectPoint cp2) {
 		if ((cp1.getComp() instanceof Source) && (cp2.getComp() instanceof Source)) return false;
 		if ((cp1.getComp() instanceof Output) && (cp2.getComp() instanceof Output)) return false;
+		if (cp1.getCon() != null) return false;
+		if (cp2.getCon() != null) return false;
 
 		if ((cp1.getComp() instanceof Gate) && !(cp2.getComp() instanceof Gate)) {
 			Gate g = (Gate)cp1.getComp();
