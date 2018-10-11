@@ -23,37 +23,39 @@ import javax.swing.event.MouseInputListener;
  *
  */
 public class SimulatorEngine implements MouseListener, MouseInputListener {
-	
+
 	private SimulatorCanvas sim;
 	private ArrayList<Component> comps;
 	private Toolbox tb;
 	private Tooltip tt;
-	
+
 	// Simulator objects
 	private Component toBeAdded;
 	private Component beingDragged;
 	private ConnectPoint ioPressed;
-	
+
+	private int state;
 	/**
-     * Initializes a SimulatorEngine object
-     * @param s == Canvas object which has generated this back end engine
-     */
-	public SimulatorEngine(SimulatorCanvas s) {
+	 * Initializes a SimulatorEngine object
+	 * @param s == Canvas object which has generated this back end engine
+	 */
+	public SimulatorEngine(SimulatorCanvas s, int state) {
 		sim = s;
-		
+
 		// Initialize any objects or variables that need it
-		tb = new Toolbox(this);
-		
+		tb = new Toolbox(this, state);
+
 		comps = new ArrayList<Component>();
 
 		tt = new Tooltip();
 
 		toBeAdded = null;
 		beingDragged = null;
-		
+
 		ioPressed = null;
+		this.state = state;
 	}
-	
+
 	/**
 	 * Runs any updates necessary on any objects
 	 */
@@ -62,7 +64,7 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 		for(Component c : comps) c.update();
 		if (beingDragged != null) beingDragged.update();
 	}
-	
+
 	/**
 	 * Paint each individual object to the screen using the passed outward facing graphics object
 	 * @param g == Outward facing Graphics object to draw to
@@ -78,14 +80,17 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 		}
 	}
 
+	/**
+	 * Remove all components from the workspace
+	 */
 	public void clearComponents() {
 		comps.clear();
 	}
-	
+
 	/**
-     * Allows an object to be preped for adding to the canvas
+	 * Allows an object to be preped for adding to the canvas
 	 * @param tba == a new component which will be added to the canvas eventually
-     */
+	 */
 	public void setToBeAdded(Component tba) {
 		toBeAdded = tba;
 	}
@@ -99,11 +104,11 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 			ioPressed = cp;
 			return;
 		}
-		
+
 		// TODO: Forseeing a bug where you can click on to incompatable things
 		// Careful
-		
-		// Check if compatible ConnectPoints	
+
+		// Check if compatible ConnectPoints
 		if(!compatibleConnectPoints(ioPressed, cp)) {
 			ioPressed = null;
 			return;
@@ -115,7 +120,7 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 		comps.add(c);
 		ioPressed = null;
 	}
-	
+
 	private Connector buildConnector(ConnectPoint cp, Connector old) {
 		Connector c;
 		if (old == null) {
@@ -135,12 +140,12 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 				c.setOutPoint(cp);
 				g.addInput(c, cp);
 			}
-		} else if (cp.getComp() instanceof Source) {	
+		} else if (cp.getComp() instanceof Source) {
 			Source s = (Source)cp.getComp();
 			c.setInput(s);
 			c.setInPoint(cp);
 			s.setOutput(c);
-		} else if (cp.getComp() instanceof Output) {	
+		} else if (cp.getComp() instanceof Output) {
 			Output o = (Output)cp.getComp();
 			c.setOutput(o);
 			c.setOutPoint(cp);
@@ -150,7 +155,7 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 		}
 		return c;
 	}
-	
+
 	private boolean compatibleConnectPoints(ConnectPoint cp1, ConnectPoint cp2) {
 		if ((cp1.getComp() instanceof Source) && (cp2.getComp() instanceof Source)) return false;
 		if ((cp1.getComp() instanceof Output) && (cp2.getComp() instanceof Output)) return false;
@@ -189,23 +194,23 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 		}
 		return true;
 	}
-	
+
 	/**
-     * Provides if an IO point has just been pressed
-     * @return boolean describing if an IO point was just pressed
-     */
+	 * Provides if an IO point has just been pressed
+	 * @return boolean describing if an IO point was just pressed
+	 */
 	public ConnectPoint getIOPressed() {
 		return ioPressed;
 	}
-	
+
 	/**
 	 * Handles what clicking somewhere on the canvas will do at a specific time
 	 * @param e == A mouse event object describing what happened when clicked
 	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
-	    if (tt.isToggled()) {
-	    	tt.toggleTip();
+		if (tt.isToggled()) {
+			tt.toggleTip();
 		}
 
 		if (SwingUtilities.isLeftMouseButton(e)) {
@@ -215,7 +220,7 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 				// when clicked
 				tb.mousePressed(e);
 
-				// If afterwards there is a new object to 
+				// If afterwards there is a new object to
 				// then add it and prep it for being dragged
 				if (toBeAdded != null) {
 					toBeAdded.setX(e.getX());
@@ -227,7 +232,7 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 				// Inside toolbox mean not any object so return
 				return;
 			}
-			
+
 			// If the click was not the toolbox then check if it was any component
 			for (Component c : comps) {
 				if (c.wasClicked(e.getX(), e.getY())) {
@@ -238,7 +243,25 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 			}
 		}
 	}
-	
+
+	/**
+	 * Change state so different frames can be utilised.
+	 *
+	 */
+
+	public void setState(int newState) {
+		this.state = newState;
+		this.tb.setState(newState);
+	}
+
+	/**
+	 * @return current state
+	 */
+
+	public int getState() {
+		return this.state;
+	}
+
 	/**
 	 * (Currently not used)
 	 * This checks if at all two different components collide (one would draw on top of the other)
@@ -249,15 +272,15 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 	private boolean componentColide(Component old, Component newC) {
 		// IF the left side of the component will be inside the other component
 		if (newC.getLeftEdge() >= old.getLeftEdge() && newC.getLeftEdge() <= old.getRightEdge() ||
-			// IF the right side of the component will be inside the other component
-			newC.getRightEdge() >= old.getLeftEdge() &&
-			newC.getRightEdge() <= old.getRightEdge()) {
-			
+				// IF the right side of the component will be inside the other component
+				newC.getRightEdge() >= old.getLeftEdge() &&
+						newC.getRightEdge() <= old.getRightEdge()) {
+
 			// IF the top side of the component will not be inside the other component
 			if (newC.getY() >= old.getY() && newC.getY() <= old.getY() + old.getHeight() ||
-				// IF the bottom side of the component will not be inside the other component
-				newC.getY() + newC.getHeight() >= old.getY() &&
-				newC.getY() + newC.getHeight() <= old.getY() + old.getHeight()) {
+					// IF the bottom side of the component will not be inside the other component
+					newC.getY() + newC.getHeight() >= old.getY() &&
+							newC.getY() + newC.getHeight() <= old.getY() + old.getHeight()) {
 				return true;
 			}
 		}
@@ -272,7 +295,7 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 	public void mouseReleased(MouseEvent e) {
 		// If nothing to drag do not continue
 		if (beingDragged == null) return;
-		
+
 		// Set final coordinates for component
 		int x = e.getX();
 		int y = e.getY();
@@ -295,7 +318,7 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 				return;
 			}
 		}
-		
+
 		comps.add(beingDragged);
 
 		// Make sure nothing will continue to drag and draw everything again
@@ -332,8 +355,8 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 			for (Component c : tb.getComponents()) {
 				if (e.getX() >= c.getX() && e.getX() < c.getX() + c.getWidth()) {
 					if (e.getY() >= c.getY() && e.getY() <= c.getY() + c.getHeight()) {
-				
-				// TODO: USE THIS WHEN ALL IS SETUP
+
+						// TODO: USE THIS WHEN ALL IS SETUP
 //				if (c.wasClicked(e.getX(), e.getY())) {
 						tt.setX(c.getX() + (c.getWidth()/2));
 						tt.setY(c.getY() + (c.getHeight()/2));
@@ -370,5 +393,6 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 	public SimulatorCanvas getSim() {
 		return sim;
 	}
+
 
 }

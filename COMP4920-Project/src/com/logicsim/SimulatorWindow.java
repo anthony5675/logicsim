@@ -19,8 +19,6 @@ public class SimulatorWindow extends JFrame {
 	public static final int WINHEIGHT = 600;
 
 	private JTabbedPane tabs;
-	// list possibly for saving feature
-	private ArrayList<SimulatorCanvas> sims = new ArrayList<SimulatorCanvas>();
 	private int numSims;
 
 	ChangeListener cl = new ChangeListener() {
@@ -63,7 +61,7 @@ public class SimulatorWindow extends JFrame {
 	 */
 	private void initTabs() {
 		tabs = new JTabbedPane(JTabbedPane.TOP, JTabbedPane.SCROLL_TAB_LAYOUT);
-		tabs.add(createWorkspace(), "Workspace 0", numSims);
+		tabs.add(createWorkspace(true), "Tutorial", numSims);
 		numSims++;
 		tabs.setTabComponentAt(0, new WorkspaceTab(this));
 		tabs.add(new JPanel(), "+", numSims++);
@@ -75,14 +73,18 @@ public class SimulatorWindow extends JFrame {
 	 * Creates thread for each workspace.
 	 * @return JPanel containing canvas workspace
 	 */
-	private JPanel createWorkspace() {
+	private JPanel createWorkspace(Boolean tutFlag) {
 		SimulatorCanvas sim = new SimulatorCanvas();
-		sims.add(sim);
 		sim.setFocusable(true);
 		sim.addMouseListener(sim.getSimEngine());
 		sim.addMouseMotionListener(sim.getSimEngine());
 		//sim.addKeyListener(sim);
 		sim.setVisible(true);
+
+		// Set the state for tutorial
+		if(tutFlag) {
+			sim.setState(1);
+		}
 		JPanel panel = new JPanel(new BorderLayout());
 		panel.add(new Toolbar(sim), BorderLayout.PAGE_START);
 		panel.add(sim);
@@ -98,7 +100,7 @@ public class SimulatorWindow extends JFrame {
 	private void addWorkspace() {
 		int index = numSims - 1;
 		if(tabs.getSelectedIndex() == index) {
-			tabs.add(createWorkspace(), "Workspace " + String.valueOf(index), index);
+			tabs.add(createWorkspace(false), "Workspace " + String.valueOf(index), index);
 			tabs.setTabComponentAt(index, new WorkspaceTab(this));
 			tabs.removeChangeListener(cl);
 			tabs.setSelectedIndex(index);
@@ -107,6 +109,10 @@ public class SimulatorWindow extends JFrame {
 		}
 	}
 
+	/**
+	 * Removes a tabbed workspace via the close button
+	 * @param index == The index of the tab in JTabbedPane
+	 */
 	public void removeWorkspace(int index) {
 		tabs.remove(index);
 		numSims--;
@@ -123,13 +129,9 @@ public class SimulatorWindow extends JFrame {
 	}
 
 	/**
-	 * Provides the simulator canvas list
-	 * @return SimulatorCanvas list currently displaying everything
+	 * Get the tabbed pane of the window
+	 * @return JTabbedPane
 	 */
-	public ArrayList<SimulatorCanvas> getSimulatorList() {
-		return sims;
-	}
-
 	public JTabbedPane getTabs() {
 		return tabs;
 	}
