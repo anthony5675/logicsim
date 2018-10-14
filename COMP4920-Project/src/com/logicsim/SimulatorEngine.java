@@ -58,7 +58,7 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 		ioPressed = null;
 		state = st;
 		
-		next = new Button(650, 450, 100, 25, Color.BLACK, Color.WHITE);
+		next = new Button(650, 450, 100, 25, Color.BLACK, Color.WHITE, "Next");
 	}
 
 	/**

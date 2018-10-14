@@ -1,5 +1,4 @@
 package com.logicsim;
-import com.sun.corba.se.spi.orbutil.threadpool.Work;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -27,17 +26,6 @@ public class SimulatorWindow extends JFrame {
 			addWorkspace();
 		}
 	};
-
-	/**
-	 * Main method which runs the application overall
-	 * @param args == arguments passed in a runtime
-	 */
-	public static void main(String[] args) {
-		SimulatorWindow sw = new SimulatorWindow();
-		sw.setVisible(true);
-		sw.pack();
-		sw.setResizable(false);
-	}
 
 	/**
 	 * Initializes a Simulator Object
