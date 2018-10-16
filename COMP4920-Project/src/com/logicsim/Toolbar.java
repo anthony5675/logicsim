@@ -33,24 +33,17 @@ public class Toolbar extends JToolBar implements ActionListener {
 
         setRollover(true);
 
-        JButton saveButton = new JButton("Save");
-        saveButton.setActionCommand("save");
-        saveButton.setToolTipText("save the current workspace");
-        saveButton.addActionListener(this);
+        add(newButton("save"));
+        add(newButton("load"));
+        add(newButton("clear"));
+    }
 
-        JButton loadButton = new JButton("Load");
-        loadButton.setActionCommand("load");
-        loadButton.setToolTipText("load into current workspace");
-        loadButton.addActionListener(this);
+    public JButton newButton(String name) {
+        JButton button = new JButton(name);
+        button.setActionCommand(name);
+        button.addActionListener(this);
 
-        JButton clearButton = new JButton("Clear");
-        clearButton.setActionCommand("clear");
-        clearButton.setToolTipText("clear the current workspace");
-        clearButton.addActionListener(this);
-
-        add(saveButton);
-        add(loadButton);
-        add(clearButton);
+        return button;
     }
 
     /**
