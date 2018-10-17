@@ -74,6 +74,9 @@ public class SaveLoadUtils {
      */
     public static void load(SimulatorEngine se, String fileName) {
 
+        // clear workspace before loading
+        se.getComponents().clear();
+
         String saveDir = System.getProperty("user.dir") + "/COMP4920-Project/src/com/logicsim/saves/";
         File file = new File(saveDir + fileName);
         Reader in = null;
@@ -117,6 +120,7 @@ public class SaveLoadUtils {
      * @return The last file numerically
      */
     public static File getLastFile (String path) {
+
         File savesDir = new File(path);
         File[] saves = savesDir.listFiles();
 
@@ -138,6 +142,7 @@ public class SaveLoadUtils {
      * @return An integer containing the last number used
      */
     public static int getNum(String name) {
+
         int i = 0;
         try {
             int start = name.indexOf('_') + 1;
