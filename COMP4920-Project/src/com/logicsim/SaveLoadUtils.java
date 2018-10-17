@@ -14,6 +14,10 @@ import java.util.Comparator;
 
 public class SaveLoadUtils {
 
+    /**
+     * Saves files to "save_"+[0,n] name format in the saves folder
+     * @param se == The simulator engine
+     */
     public static void save(SimulatorEngine se) {
 
         ArrayList<Component> comps = se.getComponents();
@@ -32,6 +36,8 @@ public class SaveLoadUtils {
 
         String saveDir = System.getProperty("user.dir") + "/COMP4920-Project/src/com/logicsim/saves/";
 
+        // Get last number used; new save uses last number + 1
+        // Files saved in ascending order
         if(new File(saveDir).list().length == 0) {
             writeToSave(saveDir, "save_0.json", root.toString(4));
         } else {
@@ -43,6 +49,12 @@ public class SaveLoadUtils {
 
     }
 
+    /**
+     * Method to write to a JSON file to be used as a save.
+     * @param path == Path to the save folder
+     * @param fileName == Name of the save file
+     * @param data == Data to be written
+     */
     public static void writeToSave(String path, String fileName, String data) {
 
         File file = new File(path + fileName);
@@ -55,6 +67,11 @@ public class SaveLoadUtils {
 
     }
 
+    /**
+     * Load file from a specified file name
+     * @param se == The simulator engine
+     * @param fileName == Name of the save file to be loaded
+     */
     public static void load(SimulatorEngine se, String fileName) {
 
         String saveDir = System.getProperty("user.dir") + "/COMP4920-Project/src/com/logicsim/saves/";
@@ -94,6 +111,11 @@ public class SaveLoadUtils {
 
     }
 
+    /**
+     * Get the last file saved
+     * @param path == Path to the save directory
+     * @return The last file numerically
+     */
     public static File getLastFile (String path) {
         File savesDir = new File(path);
         File[] saves = savesDir.listFiles();
@@ -110,6 +132,11 @@ public class SaveLoadUtils {
         return saves[saves.length - 1];
     }
 
+    /**
+     * Extract the file number from a file name
+     * @param name == The file name of a save
+     * @return An integer containing the last number used
+     */
     public static int getNum(String name) {
         int i = 0;
         try {

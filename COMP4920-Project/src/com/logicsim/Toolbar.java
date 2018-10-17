@@ -29,6 +29,11 @@ public class Toolbar extends JToolBar implements ActionListener {
         add(newButton("clear"));
     }
 
+    /**
+     * Creates a new button to be added to toolbar
+     * @param name == name and action of the button
+     * @return The button
+     */
     public JButton newButton(String name) {
         JButton button = new JButton(name);
         button.setActionCommand(name);
