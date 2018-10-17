@@ -45,11 +45,10 @@ public class Toolbar extends JToolBar implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         String command = e.getActionCommand();
         if (command.equals("save")) {
-
+            SaveLoadUtils.save(s.getSimEngine());
         } else if (command.equals("load")) {
-
+            SaveLoadUtils.load(s.getSimEngine(), "save_0.json");
         } else if (command.equals("clear")) {
-            System.out.println("Clearing workspace.");
             s.getSimEngine().getComponents().clear();
         }
     }
