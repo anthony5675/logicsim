@@ -26,10 +26,12 @@ public class SaveLoadUtils {
 
         for (Component c : comps) {
             JSONObject comp = new JSONObject();
-            comp.put("type", c.getClass().getSimpleName());
-            comp.put("x", c.getX());
-            comp.put("y", c.getY());
-            arr.put(comp);
+            if(!c.getClass().getSimpleName().equals("Connector")) {
+                comp.put("type", c.getClass().getSimpleName());
+                comp.put("x", c.getX());
+                comp.put("y", c.getY());
+                arr.put(comp);
+            }
         }
 
         root.put("comps", arr);
