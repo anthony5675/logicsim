@@ -61,7 +61,7 @@ public class SaveLoadUtils {
 
         File file = new File(path + fileName);
 
-        try (PrintWriter writer = new PrintWriter(path + fileName)) {
+        try (PrintWriter writer = new PrintWriter(file)) {
             writer.print(data);
         } catch (IOException e) {
             System.out.println(e.toString());

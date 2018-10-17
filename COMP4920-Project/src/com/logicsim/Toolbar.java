@@ -52,7 +52,7 @@ public class Toolbar extends JToolBar implements ActionListener {
         if (command.equals("save")) {
             SaveLoadUtils.save(s.getSimEngine());
         } else if (command.equals("load")) {
-            //SaveLoadUtils.load(s.getSimEngine(), "save_2.json");
+            SaveLoadUtils.load(s.getSimEngine(), "save_0.json");
         } else if (command.equals("clear")) {
             s.getSimEngine().getComponents().clear();
         }
