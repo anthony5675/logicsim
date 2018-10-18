@@ -98,6 +98,23 @@ public class Connector extends IO {
 		outPoint = c;
 	}
 
+	public int[] getStartPoint() {
+		int[] start = {x1, y1};
+		return start;
+	}
+
+	public int[] getEndPoint() {
+		int[] start = {x2, y2};
+		return start;
+	}
+
+	public void setPoints(int x1, int y1, int x2, int y2) {
+		this.x1 = x1;
+		this.x2 = x2;
+		this.y1 = y1;
+		this.y2 = y2;
+	}
+
 	/**
 	 * Create an exact copy of this object
 	 * @return A new cloned object

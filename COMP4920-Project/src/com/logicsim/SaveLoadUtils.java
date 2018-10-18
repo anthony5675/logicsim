@@ -19,10 +19,10 @@ public class SaveLoadUtils {
      * @param se == The simulator engine
      */
     public static void save(SimulatorEngine se) {
-
         ArrayList<Component> comps = se.getComponents();
         JSONObject root = new JSONObject();
-        JSONArray arr = new JSONArray();
+        JSONArray compsArr = new JSONArray();
+        JSONArray connArr = new JSONArray();
 
         for (Component c : comps) {
             JSONObject comp = new JSONObject();
@@ -30,11 +30,19 @@ public class SaveLoadUtils {
                 comp.put("type", c.getClass().getSimpleName());
                 comp.put("x", c.getX());
                 comp.put("y", c.getY());
-                arr.put(comp);
+                compsArr.put(comp);
+            } else {
+                c = (Connector) c;
+                comp.put("x1", ((Connector) c).getStartPoint()[0]);
+                comp.put("y1", ((Connector) c).getStartPoint()[1]);
+                comp.put("x2", ((Connector) c).getStartPoint()[0]);
+                comp.put("y2", ((Connector) c).getStartPoint()[1]);
+                connArr.put(comp);
             }
         }
 
-        root.put("comps", arr);
+        root.put("comps", compsArr);
+        root.put("connectors", connArr);
 
         String saveDir = System.getProperty("user.dir") + "/COMP4920-Project/src/com/logicsim/saves/";
 
@@ -44,11 +52,10 @@ public class SaveLoadUtils {
             writeToSave(saveDir, "save_0.json", root.toString(4));
         } else {
             File lastFile = getLastFile(saveDir);
-            int lastNum = getNum(lastFile.getName());
+            int lastNum = getFileNum(lastFile.getName());
             int newNum = lastNum + 1;
             writeToSave(saveDir, "save_" + newNum + ".json", root.toString(4));
         }
-
     }
 
     /**
@@ -58,7 +65,6 @@ public class SaveLoadUtils {
      * @param data == Data to be written
      */
     public static void writeToSave(String path, String fileName, String data) {
-
         File file = new File(path + fileName);
 
         try (PrintWriter writer = new PrintWriter(file)) {
@@ -66,7 +72,6 @@ public class SaveLoadUtils {
         } catch (IOException e) {
             System.out.println(e.toString());
         }
-
     }
 
     /**
@@ -75,7 +80,6 @@ public class SaveLoadUtils {
      * @param fileName == Name of the save file to be loaded
      */
     public static void load(SimulatorEngine se, String fileName) {
-
         // clear workspace before loading
         se.getComponents().clear();
 
@@ -114,6 +118,16 @@ public class SaveLoadUtils {
             }
         }
 
+        JSONArray connectors = obj.getJSONArray("connectors");
+        for(Object o : connectors) {
+            JSONObject c = (JSONObject) o;
+            Connector connector = new Connector();
+            int x1 = c.getInt("x1");
+            int y1 = c.getInt("y1");
+            int x2 = c.getInt("x2");
+            int y2 = c.getInt("y2");
+            connector.setPoints(x1, y1, x2, y2);
+        }
     }
 
     /**
@@ -122,15 +136,14 @@ public class SaveLoadUtils {
      * @return The last file numerically
      */
     public static File getLastFile (String path) {
-
         File savesDir = new File(path);
         File[] saves = savesDir.listFiles();
 
         Arrays.sort(saves, new Comparator<File>() {
             @Override
             public int compare(File f1, File f2) {
-                int n1 = getNum(f1.getName());
-                int n2 = getNum(f2.getName());
+                int n1 = getFileNum(f1.getName());
+                int n2 = getFileNum(f2.getName());
                 return n1 - n2;
             }
         });
@@ -143,8 +156,7 @@ public class SaveLoadUtils {
      * @param name == The file name of a save
      * @return An integer containing the last number used
      */
-    public static int getNum(String name) {
-
+    public static int getFileNum(String name) {
         int i = 0;
         try {
             int start = name.indexOf('_') + 1;
