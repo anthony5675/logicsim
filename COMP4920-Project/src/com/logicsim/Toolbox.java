@@ -27,12 +27,16 @@ public class Toolbox {
 		
 		comps = new ArrayList<Component>();
 
-		int compHeight = 550;
+		int compHeight = 700;
 		
-		comps.add(new Source(width/2 - IO.WIDTH/2, 100, se));
-		comps.add(new And(width/2 - Gate.WIDTH/2, 100 + (compHeight/4), se));
-		comps.add(new Or(width/2 - Gate.WIDTH/2, 100 + (compHeight*2/4), se));
-		comps.add(new Output(width/2 - IO.WIDTH/2, 100 + (compHeight*3/4), se));
+		comps.add(new Source(width/2 - IO.WIDTH/2, 50, se));
+		comps.add(new And(width/2 - Gate.WIDTH/2, 50 + (compHeight/8), se));
+		comps.add(new NAnd(width/2 - Gate.WIDTH/2, 50 + (compHeight*2/8), se));
+		comps.add(new Or(width/2 - Gate.WIDTH/2, 50 + (compHeight*3/8), se));
+		comps.add(new NOr(width/2 - Gate.WIDTH/2, 50 + (compHeight*4/8), se));
+		comps.add(new XOr(width/2 - Gate.WIDTH/2, 50 + (compHeight*5/8), se));
+		comps.add(new Not(width/2 - Gate.WIDTH/2, 50 + (compHeight*6/8), se));
+		comps.add(new Output(width/2 - IO.WIDTH/2, 50 + (compHeight*7/8), se));
 	}
 
 	/**
@@ -51,7 +55,7 @@ public class Toolbox {
 		String t = "Toolbox";
 		g.setFont(new Font("Aerial", Font.PLAIN, 24));
 		FontMetrics fm = g.getFontMetrics();
-		g.drawString(t, (width/2)-(fm.stringWidth(t)/2), 50);
+		g.drawString(t, (width/2)-(fm.stringWidth(t)/2), 30);
 
 		for (Component c : comps) c.paint(g);
 	}

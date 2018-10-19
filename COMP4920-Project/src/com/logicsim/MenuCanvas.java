@@ -4,6 +4,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.awt.image.RescaleOp;
+
 import javax.swing.SwingUtilities;
 
 /**
@@ -16,6 +19,11 @@ public class MenuCanvas extends Canvas implements Runnable, MouseListener {
 	private Button[] buttons;
 	private MenuWindow menu;
 
+	private boolean onSplash;
+	private float splashOpacity;
+	private Image splashScreen;
+	private int waited;
+
 	/**
 	 * Initializes a SimulatorCanvas Object
 	 */
@@ -23,6 +31,12 @@ public class MenuCanvas extends Canvas implements Runnable, MouseListener {
 		setSize(800, 600); // TODO: need to get correctly
 		
 		menu = m;
+		
+		onSplash = true;
+		splashOpacity = 0f;
+		waited = 0;
+		
+		splashScreen = ImageLoader.loadImage("images/splash.png");
 		
 		int bwidth = 200;
 		int bheight = 40;
@@ -63,6 +77,20 @@ public class MenuCanvas extends Canvas implements Runnable, MouseListener {
 	 */
 	@Override
 	public void update(Graphics g) {
+		if (onSplash) {
+			if(splashOpacity != 0) splashOpacity--;
+		} else {
+			if(splashOpacity < 100) splashOpacity++;
+		}
+		if (splashOpacity == 0) {
+			waited++;
+			// This controls, delay (*delay in ms*/17)
+			if(waited == 2000/17) {
+				onSplash = false;
+				return;
+			}
+		}
+		
 		// if this is the first time we are double buffering
 		if (i == null) {
 			// create a blank image the same width and height as this canvas
@@ -88,16 +116,42 @@ public class MenuCanvas extends Canvas implements Runnable, MouseListener {
 	 */
 	@Override
 	public void paint(Graphics g) {
-		g.setColor(Color.BLACK);
-		g.fillRect(0, 0, getWidth(), getHeight());
+		if (!onSplash) {
+			g.setColor(Color.BLACK);
+			g.fillRect(0, 0, getWidth(), getHeight());
+			
+			g.setFont(new Font("Arial", Font.PLAIN, 100));
+			g.setColor(Color.CYAN);
+			
+			String title = "Logic Simulator";
+			int stringWidth = g.getFontMetrics().stringWidth(title);
+	
+			g.drawString(title, (getWidth()/2) - (stringWidth/2), getHeight()/4);
+			
+			for (Button b : buttons) {
+				b.paint(g);
+			}
+		}
 		
-		for (Button b : buttons) {
-			b.paint(g);
+		// this draws the splash screen at this desired transparency using a rescaling operation
+		float transparencyFactor = Math.abs(splashOpacity/100.0f - 1.0f);
+		if(!(transparencyFactor == 0)) {
+			RescaleOp rescale = new RescaleOp(
+					new float[]{1f, 1f, 1f, transparencyFactor},
+					new float[]{0f, 0f, 0f, 0f}, null);
+
+			if(g instanceof Graphics2D) {
+				Graphics2D g2d = (Graphics2D)g;
+				g2d.drawImage((BufferedImage) splashScreen, rescale, 0,0);
+			} else {
+				g.drawImage(splashScreen, 0, 0, this);
+			}
 		}
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
+		if (onSplash) return;
 		if (buttons[0].wasClicked(e.getX(), e.getY())) {
 			menu.getSimulator().setVisible(true);
 			menu.setVisible(false);
