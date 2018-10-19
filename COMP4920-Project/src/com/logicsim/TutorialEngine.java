@@ -22,29 +22,34 @@ import javax.swing.event.MouseInputListener;
  * @author Jayden, Andre, Mitchell, Anthony
  *
  */
-public class SimulatorEngine implements MouseListener, MouseInputListener {
+public class TutorialEngine extends SimulatorEngine implements MouseListener, MouseInputListener {
 	
 	public static final int MAX_STATE = 4;
 
-	private SimulatorCanvas sim;
+	private TutorialCanvas tut;
 	private ArrayList<Component> comps;
-	private Toolbox tb;
-	private Tooltip tt;
+	private TutorialToolbox tb;
+	private Tooltip tt; 
+	private Button next;
 
 	// Simulator objects
 	private Component toBeAdded;
 	private Component beingDragged;
 	private ConnectPoint ioPressed;
-	
+
+	private int state;
 	/**
 	 * Initializes a SimulatorEngine object
 	 * @param s == Canvas object which has generated this back end engine
 	 */
-	public SimulatorEngine(SimulatorCanvas s) {
-		sim = s;
+	public TutorialEngine(TutorialCanvas t) {
+		super(t);
+		tut = t;
 
+		state = 1;
+		
 		// Initialize any objects or variables that need it
-		tb = new Toolbox(this);
+		tb = new TutorialToolbox(this, 1);
 
 		comps = new ArrayList<Component>();
 
@@ -54,6 +59,8 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 		beingDragged = null;
 
 		ioPressed = null;
+		
+		next = new Button(650, 450, 100, 25, Color.BLACK, Color.WHITE, "Next");
 	}
 
 	/**
@@ -78,6 +85,8 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 		if(tt.isToggled()) {
 			tt.paint(g);
 		}
+		
+		next.paint(g);
 	}
 
 	/**
@@ -243,7 +252,30 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 					return;
 				}
 			}
+			
+			if (next.wasClicked(e.getX(), e.getY())) {
+				setState(state + 1);
+			}
 		}
+	}
+
+	/**
+	 * Change state so different frames can be utilised.
+	 *
+	 */
+
+	public void setState(int newState) {
+		// TODO: Fix real max state
+		state = newState % TutorialEngine.MAX_STATE;
+		tb.setState(state);
+	}
+
+	/**
+	 * @return current state
+	 */
+
+	public int getState() {
+		return state;
 	}
 
 	/**
@@ -308,7 +340,7 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 		// Make sure nothing will continue to drag and draw everything again
 		beingDragged = null;
 		update();
-		sim.repaint();
+		tut.repaint();
 	}
 
 	/**
@@ -326,7 +358,7 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 		beingDragged.setX(x);
 		beingDragged.setY(y);
 		update();
-		sim.repaint();
+		tut.repaint();
 	}
 
 	/**
@@ -374,8 +406,8 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 	@Override
 	public void mouseMoved(MouseEvent e) {}
 
-	public SimulatorCanvas getSim() {
-		return sim;
+	public TutorialCanvas getTut() {
+		return tut;
 	}
 
 
