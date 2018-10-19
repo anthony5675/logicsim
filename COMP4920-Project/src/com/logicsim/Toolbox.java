@@ -35,7 +35,7 @@ public class Toolbox {
 		comps.add(new Or(width/2 - Gate.WIDTH/2, 50 + (compHeight*3/8), se));
 		comps.add(new NOr(width/2 - Gate.WIDTH/2, 50 + (compHeight*4/8), se));
 		comps.add(new XOr(width/2 - Gate.WIDTH/2, 50 + (compHeight*5/8), se));
-		comps.add(new Not(width/2 - Gate.WIDTH/2, 50 + (compHeight*6/8), se));
+		comps.add(new NOt(width/2 - Gate.WIDTH/2, 50 + (compHeight*6/8), se));
 		comps.add(new Output(width/2 - IO.WIDTH/2, 50 + (compHeight*7/8), se));
 	}
 

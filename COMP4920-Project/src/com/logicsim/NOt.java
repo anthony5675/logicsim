@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * Class to handle everything going on with an OR gate
  * @author Jayden, Andre, Mitchell, Anthony
  */
-public class Not extends Gate {
+public class NOt extends Gate {
 	
 	/**
      * Initializes an Or object
@@ -16,7 +16,7 @@ public class Not extends Gate {
      * @param y == y coordinate to set where the OR gate will draw
 	 * @param s 
      */
-	public Not(int x, int y, SimulatorEngine s) {
+	public NOt(int x, int y, SimulatorEngine s) {
 		super();
 		this.x = x;
 		this.y = y;
@@ -131,7 +131,7 @@ public class Not extends Gate {
 	 */
 	@Override
 	public Component clone() {
-		Not c = new Not(x, y, se);
+		NOt c = new NOt(x, y, se);
 		
 		c.width = width;
 		c.height = height;

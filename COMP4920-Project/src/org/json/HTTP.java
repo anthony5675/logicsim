@@ -141,7 +141,7 @@ public class HTTP {
             sb.append(' ');
             sb.append(jo.getString("HTTP-Version"));
         } else {
-            throw new JSONException("Not enough material for an HTTP header.");
+            throw new JSONException("NOt enough material for an HTTP header.");
         }
         sb.append(CRLF);
         // Don't use the new entrySet API to maintain Android support
