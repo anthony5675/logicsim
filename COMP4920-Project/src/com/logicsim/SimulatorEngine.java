@@ -249,31 +249,6 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 	}
 
 	/**
-	 * (Currently not used)
-	 * This checks if at all two different components collide (one would draw on top of the other)
-	 * @param old == one of the components (usually the one already there)
-	 * @param newC == Another component which might collide with old
-	 * @return If the components collide of not
-	 */
-	private boolean componentColide(Component old, Component newC) {
-		// IF the left side of the component will be inside the other component
-		if (newC.getLeftEdge() >= old.getLeftEdge() && newC.getLeftEdge() <= old.getRightEdge() ||
-				// IF the right side of the component will be inside the other component
-				newC.getRightEdge() >= old.getLeftEdge() &&
-						newC.getRightEdge() <= old.getRightEdge()) {
-
-			// IF the top side of the component will not be inside the other component
-			if (newC.getY() >= old.getY() && newC.getY() <= old.getY() + old.getHeight() ||
-					// IF the bottom side of the component will not be inside the other component
-					newC.getY() + newC.getHeight() >= old.getY() &&
-							newC.getY() + newC.getHeight() <= old.getY() + old.getHeight()) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	/**
 	 * Handles what happens when a click is stopped somewhere on the canvas at a specific time
 	 * @param e == A mouse event object describing what happened when mouse was released
 	 */
@@ -288,7 +263,6 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 
 		// Detect if a component was dropped with part of it in the toolbox still
 		if (tb.wasClicked(beingDragged.getLeftEdge(), y)) {
-			comps.remove(beingDragged);
 			beingDragged = null;
 			return;
 		}
@@ -320,7 +294,18 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		// If nothing to drag do not continue
-		if (beingDragged == null) return;
+		if (beingDragged == null) {
+			for (Component c : comps) {
+				if (c.wasClicked(e.getX(), e.getY())) {
+					beingDragged = c;
+				}
+			}
+			if (beingDragged == null) {
+				return;
+			} else {
+				comps.remove(beingDragged);
+			}
+		}
 
 		// Set new coordinates for component
 		int x = e.getX();
@@ -352,7 +337,43 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 					}
 				}
 			}
+			
+			Component toRemove = null;
+			for (Component c : comps) {
+				if (c.wasClicked(e.getX(), e.getY())) {
+					toRemove = c;
+				}
+			}
+			comps.remove(toRemove);
 		}
+	}
+
+	/**
+	 * This checks if at all two different components collide (one would draw on top of the other)
+	 * @param old == one of the components (usually the one already there)
+	 * @param newC == Another component which might collide with old
+	 * @return If the components collide of not
+	 */
+	private boolean componentColide(Component old, Component newC) {
+		// IF the left side of the component will be inside the other component
+		if (newC.getLeftEdge() >= old.getLeftEdge() && newC.getLeftEdge() <= old.getRightEdge() ||
+				// IF the right side of the component will be inside the other component
+				newC.getRightEdge() >= old.getLeftEdge() &&
+						newC.getRightEdge() <= old.getRightEdge()) {
+
+			// IF the top side of the component will not be inside the other component
+			if (newC.getY() >= old.getY() && newC.getY() <= old.getY() + old.getHeight() ||
+					// IF the bottom side of the component will not be inside the other component
+					newC.getY() + newC.getHeight() >= old.getY() &&
+							newC.getY() + newC.getHeight() <= old.getY() + old.getHeight()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public SimulatorCanvas getSim() {
+		return sim;
 	}
 
 	/**
@@ -375,10 +396,5 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 	 */
 	@Override
 	public void mouseMoved(MouseEvent e) {}
-
-	public SimulatorCanvas getSim() {
-		return sim;
-	}
-
 
 }
