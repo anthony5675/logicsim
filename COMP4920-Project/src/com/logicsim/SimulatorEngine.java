@@ -122,7 +122,7 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 		ioPressed = null;
 	}
 
-	private Connector buildConnector(ConnectPoint cp, Connector old) {
+	public Connector buildConnector(ConnectPoint cp, Connector old) {
 		Connector c;
 		if (old == null) {
 			c = new Connector();

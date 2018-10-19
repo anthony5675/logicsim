@@ -14,6 +14,8 @@ public abstract class Component {
 	protected Image image;
 
 	protected int x, y, width, height;
+
+	protected int saveId;
 	
 	protected ArrayList<ConnectPoint> inPoints;
 	

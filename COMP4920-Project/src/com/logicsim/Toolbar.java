@@ -14,6 +14,7 @@ import java.io.File;
 public class Toolbar extends JToolBar implements ActionListener {
 
     SimulatorCanvas s;
+    File savesFolder;
 
     /**
      * Initializes toolbar.
@@ -27,6 +28,11 @@ public class Toolbar extends JToolBar implements ActionListener {
         add(newButton("save"));
         add(newButton("load"));
         add(newButton("clear"));
+
+        savesFolder = new File(System.getProperty("user.home") + "/saves/");
+        if (!savesFolder.exists()) {
+            savesFolder.mkdir();
+        }
     }
 
     /**
@@ -48,15 +54,12 @@ public class Toolbar extends JToolBar implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
+
         String command = e.getActionCommand();
         if (command.equals("save")) {
-            File savesFolder = new File(System.getProperty("user.home") + "/saves/");
-            if (!savesFolder.exists()) {
-                savesFolder.mkdir();
-            }
-
             JFileChooser fileChooser = new JFileChooser();
             fileChooser.setCurrentDirectory(savesFolder);
+
             int retVal = fileChooser.showSaveDialog(this);
             if (retVal == JFileChooser.APPROVE_OPTION) {
                 File file = fileChooser.getSelectedFile();
@@ -65,8 +68,8 @@ public class Toolbar extends JToolBar implements ActionListener {
 
         } else if (command.equals("load")) {
             JFileChooser fileChooser = new JFileChooser();
-            File savesFolder = new File(System.getProperty("user.home") + "/saves/");
             fileChooser.setCurrentDirectory(savesFolder);
+
             int retVal = fileChooser.showOpenDialog(this);
             if (retVal == JFileChooser.APPROVE_OPTION) {
                 File file = fileChooser.getSelectedFile();

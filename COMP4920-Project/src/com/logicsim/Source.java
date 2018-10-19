@@ -121,4 +121,12 @@ public class Source extends IO {
 		
 		return c;
 	}
+
+	public boolean getState() {
+		return state;
+	}
+
+	public void setState(boolean state) {
+		this.state = state;
+	}
 }
