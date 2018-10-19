@@ -105,6 +105,10 @@ public class Source extends IO {
 		if (output != null) return;
 		output = c;
 	}
+	
+	public void setState(boolean s) {
+		state = s;
+	}
 
 	/**
 	 * Create an exact copy of this object
