@@ -22,7 +22,7 @@ public class SimulatorCanvas extends Canvas implements Runnable {
 
 		setSize(800, 600); // TODO: need to get correctly
 		// Setup back end and start running the simulation
-		se = new SimulatorEngine(this, 0);
+		se = new SimulatorEngine(this);
 	}
 
 	/**

@@ -19,6 +19,9 @@ public class InstructionsCanvas extends Canvas implements Runnable, MouseListene
 	 */
 	public InstructionsCanvas() {
 		setSize(800, 600); // TODO: need to get correctly
+		
+		Thread  thread = new Thread(this);
+		thread.start();
 	}
 
 	/**

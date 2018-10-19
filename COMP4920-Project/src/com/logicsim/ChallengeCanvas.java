@@ -20,6 +20,9 @@ public class ChallengeCanvas extends SimulatorCanvas implements Runnable, MouseL
 	public ChallengeCanvas() {
 		super();
 		setSize(800, 600); // TODO: need to get correctly
+		
+		Thread  thread = new Thread(this);
+		thread.start();
 	}
 
 	@Override

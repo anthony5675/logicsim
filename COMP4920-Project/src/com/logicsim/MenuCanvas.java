@@ -33,6 +33,9 @@ public class MenuCanvas extends Canvas implements Runnable, MouseListener {
 		buttons[2] = new Button((getWidth()/4)-(bwidth/2), buttons[1].getY() + 2*bheight, bwidth, bheight, Color.WHITE, Color.BLACK, "Tutorial");
 		buttons[3] = new Button((getWidth()*3/4)-(bwidth/2), buttons[1].getY() + 2*bheight, bwidth, bheight, Color.WHITE, Color.BLACK, "Challenges");
 		buttons[4] = new Button((getWidth()/2)-(bwidth/2), buttons[3].getY() + 2*bheight, bwidth, bheight, Color.WHITE, Color.BLACK, "Exit");
+	
+		Thread  thread = new Thread(this);
+		thread.start();
 	}
 
 	/**
