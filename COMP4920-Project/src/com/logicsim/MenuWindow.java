@@ -39,16 +39,25 @@ public class MenuWindow extends JFrame {
 		instructions.addMouseListener(instructions);
 		instructions.setVisible(false);
 		
+		Thread instructionThread = new Thread(instructions);
+		instructionThread.start();
+		
 		tutorial = new TutorialCanvas();
 		tutorial.setFocusable(true);
 		tutorial.addMouseListener(tutorial.getTutEngine());
 		tutorial.addMouseMotionListener(tutorial.getTutEngine());
 		tutorial.setVisible(false);
 		
+		Thread tutorialThread = new Thread(tutorial);
+		tutorialThread.start();
+		
 		challenges = new ChallengeCanvas();
-		challenges.setFocusable(true);
-		challenges.addMouseListener(challenges);
+		challenges.addMouseListener(challenges.getTutEngine());
+		challenges.addMouseMotionListener(challenges.getTutEngine());
 		challenges.setVisible(false);
+		
+		Thread challengesThread = new Thread(challenges);
+		challengesThread.start();
 		
 		simulator = new SimulatorWindow();
 		simulator.pack();

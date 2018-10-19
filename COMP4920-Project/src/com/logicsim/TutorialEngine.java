@@ -1,36 +1,30 @@
 package com.logicsim;
-import java.awt.BorderLayout;
-import java.awt.Canvas;
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 import javax.swing.event.MouseInputListener;
 
 /**
- * Class to handle most simulator logic and hold most of the back end of it.
- * Including all the different sim objects
+ * Class to handle most tutorial logic and hold most of the back end of it.
+ * Including all the different tutorial objects
  * @author Jayden, Andre, Mitchell, Anthony
  *
  */
 public class TutorialEngine extends SimulatorEngine implements MouseListener, MouseInputListener {
 	
 	public static final int MAX_STATE = 4;
+	public static final int CHALLENGE_START = 3;
 
 	private TutorialCanvas tut;
 	private ArrayList<Component> comps;
 	private TutorialToolbox tb;
 	private Tooltip tt; 
 	private Button next;
+	private Button submit;
 
 	// Simulator objects
 	private Component toBeAdded;
@@ -42,14 +36,14 @@ public class TutorialEngine extends SimulatorEngine implements MouseListener, Mo
 	 * Initializes a SimulatorEngine object
 	 * @param s == Canvas object which has generated this back end engine
 	 */
-	public TutorialEngine(TutorialCanvas t) {
+	public TutorialEngine(TutorialCanvas t, int st) {
 		super(t);
 		tut = t;
 
-		state = 1;
+		state = st;
 		
 		// Initialize any objects or variables that need it
-		tb = new TutorialToolbox(this, 1);
+		tb = new TutorialToolbox(this, st);
 
 		comps = new ArrayList<Component>();
 
@@ -60,7 +54,8 @@ public class TutorialEngine extends SimulatorEngine implements MouseListener, Mo
 
 		ioPressed = null;
 		
-		next = new Button(650, 450, 100, 25, Color.BLACK, Color.WHITE, "Next");
+		next = new Button(650, 450, 100, 40, Color.BLACK, Color.WHITE, "Next");
+		submit = new Button(530, 450, 100, 40, Color.BLACK, Color.WHITE, "Submit");
 	}
 
 	/**
@@ -87,6 +82,7 @@ public class TutorialEngine extends SimulatorEngine implements MouseListener, Mo
 		}
 		
 		next.paint(g);
+		if (state >= CHALLENGE_START) submit.paint(g);
 	}
 
 	/**
@@ -255,6 +251,12 @@ public class TutorialEngine extends SimulatorEngine implements MouseListener, Mo
 			
 			if (next.wasClicked(e.getX(), e.getY())) {
 				setState(state + 1);
+			} else if (submit.wasClicked(e.getX(), e.getY())) {
+				//pop-up of their answer
+				if (tut instanceof ChallengeCanvas) {
+					ChallengeCanvas chc = (ChallengeCanvas)tut;
+					chc.checkAnswer();
+				}
 			}
 		}
 	}
@@ -409,6 +411,9 @@ public class TutorialEngine extends SimulatorEngine implements MouseListener, Mo
 	public TutorialCanvas getTut() {
 		return tut;
 	}
-
+	
+	public void addComp(Component c) {
+		comps.add(c);
+	}
 
 }

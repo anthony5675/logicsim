@@ -1,33 +1,24 @@
 package com.logicsim;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import javax.swing.SwingUtilities;
 
 /**
  * Class to handle everything going with the Canvas object
  * @author Jayden, Andre, Mitchell, Anthony
  */
-public class TutorialCanvas extends SimulatorCanvas implements Runnable, MouseListener {
+public class TutorialCanvas extends SimulatorCanvas implements Runnable {
 	private int state;
 	private TutorialEngine te;
-	private Image i;
-	private Graphics buffer;
 
 	/**
 	 * Initializes a SimulatorCanvas Object
 	 */
 	public TutorialCanvas() {
 		setSize(800, 600); // TODO: need to get correctly
-		state = 1;
+		state = 0;
 		// Setup back end and start running the simulation
-		te = new TutorialEngine(this);
-		te.setState(1);
-		
-		Thread  thread = new Thread(this);
-		thread.start();
+		te = new TutorialEngine(this, 0);
 	}
 
 	/**
@@ -37,7 +28,7 @@ public class TutorialCanvas extends SimulatorCanvas implements Runnable, MouseLi
 	@Override
 	public void run() {
 		while(true) {
-			// Run object updates through SimulatorEngine
+			// Run object updates through TutorialEngine
 			te.update();
 			repaint();
 			try {
@@ -79,22 +70,6 @@ public class TutorialCanvas extends SimulatorCanvas implements Runnable, MouseLi
 	public int getState() {
 		return state;
 	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-	}
-
-	@Override
-	public void mouseClicked(MouseEvent e) {}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {}
-
-	@Override
-	public void mouseExited(MouseEvent e) {}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {}
 
 	/**
 	 * Provides access to the Simulator Engine
