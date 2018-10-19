@@ -41,7 +41,8 @@ public class MenuWindow extends JFrame {
 		
 		tutorial = new TutorialCanvas();
 		tutorial.setFocusable(true);
-		tutorial.addMouseListener(tutorial);
+		tutorial.addMouseListener(tutorial.getTutEngine());
+		tutorial.addMouseMotionListener(tutorial.getTutEngine());
 		tutorial.setVisible(false);
 		
 		challenges = new ChallengeCanvas();
