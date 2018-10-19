@@ -1,11 +1,7 @@
 package com.logicsim;
-import com.sun.corba.se.spi.orbutil.threadpool.Work;
 
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import javax.swing.*;
-import java.util.ArrayList;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -29,17 +25,6 @@ public class SimulatorWindow extends JFrame {
 	};
 
 	/**
-	 * Main method which runs the application overall
-	 * @param args == arguments passed in a runtime
-	 */
-	public static void main(String[] args) {
-		SimulatorWindow sw = new SimulatorWindow();
-		sw.setVisible(true);
-		sw.pack();
-		sw.setResizable(false);
-	}
-
-	/**
 	 * Initializes a Simulator Object
 	 */
 	public SimulatorWindow() {
@@ -61,7 +46,7 @@ public class SimulatorWindow extends JFrame {
 	 */
 	private void initTabs() {
 		tabs = new JTabbedPane(JTabbedPane.TOP, JTabbedPane.SCROLL_TAB_LAYOUT);
-		tabs.add(createWorkspace(true), "Tutorial", numSims);
+		tabs.add(createWorkspace(true), "Simulator", numSims);
 		numSims++;
 		tabs.setTabComponentAt(0, new WorkspaceTab(this));
 		tabs.add(new JPanel(), "+", numSims++);
@@ -78,13 +63,8 @@ public class SimulatorWindow extends JFrame {
 		sim.setFocusable(true);
 		sim.addMouseListener(sim.getSimEngine());
 		sim.addMouseMotionListener(sim.getSimEngine());
-		//sim.addKeyListener(sim);
 		sim.setVisible(true);
 
-		// Set the state for tutorial
-		if(tutFlag) {
-			sim.setState(1);
-		}
 		JPanel panel = new JPanel(new BorderLayout());
 		panel.add(new Toolbar(sim), BorderLayout.PAGE_START);
 		panel.add(sim);
@@ -124,7 +104,7 @@ public class SimulatorWindow extends JFrame {
 		}
 
 		if(numSims == 1) {
-			addWorkspace();
+			System.exit(0);
 		}
 	}
 
