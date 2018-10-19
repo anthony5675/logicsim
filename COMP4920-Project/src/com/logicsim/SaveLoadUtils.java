@@ -18,7 +18,7 @@ public class SaveLoadUtils {
      * Saves files to "save_"+[0,n] name format in the saves folder
      * @param se == The simulator engine
      */
-    public static void save(SimulatorEngine se) {
+    public static void save(SimulatorEngine se, File file) {
         ArrayList<Component> comps = se.getComponents();
         JSONObject root = new JSONObject();
         JSONArray compsArr = new JSONArray();
@@ -44,18 +44,7 @@ public class SaveLoadUtils {
         root.put("comps", compsArr);
         root.put("connectors", connArr);
 
-        String saveDir = System.getProperty("user.dir") + "/COMP4920-Project/src/com/logicsim/saves/";
-
-        // Get last number used; new save uses last number + 1
-        // Files saved in ascending order
-        if(new File(saveDir).list().length == 0) {
-            writeToSave(saveDir, "save_0.json", root.toString(4));
-        } else {
-            File lastFile = getLastFile(saveDir);
-            int lastNum = getFileNum(lastFile.getName());
-            int newNum = lastNum + 1;
-            writeToSave(saveDir, "save_" + newNum + ".json", root.toString(4));
-        }
+        writeToSave(file, root.toString(4));
     }
 
     /**
@@ -64,8 +53,7 @@ public class SaveLoadUtils {
      * @param fileName == Name of the save file
      * @param data == Data to be written
      */
-    public static void writeToSave(String path, String fileName, String data) {
-        File file = new File(path + fileName);
+    public static void writeToSave(File file, String data) {
 
         try (PrintWriter writer = new PrintWriter(file)) {
             writer.print(data);
@@ -127,44 +115,4 @@ public class SaveLoadUtils {
             connector.setPoints(x1, y1, x2, y2);
         }
     }
-
-    /**
-     * Get the last file saved
-     * @param path == Path to the save directory
-     * @return The last file numerically
-     */
-    public static File getLastFile (String path) {
-        File savesDir = new File(path);
-        File[] saves = savesDir.listFiles();
-
-        Arrays.sort(saves, new Comparator<File>() {
-            @Override
-            public int compare(File f1, File f2) {
-                int n1 = getFileNum(f1.getName());
-                int n2 = getFileNum(f2.getName());
-                return n1 - n2;
-            }
-        });
-
-        return saves[saves.length - 1];
-    }
-
-    /**
-     * Extract the file number from a file name
-     * @param name == The file name of a save
-     * @return An integer containing the last number used
-     */
-    public static int getFileNum(String name) {
-        int i = 0;
-        try {
-            int start = name.indexOf('_') + 1;
-            int end = name.indexOf('.');
-            String num = name.substring(start, end);
-            i = Integer.parseInt(num);
-        } catch (Exception e) {
-            i = 0;
-        }
-        return i;
-    }
-
 }

@@ -50,23 +50,27 @@ public class Toolbar extends JToolBar implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         String command = e.getActionCommand();
         if (command.equals("save")) {
-            File savesFolder = new File(System.getProperty("user.dir") + "/COMP4920-Project/src/com/logicsim/saves/");
+            File savesFolder = new File(System.getProperty("user.home") + "/saves/");
             if (!savesFolder.exists()) {
                 savesFolder.mkdir();
             }
 
-            SaveLoadUtils.save(s.getSimEngine());
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setCurrentDirectory(savesFolder);
+            int retVal = fileChooser.showSaveDialog(this);
+            if (retVal == JFileChooser.APPROVE_OPTION) {
+                File file = fileChooser.getSelectedFile();
+                SaveLoadUtils.save(s.getSimEngine(), file);
+            }
+
         } else if (command.equals("load")) {
             JFileChooser fileChooser = new JFileChooser();
-            File savesFolder = new File(System.getProperty("user.dir") + "/COMP4920-Project/src/com/logicsim/saves/");
+            File savesFolder = new File(System.getProperty("user.home") + "/saves/");
             fileChooser.setCurrentDirectory(savesFolder);
             int retVal = fileChooser.showOpenDialog(this);
             if (retVal == JFileChooser.APPROVE_OPTION) {
                 File file = fileChooser.getSelectedFile();
                 SaveLoadUtils.load(s.getSimEngine(), file);
-            } else {
-                // failed
-                System.err.println("Error message");
             }
 
         } else if (command.equals("clear")) {
