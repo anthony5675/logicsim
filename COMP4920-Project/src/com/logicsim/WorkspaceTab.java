@@ -1,8 +1,5 @@
 package com.logicsim;
 
-import com.sun.corba.se.spi.orbutil.threadpool.Work;
-import sun.invoke.empty.Empty;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;

@@ -10,19 +10,15 @@ import javax.swing.SwingUtilities;
  * Class to handle everything going with the Canvas object
  * @author Jayden, Andre, Mitchell, Anthony
  */
-public class SimulatorCanvas extends Canvas implements Runnable {
-	protected SimulatorEngine se;
+public class InstructionsCanvas extends Canvas implements Runnable, MouseListener {
 	private Image i;
 	private Graphics buffer;
 
 	/**
 	 * Initializes a SimulatorCanvas Object
 	 */
-	public SimulatorCanvas() {
-
+	public InstructionsCanvas() {
 		setSize(800, 600); // TODO: need to get correctly
-		// Setup back end and start running the simulation
-		se = new SimulatorEngine(this, 0);
 	}
 
 	/**
@@ -33,7 +29,6 @@ public class SimulatorCanvas extends Canvas implements Runnable {
 	public void run() {
 		while(true) {
 			// Run object updates through SimulatorEngine
-			se.update();
 			repaint();
 			try {
 				Thread.sleep(17);
@@ -78,17 +73,21 @@ public class SimulatorCanvas extends Canvas implements Runnable {
 	public void paint(Graphics g) {
 		g.setColor(new Color(150, 150, 150));
 		g.fillRect(0, 0, getWidth(), getHeight());
-
-		// Drawn any extra objects
-		se.paint(g);
 	}
 
-	/**
-	 * Provides access to the Simulator Engine
-	 * @return SimulatorEnginue which is currently handling the back of this Canvas
-	 */
-	public SimulatorEngine getSimEngine() {
-		return se;
+	@Override
+	public void mousePressed(MouseEvent arg0) {
 	}
 
+	@Override
+	public void mouseClicked(MouseEvent arg0) {}
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {}
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {}
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {}
 }
