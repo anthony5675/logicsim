@@ -160,6 +160,7 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 	private boolean compatibleConnectPoints(ConnectPoint cp1, ConnectPoint cp2) {
 		if ((cp1.getComp() instanceof Source) && (cp2.getComp() instanceof Source)) return false;
 		if ((cp1.getComp() instanceof Output) && (cp2.getComp() instanceof Output)) return false;
+		if (cp1.getComp() == cp2.getComp()) return false;
 		if (cp1.getCon() != null) return false;
 		if (cp2.getCon() != null) return false;
 

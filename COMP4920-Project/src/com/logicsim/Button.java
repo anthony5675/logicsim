@@ -38,7 +38,7 @@ public class Button {
 		g.setColor(background);
 		g.fillRect(x + 1, y + 1, width - 1, height - 1);
 		
-		int stringWidth = g.getFontMetrics().stringWidth(text); 
+		int stringWidth = g.getFontMetrics().stringWidth(text);
 		int stringHeight = (int) g.getFontMetrics().getStringBounds(text, g).getHeight();
 
 		g.setColor(foreground);
