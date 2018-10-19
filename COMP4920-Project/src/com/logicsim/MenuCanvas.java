@@ -13,12 +13,26 @@ import javax.swing.SwingUtilities;
 public class MenuCanvas extends Canvas implements Runnable, MouseListener {
 	private Image i;
 	private Graphics buffer;
+	private Button[] buttons;
+	private MenuWindow menu;
 
 	/**
 	 * Initializes a SimulatorCanvas Object
 	 */
-	public MenuCanvas() {
+	public MenuCanvas(MenuWindow m) {
 		setSize(800, 600); // TODO: need to get correctly
+		
+		menu = m;
+		
+		int bwidth = 200;
+		int bheight = 40;
+		
+		buttons = new Button[5];
+		buttons[0] = new Button((getWidth()/4)-(bwidth/2), (getHeight()/2)-(bheight/2), bwidth, bheight, Color.WHITE, Color.BLACK, "Simulator");
+		buttons[1] = new Button((getWidth()*3/4)-(bwidth/2), (getHeight()/2)-(bheight/2), bwidth, bheight, Color.WHITE, Color.BLACK, "Instructions");
+		buttons[2] = new Button((getWidth()/4)-(bwidth/2), buttons[1].getY() + 2*bheight, bwidth, bheight, Color.WHITE, Color.BLACK, "Tutorial");
+		buttons[3] = new Button((getWidth()*3/4)-(bwidth/2), buttons[1].getY() + 2*bheight, bwidth, bheight, Color.WHITE, Color.BLACK, "Challenges");
+		buttons[4] = new Button((getWidth()/2)-(bwidth/2), buttons[3].getY() + 2*bheight, bwidth, bheight, Color.WHITE, Color.BLACK, "Exit");
 	}
 
 	/**
@@ -71,12 +85,31 @@ public class MenuCanvas extends Canvas implements Runnable, MouseListener {
 	 */
 	@Override
 	public void paint(Graphics g) {
-		g.setColor(new Color(150, 150, 150));
+		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, getWidth(), getHeight());
+		
+		for (Button b : buttons) {
+			b.paint(g);
+		}
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
+		if (buttons[0].wasClicked(e.getX(), e.getY())) {
+			menu.getSimulator().setVisible(true);
+			menu.setVisible(false);
+		} else if (buttons[1].wasClicked(e.getX(), e.getY())) {
+			menu.getInstructions().setVisible(true);
+			setVisible(false);
+		} else if (buttons[2].wasClicked(e.getX(), e.getY())) {
+			menu.getTutorial().setVisible(true);
+			setVisible(false);
+		} else if (buttons[3].wasClicked(e.getX(), e.getY())) {
+			menu.getChallenges().setVisible(true);
+			setVisible(false);
+		} else if (buttons[4].wasClicked(e.getX(), e.getY())) {
+			System.exit(0);
+		}
 	}
 
 	@Override
