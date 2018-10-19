@@ -11,8 +11,7 @@ import javax.swing.SwingUtilities;
  * @author Jayden, Andre, Mitchell, Anthony
  */
 public class SimulatorCanvas extends Canvas implements Runnable {
-	private int state;
-	private SimulatorEngine se;
+	protected SimulatorEngine se;
 	private Image i;
 	private Graphics buffer;
 
@@ -22,9 +21,8 @@ public class SimulatorCanvas extends Canvas implements Runnable {
 	public SimulatorCanvas() {
 
 		setSize(800, 600); // TODO: need to get correctly
-		state = 0;
 		// Setup back end and start running the simulation
-		se = new SimulatorEngine(this, state);
+		se = new SimulatorEngine(this, 0);
 	}
 
 	/**
@@ -83,24 +81,6 @@ public class SimulatorCanvas extends Canvas implements Runnable {
 
 		// Drawn any extra objects
 		se.paint(g);
-	}
-
-	/**
-	 * Change state so different frames can be utilised.
-	 *
-	 */
-
-	public void setState(int newState) {
-		this.state = newState;
-		this.se.setState(newState);
-	}
-
-	/**
-	 * @return current state
-	 */
-
-	public int getState() {
-		return this.state;
 	}
 
 	/**
