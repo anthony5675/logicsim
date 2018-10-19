@@ -79,12 +79,10 @@ public class SaveLoadUtils {
      * @param se == The simulator engine
      * @param fileName == Name of the save file to be loaded
      */
-    public static void load(SimulatorEngine se, String fileName) {
+    public static void load(SimulatorEngine se, File file) {
         // clear workspace before loading
         se.getComponents().clear();
 
-        String saveDir = System.getProperty("user.dir") + "/COMP4920-Project/src/com/logicsim/saves/";
-        File file = new File(saveDir + fileName);
         Reader in = null;
         try {
             in = new FileReader(file);
