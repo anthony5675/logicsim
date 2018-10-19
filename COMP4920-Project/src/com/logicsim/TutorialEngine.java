@@ -126,7 +126,7 @@ public class TutorialEngine extends SimulatorEngine implements MouseListener, Mo
 		ioPressed = null;
 	}
 
-	private Connector buildConnector(ConnectPoint cp, Connector old) {
+	public Connector buildConnector(ConnectPoint cp, Connector old) {
 		Connector c;
 		if (old == null) {
 			c = new Connector();

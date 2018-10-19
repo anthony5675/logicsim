@@ -1,9 +1,9 @@
 package com.logicsim;
 
-import javax.swing.JButton;
-import javax.swing.JToolBar;
+import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.io.File;
 
 
 /**
@@ -14,6 +14,7 @@ import java.awt.event.ActionEvent;
 public class Toolbar extends JToolBar implements ActionListener {
 
     SimulatorCanvas s;
+    File savesFolder;
 
     /**
      * Initializes toolbar.
@@ -27,6 +28,11 @@ public class Toolbar extends JToolBar implements ActionListener {
         add(newButton("save"));
         add(newButton("load"));
         add(newButton("clear"));
+
+        savesFolder = new File(System.getProperty("user.home") + "/saves/");
+        if (!savesFolder.exists()) {
+            savesFolder.mkdir();
+        }
     }
 
     /**
@@ -48,11 +54,28 @@ public class Toolbar extends JToolBar implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
+
         String command = e.getActionCommand();
         if (command.equals("save")) {
-            SaveLoadUtils.save(s.getSimEngine());
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setCurrentDirectory(savesFolder);
+
+            int retVal = fileChooser.showSaveDialog(this);
+            if (retVal == JFileChooser.APPROVE_OPTION) {
+                File file = fileChooser.getSelectedFile();
+                SaveLoadUtils.save(s.getSimEngine(), file);
+            }
+
         } else if (command.equals("load")) {
-            SaveLoadUtils.load(s.getSimEngine(), "save_0.json");
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setCurrentDirectory(savesFolder);
+
+            int retVal = fileChooser.showOpenDialog(this);
+            if (retVal == JFileChooser.APPROVE_OPTION) {
+                File file = fileChooser.getSelectedFile();
+                SaveLoadUtils.load(s.getSimEngine(), file);
+            }
+
         } else if (command.equals("clear")) {
             s.getSimEngine().getComponents().clear();
         }
