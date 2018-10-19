@@ -88,10 +88,11 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 	}
 
 	/**
-	 * Remove all components from the workspace
+	 * Return the list of components
+	 * @return ArrayList containing components in workspace.
 	 */
-	public void clearComponents() {
-		comps.clear();
+	public ArrayList<Component> getComponents() {
+		return comps;
 	}
 
 	/**
