@@ -130,7 +130,4 @@ public class Source extends IO {
 		return state;
 	}
 
-	public void setState(boolean state) {
-		this.state = state;
-	}
 }
