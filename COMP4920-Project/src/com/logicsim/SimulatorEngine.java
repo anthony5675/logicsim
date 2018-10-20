@@ -1,9 +1,5 @@
 package com.logicsim;
-import java.awt.BorderLayout;
-import java.awt.Canvas;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
@@ -232,6 +228,8 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 
 					beingDragged = toBeAdded;
 					toBeAdded = null;
+
+					sim.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 				}
 				// Inside toolbox mean not any object so return
 				return;
@@ -242,6 +240,8 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 				if (c.wasClicked(e.getX(), e.getY())) {
 					// Let it handle what happens to it (Might need to change
 					c.mousePressed(e);
+
+					sim.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 					return;
 				}
 			}
@@ -254,6 +254,9 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {
+
+		sim.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+
 		// If nothing to drag do not continue
 		if (beingDragged == null) return;
 
