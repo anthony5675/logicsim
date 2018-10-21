@@ -104,7 +104,7 @@ public class SaveLoadUtils {
         JSONTokener jtk = new JSONTokener(in);
         JSONObject obj = new JSONObject(jtk);
 
-        Map map = new HashMap<>();
+        Map<Integer, Component> map = new HashMap<>();
 
         JSONArray comps = obj.getJSONArray("comps");
 
@@ -157,8 +157,8 @@ public class SaveLoadUtils {
             int inID = c.getInt("inID");
             int outID = c.getInt("outID");
 
-            ConnectPoint leftcp = ((Component)map.get(outID)).outPoint;
-            ConnectPoint rightcp = ((Component)map.get(inID)).inPoints.get(inPos);
+            ConnectPoint leftcp = map.get(outID).outPoint;
+            ConnectPoint rightcp = map.get(inID).inPoints.get(inPos);
 
             Connector connector = se.buildConnector(leftcp, null);
             connector = se.buildConnector(rightcp, connector);
