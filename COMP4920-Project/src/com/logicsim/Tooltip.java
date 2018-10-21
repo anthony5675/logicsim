@@ -39,10 +39,10 @@ public class Tooltip {
         switch(componentType) {
             case "And":
                 setHeight(150);
-                setWidth(210);
+                setWidth(230);
                 g.fillRect(x, y, width, height);
                 g.setColor(new Color(255, 146, 208));
-                g.drawString("Input 1    Input 2    Output", x + 10, rowPos);
+                g.drawString("Input 1   Input 2   Output", x + 10, rowPos);
                 for (int i = 0; i < 4; i++) {
                     rowPos += 15;
                     int p = truthTable[i][0];
@@ -55,10 +55,10 @@ public class Tooltip {
                 break;
             case "Or":
                 setHeight(150);
-                setWidth(210);
+                setWidth(230);
                 g.fillRect(x, y, width, height);
                 g.setColor(new Color(255, 146, 208));
-                g.drawString("Input 1    Input 2    Output", x + 10, rowPos);
+                g.drawString("Input 1   Input 2   Output", x + 10, rowPos);
                 for (int i = 0; i < 4; i++) {
                     rowPos += 15;
                     int p = truthTable[i][0];
@@ -66,6 +66,68 @@ public class Tooltip {
                     g.drawString(p + gap + q + gap + (p | q), x + 10, rowPos);
                 }
                 g.drawString("OR Gate:", x + 10, y + 15);
+                g.drawString("If any input is 1, then the", x + 10, y + 30);
+                g.drawString("output is 1, otherwise output is 0.", x + 10, y + 45);
+                break;
+            case "NAnd":
+                setHeight(150);
+                setWidth(230);
+                g.fillRect(x, y, width, height);
+                g.setColor(new Color(255, 146, 208));
+                g.drawString("Input 1   Input 2   Output", x + 10, rowPos);
+                for (int i = 0; i < 4; i++) {
+                    rowPos += 15;
+                    int p = truthTable[i][0];
+                    int q = truthTable[i][1];
+                    g.drawString(p + gap + q + gap + (((p & q) != 1) ? 1 : 0), x + 10, rowPos);
+                }
+                g.drawString("NAND Gate:", x + 10, y + 15);
+                g.drawString("If all inputs are 1, then the", x + 10, y + 30);
+                g.drawString("output is 0, otherwise output is 1.", x + 10, y + 45);
+                break;
+            case "NOr":
+                setHeight(150);
+                setWidth(230);
+                g.fillRect(x, y, width, height);
+                g.setColor(new Color(255, 146, 208));
+                g.drawString("Input 1   Input 2   Output", x + 10, rowPos);
+                for (int i = 0; i < 4; i++) {
+                    rowPos += 15;
+                    int p = truthTable[i][0];
+                    int q = truthTable[i][1];
+                    g.drawString(p + gap + q + gap + (((p | q) != 1) ? 1 : 0), x + 10, rowPos);
+                }
+                g.drawString("NOR Gate:", x + 10, y + 15);
+                g.drawString("If both inputs are 0, then the", x + 10, y + 30);
+                g.drawString("output is 1, otherwise output is 0.", x + 10, y + 45);
+                break;
+            case "Not":
+                setHeight(130);
+                setWidth(200);
+                g.fillRect(x, y, width, height);
+                g.setColor(new Color(255, 146, 208));
+                g.drawString("Input      Output", x + 10, rowPos);
+                for (int i = 0; i < 2; i++) {
+                    rowPos += 15;
+                    int p = truthTable[1][i];
+                    g.drawString(p + gap + ((p != 1) ? 1 : 0), x + 10, rowPos);
+                }
+                g.drawString("NOT Gate:", x + 10, y + 15);
+                g.drawString("Reverses the input.", x + 10, y + 30);
+                break;
+            case "XOr":
+                setHeight(150);
+                setWidth(230);
+                g.fillRect(x, y, width, height);
+                g.setColor(new Color(255, 146, 208));
+                g.drawString("Input 1   Input 2   Output", x + 10, rowPos);
+                for (int i = 0; i < 4; i++) {
+                    rowPos += 15;
+                    int p = truthTable[i][0];
+                    int q = truthTable[i][1];
+                    g.drawString(p + gap + q + gap + (p ^ q), x + 10, rowPos);
+                }
+                g.drawString("XOR Gate:", x + 10, y + 15);
                 g.drawString("If any input is 1, then the", x + 10, y + 30);
                 g.drawString("output is 1, otherwise output is 0.", x + 10, y + 45);
                 break;
