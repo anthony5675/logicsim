@@ -114,40 +114,54 @@ public class ChallengeCanvas extends TutorialCanvas implements Runnable {
 		
 	}
 	
-	public boolean checkAnswer(ArrayList<Integer> expectedOutput) {
+	public ArrayList<ArrayList<String>> checkAnswer() {
+		ArrayList<ArrayList<String>> outTable = new ArrayList<ArrayList<String>>();
 		ArrayList<Integer> userInput = new ArrayList<Integer>();
-		ArrayList<Integer> userOutput = new ArrayList<Integer>();
 		for(Source si : staticSources) {
 			userInput.add(si.calculate());
 		}
 		
 		if(userInput.size() == 1) {
-			for(int i = 0; i < userInput.size(); i++) {
+			ArrayList<String> colOne = new ArrayList<String>();
+			ArrayList<String> colTwo = new ArrayList<String>();
+			colOne.add("Input 1");
+			colTwo.add("Output");
+			for(int i = 0; i < 2; i++) {
+				colOne.add(Integer.toString(i));
 				staticSources.get(0).setState(intToBoolean(i));
-				userOutput.add(staticOutput.calculate());				
+				colTwo.add(Integer.toString(staticOutput.calculate()));
 			}
+
+			outTable.add(colOne);
+			outTable.add(colTwo);
 		} else if(userInput.size() == 2) {
-			for(int i = 0; i < userInput.size(); i++) {
-				staticSources.get(1).setState(intToBoolean(i));
-				for(int j = 0; j < userInput.size(); j++) {
+			ArrayList<String> colOne = new ArrayList<String>();
+			ArrayList<String> colTwo = new ArrayList<String>();
+			ArrayList<String> colOut = new ArrayList<String>();
+			colOne.add("Input 1");
+			colTwo.add("Input 2");
+			colOut.add("Output");
+			for(int i = 0; i <= 1; i++) {
+				staticSources.get(0).setState(intToBoolean(i));
+				for(int j = 0; j <= 1; j++) {
+					colOne.add(Integer.toString(i));
+					colTwo.add(Integer.toString(j));
 					staticSources.get(1).setState(intToBoolean(j));
-					userOutput.add(staticOutput.calculate());				
+					colOut.add(Integer.toString(staticOutput.calculate()));
 				}
 			}
+			
+			outTable.add(colOne);
+			outTable.add(colTwo);
+			outTable.add(colOut);
 		}
 				
 		
 		for(int i = 0; i < staticSources.size(); i++) {
-			if (userInput.get(i) == 0) {
-				staticSources.get(i).setState(false);
-			} else {
-				staticSources.get(i).setState(true);
-			}
+			staticSources.get(i).setState(intToBoolean(userInput.get(i)));
 		}
-		if(expectedOutput.equals(userOutput)) {
-			return true;
-		}
-		return false;
+
+		return outTable;
 	}
 	
 	public boolean intToBoolean (int i) {
