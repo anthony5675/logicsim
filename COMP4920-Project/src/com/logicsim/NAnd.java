@@ -2,10 +2,6 @@ package com.logicsim;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
-import java.net.URL;
-import java.util.ArrayList;
-
-import javax.imageio.ImageIO;
 
 /**
  * Class to handle everything going on with an AND gate

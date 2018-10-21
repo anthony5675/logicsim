@@ -129,5 +129,4 @@ public class Source extends IO {
 	public boolean getState() {
 		return state;
 	}
-
 }
