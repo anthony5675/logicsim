@@ -99,6 +99,9 @@ public class TextMessage extends Gate {
 				count ++;
 			}
 		}
+		for (String line : text.split("\n\n")) {
+			count--;
+		}
 		g.setColor(new Color(77, 77, 77));
 		g.fillRoundRect(x-7, y-5, width+13, count*g.getFontMetrics().getHeight(), 5, 5);
 		g.setColor(new Color(255, 146, 208));

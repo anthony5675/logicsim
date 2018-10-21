@@ -16,8 +16,8 @@ import javax.swing.event.MouseInputListener;
  */
 public class TutorialEngine extends SimulatorEngine implements MouseListener, MouseInputListener {
 	
-	public static final int MAX_STATE = 4;
-	public static final int CHALLENGE_START = 3;
+	public static final int MAX_STATE = 6;
+	public static final int CHALLENGE_START = 4;
 
 	private TutorialCanvas tut;
 	private ArrayList<Component> comps;
@@ -25,6 +25,7 @@ public class TutorialEngine extends SimulatorEngine implements MouseListener, Mo
 	private Tooltip tt; 
 	private Button next;
 	private Button submit;
+	private Button continuebtn;
 	private TruthTable table;
 
 	// Simulator objects
@@ -57,19 +58,86 @@ public class TutorialEngine extends SimulatorEngine implements MouseListener, Mo
 		
 		next = new Button(650, 450, 100, 40, Color.BLACK, Color.WHITE, "Next");
 		submit = new Button(530, 450, 100, 40, Color.BLACK, Color.WHITE, "Submit");
+		continuebtn = new Button(650, 450, 100, 40, Color.BLACK, Color.WHITE, "Continue");
 
-		if(st == 3) {
+		if(st == CHALLENGE_START) {
 			ArrayList<ArrayList<String>> expectedOutput = new ArrayList<ArrayList<String>>();
 			ArrayList<String> indexOne = new ArrayList<String>();
+			ArrayList<String> indexTwo = new ArrayList<String>();
+			ArrayList<String> indexThree = new ArrayList<String>();
+			
+			indexOne.add("Input 1");
+			indexOne.add(Integer.toString(0));
+			indexOne.add(Integer.toString(0));
+			indexOne.add(Integer.toString(1));
+			indexOne.add(Integer.toString(1));
+			
+			indexTwo.add("Input 2");
+			indexTwo.add(Integer.toString(0));
+			indexTwo.add(Integer.toString(1));
+			indexTwo.add(Integer.toString(0));
+			indexTwo.add(Integer.toString(1));
+			
+			indexThree.add("Output");
+			indexThree.add(Integer.toString(0));
+			indexThree.add(Integer.toString(1));
+			indexThree.add(Integer.toString(1));
+			indexThree.add(Integer.toString(0));
+			
+			expectedOutput.add(indexOne);
+			expectedOutput.add(indexTwo);
+			expectedOutput.add(indexThree);
+			
+			table = new TruthTable(expectedOutput, expectedOutput);
+			table.setVisible(false);
+		} else if(st == CHALLENGE_START+1) {
+			ArrayList<ArrayList<String>> expectedOutput = new ArrayList<ArrayList<String>>();
+			ArrayList<String> indexOne = new ArrayList<String>();
+			ArrayList<String> indexTwo = new ArrayList<String>();
+			ArrayList<String> indexThree = new ArrayList<String>();
+			
+			indexOne.add("Input 1");
+			indexOne.add(Integer.toString(0));
+			indexOne.add(Integer.toString(0));
+			indexOne.add(Integer.toString(1));
+			indexOne.add(Integer.toString(1));
+			
+			indexTwo.add("Input 2");
+			indexTwo.add(Integer.toString(0));
+			indexTwo.add(Integer.toString(1));
+			indexTwo.add(Integer.toString(0));
+			indexTwo.add(Integer.toString(1));
+			
+			indexThree.add("Output");
+			indexThree.add(Integer.toString(1));
+			indexThree.add(Integer.toString(1));
+			indexThree.add(Integer.toString(1));
+			indexThree.add(Integer.toString(0));
+			
+			expectedOutput.add(indexOne);
+			expectedOutput.add(indexTwo);
+			expectedOutput.add(indexThree);
+			
+			table = new TruthTable(expectedOutput, expectedOutput);
+			table.setVisible(false);
+		} else if(st == CHALLENGE_START+2) {
+			ArrayList<ArrayList<String>> expectedOutput = new ArrayList<ArrayList<String>>();
+			ArrayList<String> indexOne = new ArrayList<String>();
+			ArrayList<String> indexTwo = new ArrayList<String>();
+			
 			indexOne.add("Input 1");
 			indexOne.add(Integer.toString(0));
 			indexOne.add(Integer.toString(1));
-			ArrayList<String> indexTwo = new ArrayList<String>();
-			indexTwo.add("Input 2");
+
+			
+			indexTwo.add("Output");
 			indexTwo.add(Integer.toString(1));
 			indexTwo.add(Integer.toString(0));
+
+			
 			expectedOutput.add(indexOne);
 			expectedOutput.add(indexTwo);
+			
 			table = new TruthTable(expectedOutput, expectedOutput);
 			table.setVisible(false);
 		}
@@ -98,10 +166,14 @@ public class TutorialEngine extends SimulatorEngine implements MouseListener, Mo
 			tt.paint(g);
 		}
 		
-		next.paint(g);
-		if (state >= CHALLENGE_START) submit.paint(g);
-		table.paint(g);
-	}
+		if(state < CHALLENGE_START) next.paint(g);
+		
+		if(state >= CHALLENGE_START && state < MAX_STATE) continuebtn.paint(g);
+		
+		if (state >= CHALLENGE_START) {
+			submit.paint(g);
+			table.paint(g);}
+		}
 
 	/**
 	 * Remove all components from the workspace
@@ -138,8 +210,20 @@ public class TutorialEngine extends SimulatorEngine implements MouseListener, Mo
 		// Handle Second
 		c = buildConnector(ioPressed, c);
 		
-		cp.setCon(c);
-		ioPressed.setCon(c);
+		if (cp.getComp().getOutPoint() == cp) {
+			cp.addCon(c);
+		} else {
+			if (cp.getCons().size() == 0) {
+				cp.addCon(c);
+			}
+		}
+		if (ioPressed.getComp().getOutPoint() == ioPressed) {
+			ioPressed.addCon(c);
+		} else {
+			if (ioPressed.getCons().size() == 0) {
+				ioPressed.addCon(c);
+			}
+		}
 		comps.add(c);
 		ioPressed = null;
 	}
@@ -157,11 +241,11 @@ public class TutorialEngine extends SimulatorEngine implements MouseListener, Mo
 			if(g.getOutPoint() == cp) {
 				c.setInput(g);
 				c.setInPoint(cp);
-				g.addOutput(c, cp);
+				g.addOutput(c);
 			} else {
 				c.setOutput(g);
 				c.setOutPoint(cp);
-				g.addInput(c, cp);
+				g.addInput(c);
 			}
 		} else if (cp.getComp() instanceof Source) {
 			Source s = (Source)cp.getComp();
@@ -182,8 +266,12 @@ public class TutorialEngine extends SimulatorEngine implements MouseListener, Mo
 	private boolean compatibleConnectPoints(ConnectPoint cp1, ConnectPoint cp2) {
 		if ((cp1.getComp() instanceof Source) && (cp2.getComp() instanceof Source)) return false;
 		if ((cp1.getComp() instanceof Output) && (cp2.getComp() instanceof Output)) return false;
-		if (cp1.getCon() != null) return false;
-		if (cp2.getCon() != null) return false;
+		if (cp1.getComp() == cp2.getComp()) return false;
+		
+		// In Points can only have one connector so if cp1 is NOT an out point it is an in point
+		// If so check if it has even one connector if so return false
+		if (cp1.getComp().getOutPoint() != cp1 && cp1.getCons().size() > 0) return false;
+		if (cp2.getComp().getOutPoint() != cp2 && cp2.getCons().size() > 0) return false;
 
 		if ((cp1.getComp() instanceof Gate) && !(cp2.getComp() instanceof Gate)) {
 			Gate g = (Gate)cp1.getComp();
@@ -267,13 +355,19 @@ public class TutorialEngine extends SimulatorEngine implements MouseListener, Mo
 				}
 			}
 			
-			if (next.wasClicked(e.getX(), e.getY())) {
-				setState(state + 1);
+			if (next.wasClicked(e.getX(), e.getY()) && state < CHALLENGE_START-1) {
+				tut.setState(state + 1);
+			} else if (continuebtn.wasClicked(e.getX(), e.getY()) && state >= CHALLENGE_START) {
+				tut.setState(state + 1);
+				table.setVisible(false);
 			} else if (submit.wasClicked(e.getX(), e.getY())) {
 				//pop-up of their answer
-				System.out.println(table == null);
 				table.setVisible(!table.getVisible()); 
-
+				if(table.getVisible() == true) {
+					submit.setText("Hide");
+				} else {
+					submit.setText("Submit");
+				}
 			}
 		}
 	}
@@ -285,8 +379,12 @@ public class TutorialEngine extends SimulatorEngine implements MouseListener, Mo
 
 	public void setState(int newState) {
 		// TODO: Fix real max state
-		state = newState % TutorialEngine.MAX_STATE;
+		//state = newState % TutorialEngine.MAX_STATE;
+		if(state < MAX_STATE) {
+			state = newState;
+		}
 		tb.setState(state);
+		comps.clear();
 	}
 
 	/**

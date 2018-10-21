@@ -77,6 +77,9 @@ public class Button {
 		return height;
 	}
 	
+	public void setText(String s) {
+		text = s;
+	}
 	
 
 }

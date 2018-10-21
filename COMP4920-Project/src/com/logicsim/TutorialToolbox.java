@@ -131,37 +131,119 @@ public class TutorialToolbox {
 
 	private void fillToolbox() {
 		int compHeight = 550;
+		String gap = "              ";
 		comps.clear();
 
 		if (getState() == 0) {
 			comps.add(new Source(width/2 - IO.WIDTH/2, 100, te));
 			comps.add(new Output(width/2 - Gate.WIDTH/2, 100 + (compHeight/4), te));
-			comps.add(new TextMessage(500, 25, te, "Welcome to the Digital Logic Simulator Tutorial!\n\nLogic gates are the building blocks of any digital\nsystem. In the toolbox region you can see the\ndifferent gates that are available.\n "
-					+ "\nTo begin try dragging one of each connector\nontothe workspace region and connect them up\nby clicking the small boxes on their sides\nconsecutively."
+			comps.add(new TextMessage(475, 25, te, "Welcome to the Digital Logic Simulator Tutorial!\n\nLogic gates are the building blocks of any digital\nsystem. In the toolbox region you can see the\ndifferent gates that are available.\n "
+					+ "\nTo begin try dragging one of each connector\nonto the workspace region and connect them up\nby clicking the small boxes on their sides\nconsecutively."
 					+ "\n\nTo see the output of the circuit, click the input\nand look at the corresponding output. \n\nRed corresponds to 0 and green corresponds\nto 1. "
 					+ "\n\nLastly to see further information of the gates\nor their behaviour, try right clicking them. When \nyou're done click next to progress.\n\n"));
 		} else if (getState() == 1) {
 			comps.add(new Source(width/2 - IO.WIDTH/2, 100, te));
 			comps.add(new And(width/2 - Gate.WIDTH/2, 100 + ((compHeight-100)/4), te));
 			comps.add(new Output(width/2 - Gate.WIDTH/2, 100 + (compHeight*2/4), te));
-			comps.add(new TextMessage(500, 25, te, "AND Gates\n\nNow that we have an understanding of the\n"
+			comps.add(new TextMessage(475, 25, te, "AND Gates\n\nNow that we have an understanding of the\n"
 					+ "basics of utilising this program and the input\n/output connectors, let us try and create a\n"
 					+ "circuit using an AND gate. \n\nTry conneting an AND gate to an input and \noutput connector.\n\n"
+					+ "The AND gate consists of two inputs and one \nouput. If both inputs are 1 then the output will \nalso be 1, otherwise the ouput is always 0.\n\n"
 					+ "Remember you can right-click the components\nto see more information of the gates/connectors\nand "
 					+ "see if you obtain the expected output."));
+			
 		} else if (getState() == 2) {
 			comps.add(new Source(width/2 - IO.WIDTH/2, 100, te));
 			comps.add(new And(width/2 - Gate.WIDTH/2, 100 + ((compHeight)/4), te));
 			comps.add(new Or(width/2 - Gate.WIDTH/2, 100 + (compHeight*2/4), te));
 			comps.add(new Output(width/2 - Gate.WIDTH/2, 100 + (compHeight*3/4), te));
-			comps.add(new TextMessage(500, 25, te, "OR Gates\n\nWe've seen AND gates, now let us introduce\n"
+			comps.add(new TextMessage(475, 25, te, "OR Gates\n\nWe've seen AND gates, now let us introduce\n"
 					+ "OR gates.\n\n"
-					+ "Use the tooltip (right-click gates) to identify \nwhich gate is which and try exploring different \ncombination."
-					+ "\nCan you create the truth table ........ etc."
-					+ "\n\nCongratulations you have finished the basic\ntutorial. Click the Finish button when you're\ndone."));
-		} else if (getState() == 3) {
-			comps.add(new And(width/2 - Gate.WIDTH/2, 100 + (compHeight/4), te));
-			comps.add(new Or(width/2 - Gate.WIDTH/2, 100 + (compHeight*2/4), te));
+					+ "The OR gate consists of two inputs and one\n"
+					+ "output. If at least one of the inputs are 1 "
+					+ "then\nthe output is 1, otherwise 0.\n\n"
+					+ "Try conneting an OR gate to an input and \noutput connector.\n\n"
+					+ "Use the tooltip (right-click gates) to identify \nwhich gate is which and try exploring different \ncombination.\n\n"
+					+ "Remember you can right-click the components\nto see more information of the gates/connectors and \n" 
+					+ "see if you obtain the expected output.\n\n"));
+		} else if (this.getState() == 3) {
+			comps = new ArrayList<Component>();
+			comps.add(new Source(width/2 - IO.WIDTH/2, 75, te));
+			comps.add(new And(width/2 - Gate.WIDTH/2, 50 + (compHeight/6), te));
+			comps.add(new NAnd(width/2 - Gate.WIDTH/2, 50 + (compHeight*2/6), te));
+			comps.add(new NOr(width/2 - Gate.WIDTH/2, 50 + (compHeight*3/6), te));
+			comps.add(new Not(width/2 - Gate.WIDTH/2, 50 + (compHeight*4/6), te));
+			comps.add(new Output(width/2 - IO.WIDTH/2, 50 + (compHeight*5/6), te));
+			comps.add(new TextMessage(475, 25, te, "Inverting gates\n\n"
+					+ "In this tutorial you're given an AND, NAND, NOT\nand"
+					+ " a NOR gate. The NOT gate is used to invert\n"
+					+ "values. \n\nConnect a NOT gate and an AND gate and\n"
+					+ "notice that the circuits values are the same\n"
+					+ "as a NAND gate (right-click NAND to check).\n\n"
+					+ "A NOR gate is a univeral gate, meaning it\n"
+					+ "can represent any other gate through a\n"
+					+ "combination of NOR gates.\n\n"
+					+ "A trick is a NOR gate can be represented\n"
+					+ "as a NOT gate, so if you connect both inputs\n"
+					+ "into the same connector, it will behave as a\n"
+					+ "NOT gate."));
+		}else if(this.getState() == 4) {
+			//Challenge mode 
+			comps = new ArrayList<Component>();
+			comps.add(new Source(width/2 - IO.WIDTH/2, 75, te));
+			comps.add(new And(width/2 - Gate.WIDTH/2, 50 + (compHeight/8), te));
+			comps.add(new NAnd(width/2 - Gate.WIDTH/2, 50 + (compHeight*2/8), te));
+			comps.add(new Or(width/2 - Gate.WIDTH/2, 50 + (compHeight*3/8), te));
+			comps.add(new NOr(width/2 - Gate.WIDTH/2, 50 + (compHeight*4/8), te));
+			comps.add(new XOr(width/2 - Gate.WIDTH/2, 50 + (compHeight*5/8), te));
+			comps.add(new Not(width/2 - Gate.WIDTH/2, 50 + (compHeight*6/8), te));
+			comps.add(new Output(width/2 - IO.WIDTH/2, 50 + (compHeight*7/8), te));
+			//add not gate for challenge
+			comps.add(new TextMessage(475, 25, te, "Welcome to the Logic Gate Challenge!!\n\n"
+				                              	+ "Here you will encounter a set of challenges."
+				                              	+ "\n\nIn every challenge a set of input and output\n"
+				                              	+ "gates will be pre-set onto the canvas.\n\n"
+				                              	+ "Your job is to solve the truth table provided per\n"
+				                              	+ "challenge.\n\n"
+				                              	+ "In this challenge you're given a set of gates.\n\n"
+				                              	+ "Try to obtain the truth table and when you're\n"
+				                              	+ "done click next finish to progress to the next\nchallenge.\n\n"
+				                              	+ "Remember that if you need any help, use the \ntooltip "
+				                              	+ "as a hint.\n \n"
+				                              	+ "Input 1     Input 2     Output\n" + 
+					                            "0"+gap+"0"+gap+"0\n" + 
+					                            "0"+gap+"1"+gap+"1\n" + 
+					                            "1"+gap+"0"+gap+"1\n" + 
+					                            "1"+gap+"1"+gap+"0\n \n"));
+
+		} else if(this.getState() == 5) {
+			comps = new ArrayList<Component>();
+			comps.add(new And(width/2 - Gate.WIDTH/2, 100 + (compHeight/3), te));
+			comps.add(new Not(width/2 - Gate.WIDTH/2, 100 + (compHeight*2/3), te));
+			//add not gate for challenge
+			comps.add(new TextMessage(475, 25, te, "Challenge 2\n\n" 
+					                            + "In this challenge you're given an AND and a\nNOT gate.\n\n"
+					                            + "Use the tooltip to figure out how to get the\ntruth table.\n\n"
+					                            + "This task helps to build an NAND gate.\n\n"
+					                            + "NAND refers to a "
+					                            + "negative AND gate.\n\n"
+					                            + "Input 1     Input 2     Output\n" + 
+					                            "0"+gap+"0"+gap+"1\n" + 
+					                            "0"+gap+"1"+gap+"1\n" + 
+					                            "1"+gap+"0"+gap+"1\n" + 
+					                            "1"+gap+"1"+gap+"0\n \n"));
+		} else if(this.getState() == 6) {
+			comps = new ArrayList<Component>();
+			comps.add(new NOr(width/2 - Gate.WIDTH/2, 100 + (compHeight/3), te));
+			comps.add(new TextMessage(475, 25, te, "Challenge 3\n\n" 
+					                            + "A NOR gate is the base and a universal gate.\n\nThis means other gates "
+					                            + "can be represented in a\n"
+					                            + "combination of NOR gates.\n\n"
+					                            + "Below is a truth table of a not gate\n\n"
+					                            + "Try to reconstruct it using a NOR construction.\n\n\n"
+					                            + "Input 1     Output\n"
+					                            + "0"+gap+"1\n"
+					                            + "1"+gap+"0\n \n"));
 		}
 	}
 

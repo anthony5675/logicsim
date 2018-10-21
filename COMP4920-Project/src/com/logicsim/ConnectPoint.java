@@ -2,13 +2,14 @@ package com.logicsim;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.ArrayList;
 
 public class ConnectPoint {
 	
-	private int x, y, width, height;
-	private boolean state;
-	private Component comp;
-	private Connector con;
+		private int x, y, width, height;
+		private boolean state;
+		private Component comp;
+		private ArrayList<Connector> cons;
 	
 	public ConnectPoint(int i, int j, int w, int h, Component c) {
 		x = i;
@@ -17,7 +18,7 @@ public class ConnectPoint {
 		height = h;
 		state = false;
 		comp = c;
-		con = null;
+		cons = new ArrayList<Connector>();
 	}
 	
 	public ConnectPoint(int i, int j, int w, int h, boolean s, Component c) {
@@ -27,18 +28,20 @@ public class ConnectPoint {
 		height = h;
 		state = s;
 		comp = c;
-		con = null;
+		cons = new ArrayList<Connector>();
 	}
 	
 	public void paint(Graphics g) {
 		g.setColor(Color.WHITE);
 		g.fillRect(x + 1, y + 1, width - 1, height - 1);
 		
-		if (con != null) {
-			if (con.calculate() == 0) {
-				state = false;
-			} else {
-				state = true;
+		if (!(comp.getOutPoint() == this)) {
+			if (cons.size() > 0) {
+				if (cons.get(0).calculate() == 0) {
+					state = false;
+				} else {
+					state = true;
+				}
 			}
 		}
 		
@@ -105,12 +108,12 @@ public class ConnectPoint {
 		comp = c;
 	}
 	
-	public Connector getCon() {
-		return con;
+	public ArrayList<Connector> getCons() {
+		return cons;
 	}
 	
-	public void setCon(Connector c) {
-		con = c;
+	public void addCon(Connector c) {
+		cons.add(c);
 	}
 
 }

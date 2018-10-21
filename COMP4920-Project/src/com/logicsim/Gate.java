@@ -32,14 +32,13 @@ public abstract class Gate extends Component {
 	 * @param c == A new connector which will act as an input
 	 * @return If adding the connector was successful
 	 */
-	public boolean addInput(Connector c, ConnectPoint cp) {
+	public boolean addInput(Connector c) {
 		// Is there a maximum number of inputs && is there no room for more
 		// If so return failure
 		if (inputMax > 0 && inputs.size() >= inputMax) return false;
 
 		// Add the new connector
 		inputs.add(c);
-		cp.setCon(c);
 		return true;
 	}
 
@@ -48,14 +47,13 @@ public abstract class Gate extends Component {
 	 * @param c == A new connector which will act as an output
 	 * @return If adding the connector was successful
 	 */
-	public boolean addOutput(Connector c, ConnectPoint cp) {
+	public boolean addOutput(Connector c) {
 		// If there already is an output
 		// return failure
 		if (output != null) return false;
 		
 		// Else add the output and return success
 		output = c;
-		cp.setCon(c);
 		return true;
 	}
 }

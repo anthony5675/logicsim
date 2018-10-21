@@ -112,8 +112,20 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 		// Handle Second
 		c = buildConnector(ioPressed, c);
 		
-		cp.setCon(c);
-		ioPressed.setCon(c);
+		if (cp.getComp().getOutPoint() == cp) {
+			cp.addCon(c);
+		} else {
+			if (cp.getCons().size() == 0) {
+				cp.addCon(c);
+			}
+		}
+		if (ioPressed.getComp().getOutPoint() == ioPressed) {
+			ioPressed.addCon(c);
+		} else {
+			if (ioPressed.getCons().size() == 0) {
+				ioPressed.addCon(c);
+			}
+		}
 		comps.add(c);
 		ioPressed = null;
 	}
@@ -131,11 +143,11 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 			if(g.getOutPoint() == cp) {
 				c.setInput(g);
 				c.setInPoint(cp);
-				g.addOutput(c, cp);
+				g.addOutput(c);
 			} else {
 				c.setOutput(g);
 				c.setOutPoint(cp);
-				g.addInput(c, cp);
+				g.addInput(c);
 			}
 		} else if (cp.getComp() instanceof Source) {
 			Source s = (Source)cp.getComp();
@@ -157,8 +169,11 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 		if ((cp1.getComp() instanceof Source) && (cp2.getComp() instanceof Source)) return false;
 		if ((cp1.getComp() instanceof Output) && (cp2.getComp() instanceof Output)) return false;
 		if (cp1.getComp() == cp2.getComp()) return false;
-		if (cp1.getCon() != null) return false;
-		if (cp2.getCon() != null) return false;
+		
+		// In Points can only have one connector so if cp1 is NOT an out point it is an in point
+		// If so check if it has even one connector if so return false
+		if (cp1.getComp().getOutPoint() != cp1 && cp1.getCons().size() > 0) return false;
+		if (cp2.getComp().getOutPoint() != cp2 && cp2.getCons().size() > 0) return false;
 
 		if ((cp1.getComp() instanceof Gate) && !(cp2.getComp() instanceof Gate)) {
 			Gate g = (Gate)cp1.getComp();
