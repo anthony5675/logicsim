@@ -1,13 +1,13 @@
 package com.logicsim;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 
 import javax.swing.JFrame;
 
 public class MenuWindow extends JFrame {
 
 	private MenuCanvas menu;
-	private InstructionsCanvas instructions;
 	private TutorialCanvas tutorial;
 	private ChallengeCanvas challenges;
 	private SimulatorWindow simulator;
@@ -25,7 +25,6 @@ public class MenuWindow extends JFrame {
 		mw.getMenu().setMenu(mw);
 		mw.getTutorial().setMenu(mw);
 		mw.getChallenges().setMenu(mw);
-		mw.getInstructions().setMenu(mw);
 		mw.getSimulator().setMenu(mw);
 	}
 
@@ -36,7 +35,7 @@ public class MenuWindow extends JFrame {
 		// Set basics of the window including the dimensions and title
 		// Put canvas onto JFrame
 		setLayout(new BorderLayout());
-		setTitle("Digial Logic Sim");
+		setTitle("Digital Logic Sim");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		// Create a new canvas to draw onto the JFrame
@@ -46,15 +45,8 @@ public class MenuWindow extends JFrame {
 		menu.addMouseListener(menu);
 		menu.setVisible(true);
 
-		instructions = new InstructionsCanvas();
-		instructions.setFocusable(true);
-		instructions.addMouseListener(instructions);
-		instructions.setVisible(false);
-
-		Thread instructionThread = new Thread(instructions);
-		instructionThread.start();
-
 		tutorial = new TutorialCanvas();
+		tutorial.setPreferredSize(new Dimension(800, 600));
 		tutorial.setFocusable(true);
 		tutorial.addMouseListener(tutorial.getTutEngine());
 		tutorial.addMouseMotionListener(tutorial.getTutEngine());
@@ -64,6 +56,7 @@ public class MenuWindow extends JFrame {
 		tutorialThread.start();
 
 		challenges = new ChallengeCanvas();
+		challenges.setPreferredSize(new Dimension(800, 600));
 		challenges.addMouseListener(challenges.getTutEngine());
 		challenges.addMouseMotionListener(challenges.getTutEngine());
 		challenges.setVisible(false);
@@ -76,12 +69,8 @@ public class MenuWindow extends JFrame {
 		simulator.setResizable(false);
 		simulator.setVisible(false);
 
-		add(instructions);
-		pack();
 		add(tutorial);
-		pack();
 		add(challenges);
-		pack();
 		add(menu);
 		pack();
 
@@ -99,10 +88,6 @@ public class MenuWindow extends JFrame {
 
 	public TutorialCanvas getTutorial() {
 		return tutorial;
-	}
-
-	public InstructionsCanvas getInstructions() {
-		return instructions;
 	}
 
 	public ChallengeCanvas getChallenges() {

@@ -17,8 +17,6 @@ public class TutorialCanvas extends SimulatorCanvas implements Runnable {
 	 * Initializes a SimulatorCanvas Object
 	 */
 	public TutorialCanvas() {
-		setSize(800, 600); // TODO: need to get correctly
-		
 		state = 0;
 		// Setup back end and start running the simulation
 		te = new TutorialEngine(this, 0);

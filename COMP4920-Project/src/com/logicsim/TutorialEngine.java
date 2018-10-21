@@ -36,6 +36,7 @@ public class TutorialEngine extends SimulatorEngine implements MouseListener, Mo
 	private ConnectPoint ioPressed;
 
 	private int state;
+
 	/**
 	 * Initializes a SimulatorEngine object
 	 * @param s == Canvas object which has generated this back end engine
@@ -56,12 +57,12 @@ public class TutorialEngine extends SimulatorEngine implements MouseListener, Mo
 
 		ioPressed = null;
 		
-		nextbtn = new Button(605, 480, 100, 40, Color.BLACK, Color.WHITE, "Next");
-		continuebtn = new Button(660, 480, 100, 40, Color.BLACK, Color.WHITE, "Continue");
-		submitbtn = new Button(550, 480, 100, 40, Color.BLACK, Color.WHITE, "Submit");
+		nextbtn = new Button(635, 500, 100, 40, Color.BLACK, Color.WHITE, "Next");
+		continuebtn = new Button(690, 500, 100, 40, Color.BLACK, Color.WHITE, "Continue");
+		submitbtn = new Button(580, 500, 100, 40, Color.BLACK, Color.WHITE, "Submit");
 
-		clearbtn = new Button(660, 530, 100, 40, Color.BLACK, Color.WHITE, "Clear");
-		menubtn = new Button(550, 530, 100, 40, Color.BLACK, Color.WHITE, "Menu");
+		clearbtn = new Button(690, 550, 100, 40, Color.BLACK, Color.WHITE, "Clear");
+		menubtn = new Button(580, 550, 100, 40, Color.BLACK, Color.WHITE, "Menu");
 
 		setState(st);
 	}
@@ -93,7 +94,7 @@ public class TutorialEngine extends SimulatorEngine implements MouseListener, Mo
 			tt.paint(g);
 		}
 		
-		if(state < CHALLENGE_START) nextbtn.paint(g);
+		if(state < CHALLENGE_START - 1) nextbtn.paint(g);
 		
 		if(state >= CHALLENGE_START && state < MAX_STATE) continuebtn.paint(g);
 		
@@ -288,10 +289,10 @@ public class TutorialEngine extends SimulatorEngine implements MouseListener, Mo
 			
 			if (nextbtn.wasClicked(e.getX(), e.getY()) && state < CHALLENGE_START-1) {
 				tut.setState(state + 1);
-			} else if (continuebtn.wasClicked(e.getX(), e.getY()) && state >= CHALLENGE_START) {
+			} else if (continuebtn.wasClicked(e.getX(), e.getY()) && state >= CHALLENGE_START && state < MAX_STATE) {
 				tut.setState(state + 1);
 				table.setVisible(false);
-			} else if (submitbtn.wasClicked(e.getX(), e.getY())) {
+			} else if (submitbtn.wasClicked(e.getX(), e.getY()) && state >= CHALLENGE_START) {
 				//pop-up of their answer
 				table.setVisible(!table.getVisible()); 
 				if(table.getVisible() == true) {
@@ -307,6 +308,11 @@ public class TutorialEngine extends SimulatorEngine implements MouseListener, Mo
 			} else if (menubtn.wasClicked(e.getX(), e.getY())) {
 				tut.getMenu().getMenu().setVisible(true);
 				tut.setVisible(false);
+				if (state > CHALLENGE_START) {
+					state = CHALLENGE_START;
+				} else {
+					state = 0;
+				}
 			}
 		}
 	}
@@ -509,17 +515,12 @@ public class TutorialEngine extends SimulatorEngine implements MouseListener, Mo
 	public void mouseClicked(MouseEvent e) {
 		if (SwingUtilities.isRightMouseButton(e)) {
 			for (Component c : tb.getComponents()) {
-				if (e.getX() >= c.getX() && e.getX() < c.getX() + c.getWidth()) {
-					if (e.getY() >= c.getY() && e.getY() <= c.getY() + c.getHeight()) {
-
-						// TODO: USE THIS WHEN ALL IS SETUP
-//				if (c.wasClicked(e.getX(), e.getY())) {
-						tt.setX(c.getX() + (c.getWidth()/2));
-						tt.setY(c.getY() + (c.getHeight()/2));
-						tt.setInfo(c.getClass().getSimpleName());
-						tt.toggleTip();
-						break;
-					}
+				if (c.wasClicked(e.getX(), e.getY())) {
+					tt.setX(c.getX() + (c.getWidth()/2));
+					tt.setY(c.getY() + (c.getHeight()/2));
+					tt.setInfo(c.getClass().getSimpleName());
+					tt.toggleTip();
+					break;
 				}
 			}
 		}

@@ -34,14 +34,14 @@ public class Tooltip {
         g.setColor(new Color(77, 77, 77));
         g.setFont(new Font("Aerial", Font.PLAIN, 13));
 
-        int rowPos = y + 60;
+        int rowPos = y + 70;
         String gap = "            ";
         switch(componentType) {
             case "And":
                 setHeight(150);
                 setWidth(230);
                 g.fillRect(x, y, width, height);
-                g.setColor(new Color(255, 146, 208));
+                g.setColor(Color.CYAN);
                 g.drawString("Input 1   Input 2   Output", x + 10, rowPos);
                 for (int i = 0; i < 4; i++) {
                     rowPos += 15;
@@ -57,7 +57,7 @@ public class Tooltip {
                 setHeight(150);
                 setWidth(230);
                 g.fillRect(x, y, width, height);
-                g.setColor(new Color(255, 146, 208));
+                g.setColor(Color.CYAN);
                 g.drawString("Input 1   Input 2   Output", x + 10, rowPos);
                 for (int i = 0; i < 4; i++) {
                     rowPos += 15;
@@ -73,7 +73,7 @@ public class Tooltip {
                 setHeight(150);
                 setWidth(230);
                 g.fillRect(x, y, width, height);
-                g.setColor(new Color(255, 146, 208));
+                g.setColor(Color.CYAN);
                 g.drawString("Input 1   Input 2   Output", x + 10, rowPos);
                 for (int i = 0; i < 4; i++) {
                     rowPos += 15;
@@ -89,7 +89,7 @@ public class Tooltip {
                 setHeight(150);
                 setWidth(230);
                 g.fillRect(x, y, width, height);
-                g.setColor(new Color(255, 146, 208));
+                g.setColor(Color.CYAN);
                 g.drawString("Input 1   Input 2   Output", x + 10, rowPos);
                 for (int i = 0; i < 4; i++) {
                     rowPos += 15;
@@ -105,7 +105,7 @@ public class Tooltip {
                 setHeight(130);
                 setWidth(200);
                 g.fillRect(x, y, width, height);
-                g.setColor(new Color(255, 146, 208));
+                g.setColor(Color.CYAN);
                 g.drawString("Input      Output", x + 10, rowPos);
                 for (int i = 0; i < 2; i++) {
                     rowPos += 15;
@@ -119,7 +119,7 @@ public class Tooltip {
                 setHeight(150);
                 setWidth(230);
                 g.fillRect(x, y, width, height);
-                g.setColor(new Color(255, 146, 208));
+                g.setColor(Color.CYAN);
                 g.drawString("Input 1   Input 2   Output", x + 10, rowPos);
                 for (int i = 0; i < 4; i++) {
                     rowPos += 15;
@@ -134,7 +134,7 @@ public class Tooltip {
             case "Source":
                 setHeight(50);
                 g.fillRect(x, y, width, height);
-                g.setColor(new Color(255, 146, 208));
+                g.setColor(Color.CYAN);
                 g.drawString("Input Connector:", x + 10, y + 15);
                 g.drawString("Input source of a logic gate.", x + 10, y + 30);
                 g.drawString("Can be either 1 or 0.", x + 10, y + 45);
@@ -142,8 +142,7 @@ public class Tooltip {
             case "Output":
                 setHeight(50);
                 g.fillRect(x, y, width, height);
-                g.setColor(new Color(255, 146, 208));
-                // Is the description correct??
+                g.setColor(Color.CYAN);
                 g.drawString("Output Connector:", x + 10, y + 15);
                 g.drawString("Output of the digital circuit.", x + 10, y + 30);
                 g.drawString("Can be either 1 or 0.", x + 10, y + 45);
