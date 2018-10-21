@@ -26,8 +26,9 @@ public class MenuWindow extends JFrame {
 		mw.getTutorial().setMenu(mw);
 		mw.getChallenges().setMenu(mw);
 		mw.getInstructions().setMenu(mw);
+		mw.getSimulator().setMenu(mw);
 	}
-	
+
 	/**
 	 * Initializes a Menu Object
 	 */
@@ -49,32 +50,32 @@ public class MenuWindow extends JFrame {
 		instructions.setFocusable(true);
 		instructions.addMouseListener(instructions);
 		instructions.setVisible(false);
-		
+
 		Thread instructionThread = new Thread(instructions);
 		instructionThread.start();
-		
+
 		tutorial = new TutorialCanvas();
 		tutorial.setFocusable(true);
 		tutorial.addMouseListener(tutorial.getTutEngine());
 		tutorial.addMouseMotionListener(tutorial.getTutEngine());
 		tutorial.setVisible(false);
-		
+
 		Thread tutorialThread = new Thread(tutorial);
 		tutorialThread.start();
-		
+
 		challenges = new ChallengeCanvas();
 		challenges.addMouseListener(challenges.getTutEngine());
 		challenges.addMouseMotionListener(challenges.getTutEngine());
 		challenges.setVisible(false);
-		
+
 		Thread challengesThread = new Thread(challenges);
 		challengesThread.start();
-		
+
 		simulator = new SimulatorWindow();
 		simulator.pack();
 		simulator.setResizable(false);
 		simulator.setVisible(false);
-		
+
 		add(instructions);
 		pack();
 		add(tutorial);
@@ -83,27 +84,27 @@ public class MenuWindow extends JFrame {
 		pack();
 		add(menu);
 		pack();
-		
+
 		// Draw the JFrame in the middle of the screen
 		setLocationRelativeTo(null);
 	}
-	
+
 	public SimulatorWindow getSimulator() {
 		return simulator;
 	}
-	
+
 	public MenuCanvas getMenu() {
 		return menu;
 	}
-	
+
 	public TutorialCanvas getTutorial() {
 		return tutorial;
 	}
-	
+
 	public InstructionsCanvas getInstructions() {
 		return instructions;
 	}
-	
+
 	public ChallengeCanvas getChallenges() {
 		return challenges;
 	}
