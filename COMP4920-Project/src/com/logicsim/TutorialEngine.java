@@ -23,9 +23,11 @@ public class TutorialEngine extends SimulatorEngine implements MouseListener, Mo
 	private ArrayList<Component> comps;
 	private TutorialToolbox tb;
 	private Tooltip tt; 
-	private Button next;
-	private Button submit;
+	private Button nextbtn;
+	private Button submitbtn;
 	private Button continuebtn;
+	private Button clearbtn;
+	private Button menubtn;
 	private TruthTable table;
 
 	// Simulator objects
@@ -56,9 +58,12 @@ public class TutorialEngine extends SimulatorEngine implements MouseListener, Mo
 
 		ioPressed = null;
 		
-		next = new Button(650, 450, 100, 40, Color.BLACK, Color.WHITE, "Next");
-		submit = new Button(530, 450, 100, 40, Color.BLACK, Color.WHITE, "Submit");
-		continuebtn = new Button(650, 450, 100, 40, Color.BLACK, Color.WHITE, "Continue");
+		nextbtn = new Button(605, 480, 100, 40, Color.BLACK, Color.WHITE, "Next");
+		continuebtn = new Button(660, 480, 100, 40, Color.BLACK, Color.WHITE, "Continue");
+		submitbtn = new Button(550, 480, 100, 40, Color.BLACK, Color.WHITE, "Submit");
+
+		clearbtn = new Button(660, 530, 100, 40, Color.BLACK, Color.WHITE, "Clear");
+		menubtn = new Button(550, 530, 100, 40, Color.BLACK, Color.WHITE, "Menu");
 
 		if(st == CHALLENGE_START) {
 			ArrayList<ArrayList<String>> expectedOutput = new ArrayList<ArrayList<String>>();
@@ -166,14 +171,18 @@ public class TutorialEngine extends SimulatorEngine implements MouseListener, Mo
 			tt.paint(g);
 		}
 		
-		if(state < CHALLENGE_START) next.paint(g);
+		if(state < CHALLENGE_START) nextbtn.paint(g);
 		
 		if(state >= CHALLENGE_START && state < MAX_STATE) continuebtn.paint(g);
 		
 		if (state >= CHALLENGE_START) {
-			submit.paint(g);
-			table.paint(g);}
+			submitbtn.paint(g);
+			table.paint(g);
 		}
+		
+		clearbtn.paint(g);
+		menubtn.paint(g);
+	}
 
 	/**
 	 * Remove all components from the workspace
@@ -355,19 +364,27 @@ public class TutorialEngine extends SimulatorEngine implements MouseListener, Mo
 				}
 			}
 			
-			if (next.wasClicked(e.getX(), e.getY()) && state < CHALLENGE_START-1) {
+			if (nextbtn.wasClicked(e.getX(), e.getY()) && state < CHALLENGE_START-1) {
 				tut.setState(state + 1);
 			} else if (continuebtn.wasClicked(e.getX(), e.getY()) && state >= CHALLENGE_START) {
 				tut.setState(state + 1);
 				table.setVisible(false);
-			} else if (submit.wasClicked(e.getX(), e.getY())) {
+			} else if (submitbtn.wasClicked(e.getX(), e.getY())) {
 				//pop-up of their answer
 				table.setVisible(!table.getVisible()); 
 				if(table.getVisible() == true) {
-					submit.setText("Hide");
+					submitbtn.setText("Hide");
 				} else {
-					submit.setText("Submit");
+					submitbtn.setText("Submit");
 				}
+			} else if (clearbtn.wasClicked(e.getX(), e.getY())) {
+				comps.clear();
+				if (tut instanceof ChallengeCanvas) {
+					((ChallengeCanvas)tut).setState(state);
+				}
+			} else if (menubtn.wasClicked(e.getX(), e.getY())) {
+				tut.getMenu().getMenu().setVisible(true);
+				tut.setVisible(false);
 			}
 		}
 	}

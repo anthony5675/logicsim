@@ -11,6 +11,8 @@ import javax.swing.SwingUtilities;
  * @author Jayden, Andre, Mitchell, Anthony
  */
 public class InstructionsCanvas extends Canvas implements Runnable, MouseListener {
+
+	private MenuWindow menu;
 	private Image i;
 	private Graphics buffer;
 
@@ -93,4 +95,8 @@ public class InstructionsCanvas extends Canvas implements Runnable, MouseListene
 
 	@Override
 	public void mouseReleased(MouseEvent arg0) {}
+
+	public void setMenu(MenuWindow m) {
+		menu = m;
+	}
 }

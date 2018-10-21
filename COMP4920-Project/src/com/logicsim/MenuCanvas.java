@@ -180,4 +180,8 @@ public class MenuCanvas extends Canvas implements Runnable, MouseListener {
 
 	@Override
 	public void mouseReleased(MouseEvent e) {}
+	
+	public void setMenu(MenuWindow m) {
+		menu = m;
+	}
 }
