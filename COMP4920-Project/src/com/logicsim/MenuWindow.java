@@ -21,12 +21,23 @@ public class MenuWindow extends JFrame {
 		mw.pack();
 		mw.setResizable(false);
 		mw.setVisible(true);
+
+		mw.getMenu().setMenu(mw);
+		mw.getTutorial().setMenu(mw);
+		mw.getChallenges().setMenu(mw);
+		mw.getInstructions().setMenu(mw);
 	}
 	
 	/**
 	 * Initializes a Menu Object
 	 */
 	public MenuWindow() {
+		// Set basics of the window including the dimensions and title
+		// Put canvas onto JFrame
+		setLayout(new BorderLayout());
+		setTitle("Digial Logic Sim");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
 		// Create a new canvas to draw onto the JFrame
 		menu = new MenuCanvas(this);
 		// Allow canvas to handle its own mouse input
@@ -64,15 +75,13 @@ public class MenuWindow extends JFrame {
 		simulator.setResizable(false);
 		simulator.setVisible(false);
 		
-		// Set basics of the window including the dimensions and title
-		// Put canvas onto JFrame
-		setLayout(new BorderLayout());
 		add(instructions);
+		pack();
 		add(tutorial);
+		pack();
 		add(challenges);
+		pack();
 		add(menu);
-		setTitle("Digial Logic Sim");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		pack();
 		
 		// Draw the JFrame in the middle of the screen
@@ -81,6 +90,10 @@ public class MenuWindow extends JFrame {
 	
 	public SimulatorWindow getSimulator() {
 		return simulator;
+	}
+	
+	public MenuCanvas getMenu() {
+		return menu;
 	}
 	
 	public TutorialCanvas getTutorial() {

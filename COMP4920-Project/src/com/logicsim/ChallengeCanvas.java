@@ -165,4 +165,5 @@ public class ChallengeCanvas extends TutorialCanvas implements Runnable {
 	public TutorialEngine getTutEngine() {
 		return te;
 	}
+
 }

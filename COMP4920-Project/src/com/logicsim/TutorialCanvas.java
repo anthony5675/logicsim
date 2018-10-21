@@ -8,6 +8,8 @@ import java.awt.event.MouseListener;
  * @author Jayden, Andre, Mitchell, Anthony
  */
 public class TutorialCanvas extends SimulatorCanvas implements Runnable {
+	
+	protected MenuWindow menu;
 	private int state;
 	private TutorialEngine te;
 
@@ -16,6 +18,7 @@ public class TutorialCanvas extends SimulatorCanvas implements Runnable {
 	 */
 	public TutorialCanvas() {
 		setSize(800, 600); // TODO: need to get correctly
+		
 		state = 0;
 		// Setup back end and start running the simulation
 		te = new TutorialEngine(this, 0);
@@ -72,10 +75,23 @@ public class TutorialCanvas extends SimulatorCanvas implements Runnable {
 	}
 
 	/**
-	 * Provides access to the Simulator Engine
-	 * @return SimulatorEnginue which is currently handling the back of this Canvas
+	 * Provides access to the Tutorial Engine
+	 * @return TutorialEnginue which is currently handling the back of this Canvas
 	 */
 	public TutorialEngine getTutEngine() {
 		return te;
 	}
+
+	/**
+	 * Provides access to the Menu as a Window
+	 * @return MenuWindow which is currently handling the back of this Canvas
+	 */
+	public MenuWindow getMenu() {
+		return menu;
+	}
+
+	public void setMenu(MenuWindow m) {
+		menu = m;
+	}
+
 }

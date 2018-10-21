@@ -356,6 +356,8 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 				}
 			}
 			
+			// If it was not in the toolbox component then maybe it was on
+			// worksapce component, if so a right click means delete
 			Component toRemove = null;
 			for (Component c : comps) {
 				if (c.wasClicked(e.getX(), e.getY())) {
