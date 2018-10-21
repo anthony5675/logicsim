@@ -14,17 +14,22 @@ import java.io.File;
 public class Toolbar extends JToolBar implements ActionListener {
 
     SimulatorCanvas s;
+    SimulatorWindow simWindow;
+    MenuWindow menu;
     File savesFolder;
 
     /**
      * Initializes toolbar.
      * @param sim == The simulator canvas it works on.
      */
-    public Toolbar(SimulatorCanvas sim) {
+    public Toolbar(SimulatorWindow sw, SimulatorCanvas sim, MenuWindow mw) {
         s = sim;
+        menu = mw;
+        simWindow = sw;
 
         setRollover(true);
 
+        add(newButton("menu"));
         add(newButton("save"));
         add(newButton("load"));
         add(newButton("clear"));
@@ -78,6 +83,8 @@ public class Toolbar extends JToolBar implements ActionListener {
 
         } else if (command.equals("clear")) {
             s.getSimEngine().getComponents().clear();
+        } else if (command.equals("menu")) {
+            simWindow.switchToMenu();
         }
     }
 

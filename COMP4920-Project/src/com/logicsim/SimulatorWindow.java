@@ -15,6 +15,7 @@ public class SimulatorWindow extends JFrame {
 	public static final int WINHEIGHT = 600;
 
 	private JTabbedPane tabs;
+	private MenuWindow mw;
 	private int numSims;
 
 	ChangeListener cl = new ChangeListener() {
@@ -46,7 +47,7 @@ public class SimulatorWindow extends JFrame {
 	 */
 	private void initTabs() {
 		tabs = new JTabbedPane(JTabbedPane.TOP, JTabbedPane.SCROLL_TAB_LAYOUT);
-		tabs.add(createWorkspace(true), "Simulator", numSims);
+		tabs.add(createWorkspace(), "Simulator", numSims);
 		numSims++;
 		tabs.setTabComponentAt(0, new WorkspaceTab(this));
 		tabs.add(new JPanel(), "+", numSims++);
@@ -58,7 +59,7 @@ public class SimulatorWindow extends JFrame {
 	 * Creates thread for each workspace.
 	 * @return JPanel containing canvas workspace
 	 */
-	private JPanel createWorkspace(Boolean tutFlag) {
+	private JPanel createWorkspace() {
 		SimulatorCanvas sim = new SimulatorCanvas();
 		sim.setFocusable(true);
 		sim.addMouseListener(sim.getSimEngine());
@@ -66,7 +67,7 @@ public class SimulatorWindow extends JFrame {
 		sim.setVisible(true);
 
 		JPanel panel = new JPanel(new BorderLayout());
-		panel.add(new Toolbar(sim), BorderLayout.PAGE_START);
+		panel.add(new Toolbar(this, sim, mw), BorderLayout.PAGE_START);
 		panel.add(sim);
 
 		Thread thread = new Thread(sim);
@@ -80,7 +81,7 @@ public class SimulatorWindow extends JFrame {
 	private void addWorkspace() {
 		int index = numSims - 1;
 		if(tabs.getSelectedIndex() == index) {
-			tabs.add(createWorkspace(false), "Workspace " + String.valueOf(index), index);
+			tabs.add(createWorkspace(), "Workspace " + String.valueOf(index), index);
 			tabs.setTabComponentAt(index, new WorkspaceTab(this));
 			tabs.removeChangeListener(cl);
 			tabs.setSelectedIndex(index);
@@ -114,6 +115,22 @@ public class SimulatorWindow extends JFrame {
 	 */
 	public JTabbedPane getTabs() {
 		return tabs;
+	}
+
+	/**
+	 * Set the menu window for this frame
+	 * @param mw == The main menu which runs the application
+	 */
+	public void setMenu(MenuWindow mw) {
+		this.mw = mw;
+	}
+
+	/**
+	 * Switch to the initial menu when requested from the toolbar.
+	 */
+	public void switchToMenu() {
+		setVisible(false);
+		mw.setVisible(true);
 	}
 
 }
