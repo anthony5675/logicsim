@@ -23,8 +23,8 @@ public class TruthTable {
 	
 	public TruthTable(ArrayList<ArrayList<String>> expectedTable, ArrayList<ArrayList<String>> uTable){
 		width = 250;
-		height = 300;
-		posX = 500;
+		height = 325;
+		posX = 475;
 		posY = 25;
 		
 		expectTable = expectedTable;
@@ -62,9 +62,9 @@ public class TruthTable {
 		}
 		
 		if (correct) {
-			if (correctImage != null) g.drawImage(correctImage, posX, posY, null);
+			if (correctImage != null) g.drawImage(correctImage, posX + 10, posY + 275, 40, 40, null);
 		} else {
-			if (wrongImage != null) g.drawImage(wrongImage, posX, posY, null);
+			if (wrongImage != null) g.drawImage(wrongImage, posX + 10, posY + 275, 40, 40, null);
 		}
 	}
 	
@@ -83,13 +83,13 @@ public class TruthTable {
 	}
 	
 	public void checkAnswer() {
-		for (int i = 0; i < userTable.get(userTable.size()-1).size(); i++) {
-			if(expectTable.size() >= i) {
-				if (expectTable.get(i) != userTable.get(i)) {
-					correct = false;
-					break;
-				}
+		int outputCol = userTable.size() - 1;
+		for (int i = 0; i < userTable.get(outputCol).size(); i++) {
+			if (!expectTable.get(outputCol).get(i).equals(userTable.get(outputCol).get(i))) {
+				correct = false;
+				return;
 			}
 		}
+		correct = true;
 	}
 }

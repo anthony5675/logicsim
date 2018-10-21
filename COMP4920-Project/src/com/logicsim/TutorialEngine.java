@@ -43,8 +43,6 @@ public class TutorialEngine extends SimulatorEngine implements MouseListener, Mo
 	public TutorialEngine(TutorialCanvas t, int st) {
 		super(t);
 		tut = t;
-
-		state = st;
 		
 		// Initialize any objects or variables that need it
 		tb = new TutorialToolbox(this, st);
@@ -65,87 +63,7 @@ public class TutorialEngine extends SimulatorEngine implements MouseListener, Mo
 		clearbtn = new Button(660, 530, 100, 40, Color.BLACK, Color.WHITE, "Clear");
 		menubtn = new Button(550, 530, 100, 40, Color.BLACK, Color.WHITE, "Menu");
 
-		if(st == CHALLENGE_START) {
-			ArrayList<ArrayList<String>> expectedOutput = new ArrayList<ArrayList<String>>();
-			ArrayList<String> indexOne = new ArrayList<String>();
-			ArrayList<String> indexTwo = new ArrayList<String>();
-			ArrayList<String> indexThree = new ArrayList<String>();
-			
-			indexOne.add("Input 1");
-			indexOne.add(Integer.toString(0));
-			indexOne.add(Integer.toString(0));
-			indexOne.add(Integer.toString(1));
-			indexOne.add(Integer.toString(1));
-			
-			indexTwo.add("Input 2");
-			indexTwo.add(Integer.toString(0));
-			indexTwo.add(Integer.toString(1));
-			indexTwo.add(Integer.toString(0));
-			indexTwo.add(Integer.toString(1));
-			
-			indexThree.add("Output");
-			indexThree.add(Integer.toString(0));
-			indexThree.add(Integer.toString(1));
-			indexThree.add(Integer.toString(1));
-			indexThree.add(Integer.toString(0));
-			
-			expectedOutput.add(indexOne);
-			expectedOutput.add(indexTwo);
-			expectedOutput.add(indexThree);
-			
-			table = new TruthTable(expectedOutput, expectedOutput);
-			table.setVisible(false);
-		} else if(st == CHALLENGE_START+1) {
-			ArrayList<ArrayList<String>> expectedOutput = new ArrayList<ArrayList<String>>();
-			ArrayList<String> indexOne = new ArrayList<String>();
-			ArrayList<String> indexTwo = new ArrayList<String>();
-			ArrayList<String> indexThree = new ArrayList<String>();
-			
-			indexOne.add("Input 1");
-			indexOne.add(Integer.toString(0));
-			indexOne.add(Integer.toString(0));
-			indexOne.add(Integer.toString(1));
-			indexOne.add(Integer.toString(1));
-			
-			indexTwo.add("Input 2");
-			indexTwo.add(Integer.toString(0));
-			indexTwo.add(Integer.toString(1));
-			indexTwo.add(Integer.toString(0));
-			indexTwo.add(Integer.toString(1));
-			
-			indexThree.add("Output");
-			indexThree.add(Integer.toString(1));
-			indexThree.add(Integer.toString(1));
-			indexThree.add(Integer.toString(1));
-			indexThree.add(Integer.toString(0));
-			
-			expectedOutput.add(indexOne);
-			expectedOutput.add(indexTwo);
-			expectedOutput.add(indexThree);
-			
-			table = new TruthTable(expectedOutput, expectedOutput);
-			table.setVisible(false);
-		} else if(st == CHALLENGE_START+2) {
-			ArrayList<ArrayList<String>> expectedOutput = new ArrayList<ArrayList<String>>();
-			ArrayList<String> indexOne = new ArrayList<String>();
-			ArrayList<String> indexTwo = new ArrayList<String>();
-			
-			indexOne.add("Input 1");
-			indexOne.add(Integer.toString(0));
-			indexOne.add(Integer.toString(1));
-
-			
-			indexTwo.add("Output");
-			indexTwo.add(Integer.toString(1));
-			indexTwo.add(Integer.toString(0));
-
-			
-			expectedOutput.add(indexOne);
-			expectedOutput.add(indexTwo);
-			
-			table = new TruthTable(expectedOutput, expectedOutput);
-			table.setVisible(false);
-		}
+		setState(st);
 	}
 
 	/**
@@ -399,13 +317,13 @@ public class TutorialEngine extends SimulatorEngine implements MouseListener, Mo
 	 */
 
 	public void setState(int newState) {
-		// TODO: Fix real max state
-		//state = newState % TutorialEngine.MAX_STATE;
 		if(state < MAX_STATE) {
 			state = newState;
 		}
 		tb.setState(state);
 		comps.clear();
+		
+		updateTable();
 	}
 
 	/**
@@ -414,6 +332,90 @@ public class TutorialEngine extends SimulatorEngine implements MouseListener, Mo
 
 	public int getState() {
 		return state;
+	}
+	
+	private void updateTable() {
+		if(state == CHALLENGE_START) {
+			ArrayList<ArrayList<String>> expectedOutput = new ArrayList<ArrayList<String>>();
+			ArrayList<String> indexOne = new ArrayList<String>();
+			ArrayList<String> indexTwo = new ArrayList<String>();
+			ArrayList<String> indexThree = new ArrayList<String>();
+			
+			indexOne.add("Input 1");
+			indexOne.add(Integer.toString(0));
+			indexOne.add(Integer.toString(0));
+			indexOne.add(Integer.toString(1));
+			indexOne.add(Integer.toString(1));
+			
+			indexTwo.add("Input 2");
+			indexTwo.add(Integer.toString(0));
+			indexTwo.add(Integer.toString(1));
+			indexTwo.add(Integer.toString(0));
+			indexTwo.add(Integer.toString(1));
+			
+			indexThree.add("Output");
+			indexThree.add(Integer.toString(0));
+			indexThree.add(Integer.toString(1));
+			indexThree.add(Integer.toString(1));
+			indexThree.add(Integer.toString(0));
+			
+			expectedOutput.add(indexOne);
+			expectedOutput.add(indexTwo);
+			expectedOutput.add(indexThree);
+			
+			table = new TruthTable(expectedOutput, expectedOutput);
+			table.setVisible(false);
+		} else if(state == CHALLENGE_START+1) {
+			ArrayList<ArrayList<String>> expectedOutput = new ArrayList<ArrayList<String>>();
+			ArrayList<String> indexOne = new ArrayList<String>();
+			ArrayList<String> indexTwo = new ArrayList<String>();
+			ArrayList<String> indexThree = new ArrayList<String>();
+			
+			indexOne.add("Input 1");
+			indexOne.add(Integer.toString(0));
+			indexOne.add(Integer.toString(0));
+			indexOne.add(Integer.toString(1));
+			indexOne.add(Integer.toString(1));
+			
+			indexTwo.add("Input 2");
+			indexTwo.add(Integer.toString(0));
+			indexTwo.add(Integer.toString(1));
+			indexTwo.add(Integer.toString(0));
+			indexTwo.add(Integer.toString(1));
+			
+			indexThree.add("Output");
+			indexThree.add(Integer.toString(1));
+			indexThree.add(Integer.toString(1));
+			indexThree.add(Integer.toString(1));
+			indexThree.add(Integer.toString(0));
+			
+			expectedOutput.add(indexOne);
+			expectedOutput.add(indexTwo);
+			expectedOutput.add(indexThree);
+			
+			table = new TruthTable(expectedOutput, expectedOutput);
+			table.setVisible(false);
+		} else if(state == CHALLENGE_START+2) {
+			ArrayList<ArrayList<String>> expectedOutput = new ArrayList<ArrayList<String>>();
+			ArrayList<String> indexOne = new ArrayList<String>();
+			ArrayList<String> indexTwo = new ArrayList<String>();
+			
+			indexOne.add("Input 1");
+			indexOne.add(Integer.toString(0));
+			indexOne.add(Integer.toString(1));
+
+			
+			indexTwo.add("Output");
+			indexTwo.add(Integer.toString(1));
+			indexTwo.add(Integer.toString(0));
+
+			
+			expectedOutput.add(indexOne);
+			expectedOutput.add(indexTwo);
+			
+			table = new TruthTable(expectedOutput, expectedOutput);
+			table.setVisible(false);
+		}
 	}
 
 	/**

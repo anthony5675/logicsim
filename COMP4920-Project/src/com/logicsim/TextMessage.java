@@ -83,7 +83,7 @@ public class TextMessage extends Gate {
 	 */
 	@Override
 	public void paint(Graphics g) {
-		g.setFont(new Font("Aeriel", Font.PLAIN, 14)); 
+		g.setFont(new Font("Ariel", Font.PLAIN, 14)); 
 		createBox(g, message, x, y);
 		drawFormatString(g, message, x, y);
 	}

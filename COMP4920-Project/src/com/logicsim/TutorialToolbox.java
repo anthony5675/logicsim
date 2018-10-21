@@ -47,7 +47,7 @@ public class TutorialToolbox {
 
 		// Draw Toolbox title
 		String t = "Toolbox";
-		g.setFont(new Font("Aerial", Font.PLAIN, 24));
+		g.setFont(new Font("Arial", Font.PLAIN, 24));
 		FontMetrics fm = g.getFontMetrics();
 		g.drawString(t, (width/2)-(fm.stringWidth(t)/2), 50);
 
