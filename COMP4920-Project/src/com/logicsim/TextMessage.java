@@ -22,6 +22,8 @@ public class TextMessage extends Component {
 		super();
 		x = i;
 		y = j;
+		width = 200;
+		height = 375;
 		message = text;
 		se = s;
 	}
@@ -112,7 +114,7 @@ public class TextMessage extends Component {
 	 * @return The horizontal location of the input point (left most point)
 	 */
 	public int getLeftEdge() {
-		return inPoints.get(0).getX();
+		return x;
 	}
 	
 	/**
@@ -120,7 +122,7 @@ public class TextMessage extends Component {
 	 * @return The horizontal location of the output point + output point width (right most point)
 	 */
 	public int getRightEdge() {
-		return outPoint.getX() + outPoint.getWidth();
+		return x + width;
 	}
 
 	/**

@@ -146,7 +146,17 @@ public class Connector extends IO {
 
 		return c;
 	}
+	
+	/**
+	 * @return What component is the connector getting input from
+	 */
+	public Component getInput() {
+		return input;
+	}
 
+	/**
+	 * @return What component is the connector sending output to
+	 */
 	public Component getOutput() {
 		return output;
 	}
