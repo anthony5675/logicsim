@@ -23,7 +23,7 @@ public class Or extends Gate {
 		
 		se = s;
 		
-		width = 50;
+		width = 30;
 		height = 50;
 		
 		inputMin = 2;

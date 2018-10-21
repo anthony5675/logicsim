@@ -23,7 +23,6 @@ public class ChallengeCanvas extends TutorialCanvas implements Runnable {
 	 * Initializes a SimulatorCanvas Object
 	 */
 	public ChallengeCanvas() {
-		setSize(800, 600); // TODO: need to get correctly
 		// Setup back end and start running the simulation
 		te = new TutorialEngine(this, TutorialEngine.CHALLENGE_START);
 		
