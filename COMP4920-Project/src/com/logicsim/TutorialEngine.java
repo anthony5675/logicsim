@@ -128,7 +128,7 @@ public class TutorialEngine extends SimulatorEngine implements MouseListener, Mo
 	}
 
 	/**
-	 * Allows ConnectPoints to be connected using ioPassed
+	 * Allows ConnectPoints to be connected using ioPressed
 	 * to hold state and wait for another to be pressed
 	 * @param cp = connect point clicked on
 	 */
@@ -492,7 +492,7 @@ public class TutorialEngine extends SimulatorEngine implements MouseListener, Mo
 	}
 
 	/**
-	 * on right click show tooltip
+	 * On right click show tooltip
 	 * @param e == A mouse event object describing what happened
 	 */
 	@Override

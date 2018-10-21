@@ -1,15 +1,9 @@
 package com.logicsim;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
-import javax.swing.SwingUtilities;
-
 /**
- * Class to handle everything going with the Canvas object
+ * Class to handle everything going on with the Canvas object for Challenges
  * @author Jayden, Andre, Mitchell, Anthony
  */
 public class ChallengeCanvas extends TutorialCanvas implements Runnable {
@@ -20,7 +14,7 @@ public class ChallengeCanvas extends TutorialCanvas implements Runnable {
 	private Output staticOutput;
 
 	/**
-	 * Initializes a SimulatorCanvas Object
+	 * Initializes a ChallengeCanvas Object
 	 */
 	public ChallengeCanvas() {
 		// Setup back end and start running the simulation
@@ -66,24 +60,17 @@ public class ChallengeCanvas extends TutorialCanvas implements Runnable {
 
 	/**
 	 * Change state so different frames can be utilised.
-	 *
 	 */
-
 	public void setState(int newState) {
 		state = newState;
 		te.setState(newState);
 		
 		changeState();
 	}
-
-	/**
-	 * @return current state
-	 */
-
-	public int getState() {
-		return state;
-	}
 	
+	/**
+	 * Called after a change of state to update static objects on the screen
+	 */
 	private void changeState() {
 		staticSources.clear();
 		if (state == TutorialEngine.CHALLENGE_START) {
@@ -113,13 +100,20 @@ public class ChallengeCanvas extends TutorialCanvas implements Runnable {
 		
 	}
 	
+	/**
+	 * Using static sources and output calculate the truth table for
+	 * what the user currently has on the screen
+	 * @return a two-dimensional array of text of the truth table
+	 */
 	public ArrayList<ArrayList<String>> checkAnswer() {
+		// Keep current user toggles to restore later
 		ArrayList<ArrayList<String>> outTable = new ArrayList<ArrayList<String>>();
 		ArrayList<Integer> userInput = new ArrayList<Integer>();
 		for(Source si : staticSources) {
 			userInput.add(si.calculate());
 		}
 		
+		// Loop over each input and simulator what the output will be then
 		if(userInput.size() == 1) {
 			ArrayList<String> colOne = new ArrayList<String>();
 			ArrayList<String> colTwo = new ArrayList<String>();
@@ -156,6 +150,7 @@ public class ChallengeCanvas extends TutorialCanvas implements Runnable {
 		}
 				
 		
+		// Restore user toggles
 		for(int i = 0; i < staticSources.size(); i++) {
 			staticSources.get(i).setState(intToBoolean(userInput.get(i)));
 		}
@@ -163,6 +158,13 @@ public class ChallengeCanvas extends TutorialCanvas implements Runnable {
 		return outTable;
 	}
 	
+	/**
+	 * Turns integers into booleans for the purpose of setting states
+	 * 0 -> false
+	 * anything else -> true
+	 * @param i == number to convert
+	 * @return boolean corresponding to its integer representation
+	 */
 	public boolean intToBoolean (int i) {
 		if(i == 0) {
 			return false;
@@ -172,8 +174,8 @@ public class ChallengeCanvas extends TutorialCanvas implements Runnable {
 	}
 
 	/**
-	 * Provides access to the Simulator Engine
-	 * @return SimulatorEnginue which is currently handling the back of this Canvas
+	 * Provides access to the Tutorial Engine
+	 * @return TutorialEnginue which is currently handling the back of this Canvas
 	 */
 	public TutorialEngine getTutEngine() {
 		return te;

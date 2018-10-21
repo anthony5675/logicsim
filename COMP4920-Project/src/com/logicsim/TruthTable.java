@@ -6,12 +6,16 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.util.ArrayList;
 
+/**
+ * Class to handle everything going on with a truth table
+ * @author Jayden, Andre, Mitchell, Anthony
+ */
 public class TruthTable {
 
-	private int width = 250;
-	private int height = 300;
-	private int posX = 500;
-	private int posY = 25;
+	private int width;
+	private int height;
+	private int posX;
+	private int posY;
 	
 	private Image correctImage;
 	private Image wrongImage;
@@ -21,6 +25,11 @@ public class TruthTable {
 	private boolean visible; 
 	private boolean correct;
 	
+	/**
+	 * Initialises a TruthTable object
+	 * @param expectedTable == what will be looked for as correct
+	 * @param uTable == a dummy table which will be updated later
+	 */
 	public TruthTable(ArrayList<ArrayList<String>> expectedTable, ArrayList<ArrayList<String>> uTable){
 		width = 250;
 		height = 325;
@@ -36,10 +45,16 @@ public class TruthTable {
 		wrongImage = ImageLoader.loadImage("images/cross.png");
 	}
 	
+	/**
+	 * Paint each table and then an image of correct or incorrect
+	 * @param g == Outward facing Graphics object to draw to
+	 */
 	public void paint(Graphics g) {
 		if(visible == false) {
 			return;
 		}
+		
+		// Print what the user currently has setup
 		g.setColor(Color.white);
 		g.fillRect(posX, posY, width, height);
 		g.setColor(Color.black);
@@ -51,6 +66,8 @@ public class TruthTable {
 				g.drawString(userTable.get(i).get(j),posX + 50*i + 25,posY + 20*j + 50);
 			}
 		}
+
+		// Print what is expected
 		int nextPosY = posY + 20*(userTable.get(0).size() -1) + 50;
 		g.setFont(new Font("Ariel", Font.BOLD, 15));
 		g.drawString("Expected Table", posX + 25, nextPosY + 25);
@@ -68,20 +85,35 @@ public class TruthTable {
 		}
 	}
 	
+	/**
+	 * Allows the table to shown or hidden
+	 * @param b == show it visible or not?
+	 */
 	public void setVisible(boolean b) {
 		visible = b;
 	}
 	
+	/**
+	 * @return Is the table currently visible?
+	 */
 	public boolean getVisible() {
 		return visible;
 	}
 	
+	/**
+	 * Allows for a change in the user table so it can be updated
+	 * @param n == new user table
+	 */
 	public void setUserTable(ArrayList<ArrayList<String>> n) {
 		userTable = n;
 		
 		checkAnswer();
 	}
 	
+	/**
+	 * On each update decides if the users solution is correct
+	 * and updates the image as required
+	 */
 	public void checkAnswer() {
 		int outputCol = userTable.size() - 1;
 		for (int i = 0; i < userTable.get(outputCol).size(); i++) {

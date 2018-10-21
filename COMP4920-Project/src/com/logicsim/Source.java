@@ -2,7 +2,6 @@ package com.logicsim;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 
 /**
  * Class to handle everything going on with an Input Source
@@ -28,7 +27,6 @@ public class Source extends IO {
 		width = WIDTH;
 		height = HEIGHT;
 		
-		// These will soon be updated to a better format
 		outPoint = new ConnectPoint(x + width, y + height/4, height/2, height/2, state, this);
 		output = null;
 	}
@@ -54,7 +52,6 @@ public class Source extends IO {
 	}
 
 	/**
-	 * If there is an image, paint just that
 	 * If there is not an image paint a white rectangle with a smaller white square attached
 	 * As well as a coloured border around it indicating its state
 	 * @param g == Outward facing Graphics object to draw to
@@ -101,13 +98,29 @@ public class Source extends IO {
 		return outPoint.getX() + outPoint.getWidth();
 	}
 	
+	/**
+	 * Setup a display specific input object
+	 * @param c == A connector to get what to display
+	 */
 	public void setOutput(Connector c) {
 		if (output != null) return;
 		output = c;
 	}
 	
+	/**
+	 * Allows setting of state directly changing output
+	 * @param s == new state
+	 */
 	public void setState(boolean s) {
 		state = s;
+	}
+
+	/**
+	 * Provides what state currently is
+	 * @return boolean of what state is now
+	 */
+	public boolean getState() {
+		return state;
 	}
 
 	/**
@@ -124,10 +137,6 @@ public class Source extends IO {
 		c.state = state;
 		
 		return c;
-	}
-
-	public boolean getState() {
-		return state;
 	}
 
 }

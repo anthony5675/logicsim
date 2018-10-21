@@ -25,6 +25,10 @@ public class Button {
 		text = t;
 	}
 
+	/**
+	 * Paint the button as a rectange with text on top
+	 * @param g == Outward facing Graphics object to draw to
+	 */
 	public void paint(Graphics g) {
         g.setFont(new Font("Aerial", Font.PLAIN, 24));
 		g.setColor(Color.BLACK);
@@ -55,22 +59,18 @@ public class Button {
 		return false;
 	}
 
-	public int getX() {
-		return x;
-	}
-
+	/**
+	 * Provides the y value of the button
+	 * @return The y position of the top left corner of the button
+	 */
 	public int getY() {
 		return y;
 	}
-
-	public int getWidth() {
-		return width;
-	}
-
-	public int getHeight() {
-		return height;
-	}
 	
+	/**
+	 * Allows changing of the button text on the fly
+	 * @param s == the new text to show
+	 */
 	public void setText(String s) {
 		text = s;
 	}

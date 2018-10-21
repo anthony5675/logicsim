@@ -12,6 +12,7 @@ public class Toolbox {
 	private int x, y, width, height;
 	private SimulatorEngine se;
 	private ArrayList<Component> comps;
+
 	/**
 	 * Initializes an And object
 	 * @param x == The canvas this object resides in
@@ -23,7 +24,7 @@ public class Toolbox {
 		y = 0;
 
 		width = 150;
-		height = 800; // TODO: Set these correctly and add to update if we do resizing
+		height = 800;
 		
 		comps = new ArrayList<Component>();
 
@@ -40,8 +41,7 @@ public class Toolbox {
 	}
 
 	/**
-	 * If there is an image, paint just that
-	 * If there is not an image paint a gray rectangle
+	 * Paint a gray rectangle
 	 * Then paint all dumby objects inside the toolbox
 	 * @param g == Outward facing Graphics object to draw to
 	 */
@@ -114,13 +114,17 @@ public class Toolbox {
 	}
 
 	/**
-	 * Provides the height of the component
+	 * Provides the height of the toolbox
 	 * @return Integer describing the height
 	 */
 	public int getHeight() {
 		return height;
 	}
 
+	/**
+	 * Provides a list of the components in the toolbox
+	 * @return ArrayList of components of what is in it
+	 */
 	public ArrayList<Component> getComponents() {
 		return comps;
 	}

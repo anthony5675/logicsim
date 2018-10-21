@@ -18,11 +18,11 @@ public class TextMessage extends Component {
      * @param y == y coordinate to set where the OR gate will draw
 	 * @param s 
      */
-	public TextMessage(int x, int y, SimulatorEngine s, String text) {
+	public TextMessage(int i, int j, SimulatorEngine s, String text) {
 		super();
-		this.x = x;
-		this.y = y;
-		this.message = text;
+		x = i;
+		y = j;
+		message = text;
 		se = s;
 	}
 
@@ -53,6 +53,13 @@ public class TextMessage extends Component {
 		drawFormatString(g, message, x, y);
 	}
 	
+	/**
+	 * Build the message box and draw it to the screen
+	 * @param g == Graphics object to draw to
+	 * @param text == text to display
+	 * @param x == where to start drawing
+	 * @param y == where to start drawing
+	 */
 	void createBox(Graphics g, String text, int x, int y) {
 		int count = 0;
 		int width = 0;
@@ -73,6 +80,13 @@ public class TextMessage extends Component {
 		g.drawRoundRect(x-7, y-5, width+13, count*g.getFontMetrics().getHeight(), 5, 5);
 	}
 	
+	/**
+	 * Build and draw the actual text of the message
+	 * @param g == Graphics object to draw to
+	 * @param text == text to display
+	 * @param x == where to start drawing
+	 * @param y == where to start drawing
+	 */
 	void drawFormatString(Graphics g, String text, int x, int y) {
 		int count = 0;
 	    for (String line : text.split("\n")) {
@@ -91,11 +105,7 @@ public class TextMessage extends Component {
 	 * @param e == A mouse event object describing what happened when clicked
 	 */
 	@Override
-	public void mousePressed(MouseEvent e) {
-		// Check if its on an input/output point and tell SE
-		for (ConnectPoint cp : inPoints) if (cp.wasClicked(e.getX(), e.getY())) se.setIOPressed(cp);
-		if (outPoint != null && outPoint.wasClicked(e.getX(), e.getY())) se.setIOPressed(outPoint);
-	}
+	public void mousePressed(MouseEvent e) {}
 	
 	/**
 	 * Provides a way for left hand edge detection can be done

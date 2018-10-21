@@ -1,16 +1,12 @@
 package com.logicsim;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import javax.swing.SwingUtilities;
 
 /**
  * Class to handle everything going with the Canvas object
  * @author Jayden, Andre, Mitchell, Anthony
  */
 public class SimulatorCanvas extends Canvas implements Runnable {
+
 	protected SimulatorEngine se;
 	private Image i;
 	private Graphics buffer;
@@ -19,8 +15,7 @@ public class SimulatorCanvas extends Canvas implements Runnable {
 	 * Initializes a SimulatorCanvas Object
 	 */
 	public SimulatorCanvas() {
-
-		setSize(1024, 768); // TODO: need to get correctly
+		setSize(1024, 768);
 		// Setup back end and start running the simulation
 		se = new SimulatorEngine(this);
 	}

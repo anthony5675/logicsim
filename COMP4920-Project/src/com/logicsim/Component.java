@@ -99,10 +99,20 @@ public abstract class Component {
 		return height;
 	}
 
+	/**
+     * Provides the input points of the component
+     * (If any exist)
+     * @return List of any input points
+     */
 	public ArrayList<ConnectPoint> getInPoints() {
 		return inPoints;
 	}
 
+	/**
+     * Provides the output point of the component
+     * (If any exists)
+     * @return the ConnectPoint outputting a signal
+     */
 	public ConnectPoint getOutPoint() {
 		return outPoint;
 	}
