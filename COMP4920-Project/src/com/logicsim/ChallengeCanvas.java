@@ -25,12 +25,12 @@ public class ChallengeCanvas extends TutorialCanvas implements Runnable {
 	public ChallengeCanvas() {
 		setSize(800, 600); // TODO: need to get correctly
 		// Setup back end and start running the simulation
-		te = new TutorialEngine(this, 3);
+		te = new TutorialEngine(this, TutorialEngine.CHALLENGE_START);
 		
 		staticOutput = null;
 		staticSources = new ArrayList<Source>();
 		
-		setState(3);
+		setState(TutorialEngine.CHALLENGE_START);
 	}
 
 	/**
@@ -87,15 +87,31 @@ public class ChallengeCanvas extends TutorialCanvas implements Runnable {
 	
 	private void changeState() {
 		staticSources.clear();
-		if (state == 3) {
-			staticSources.add(new Source(getWidth()/3, getHeight()/3, te));
-			staticSources.add(new Source(getWidth()/3, getHeight()*2/3, te));
+		if (state == TutorialEngine.CHALLENGE_START) {
+			staticSources.add(new Source(getWidth()/4, getHeight()*2/5, te));
+			staticSources.add(new Source(getWidth()/4, getHeight()*4/5, te));
 			
+			staticOutput = new Output(getWidth()*2/3 - 10, getHeight()*3/5 + 5, te);
+			
+			for (Source si : staticSources) te.addComp(si);
+			te.addComp(staticOutput);
+		
+		} else if(state == TutorialEngine.CHALLENGE_START+1) {
+			staticSources.add(new Source(getWidth()/4, getHeight()*2/5, te));
+			staticSources.add(new Source(getWidth()/4, getHeight()*4/5, te));
+			
+			staticOutput = new Output(getWidth()*2/3 - 10, getHeight()*3/5 + 5, te);
+			
+			for (Source si : staticSources) te.addComp(si);
+			te.addComp(staticOutput);
+		} else if(state == TutorialEngine.CHALLENGE_START+2) {
+			staticSources.add(new Source(getWidth()/3, getHeight()/2, te));
 			staticOutput = new Output(getWidth()*2/3, getHeight()/2, te);
 			
 			for (Source si : staticSources) te.addComp(si);
 			te.addComp(staticOutput);
 		}
+		
 	}
 	
 	public boolean checkAnswer(ArrayList<Integer> expectedOutput) {

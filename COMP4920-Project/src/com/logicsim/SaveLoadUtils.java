@@ -51,7 +51,7 @@ public class SaveLoadUtils {
                     conn.put("outID", c.outPoint.getComp().saveId);
                     conn.put("inID", c.outPoint.getCon().getOutput().saveId);
 
-                    if (c.outPoint.getCon().getOutput() instanceof Output || c.outPoint.getCon().getOutput() instanceof NOt)
+                    if (c.outPoint.getCon().getOutput() instanceof Output || c.outPoint.getCon().getOutput() instanceof Not)
                         conn.put("inPos", false);
                     else
                         conn.put("inPos", c.outPoint.getCon() == c.outPoint.getCon().getOutput().inPoints.get(1).getCon());
@@ -134,7 +134,7 @@ public class SaveLoadUtils {
                     comp = new NOr(x, y, se);
                     break;
                 case "NOt":
-                    comp = new NOt(x, y, se);
+                    comp = new Not(x, y, se);
                     break;
                 case "Output":
                     comp = new Output(x, y, se);

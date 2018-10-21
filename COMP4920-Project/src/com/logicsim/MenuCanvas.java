@@ -85,7 +85,7 @@ public class MenuCanvas extends Canvas implements Runnable, MouseListener {
 		if (splashOpacity == 0) {
 			waited++;
 			// This controls, delay (*delay in ms*/17)
-			if(waited == 2000/17) {
+			if(waited == 50/17) {
 				onSplash = false;
 				return;
 			}
