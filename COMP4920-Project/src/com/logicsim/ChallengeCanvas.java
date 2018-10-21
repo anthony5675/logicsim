@@ -98,12 +98,28 @@ public class ChallengeCanvas extends TutorialCanvas implements Runnable {
 		}
 	}
 	
-	public boolean checkAnswer() {
+	public boolean checkAnswer(ArrayList<Integer> expectedOutput) {
 		ArrayList<Integer> userInput = new ArrayList<Integer>();
-		
+		ArrayList<Integer> userOutput = new ArrayList<Integer>();
 		for(Source si : staticSources) {
 			userInput.add(si.calculate());
 		}
+		
+		if(userInput.size() == 1) {
+			for(int i = 0; i < userInput.size(); i++) {
+				staticSources.get(0).setState(intToBoolean(i));
+				userOutput.add(staticOutput.calculate());				
+			}
+		} else if(userInput.size() == 2) {
+			for(int i = 0; i < userInput.size(); i++) {
+				staticSources.get(1).setState(intToBoolean(i));
+				for(int j = 0; j < userInput.size(); j++) {
+					staticSources.get(1).setState(intToBoolean(j));
+					userOutput.add(staticOutput.calculate());				
+				}
+			}
+		}
+				
 		
 		for(int i = 0; i < staticSources.size(); i++) {
 			if (userInput.get(i) == 0) {
@@ -112,7 +128,18 @@ public class ChallengeCanvas extends TutorialCanvas implements Runnable {
 				staticSources.get(i).setState(true);
 			}
 		}
+		if(expectedOutput.equals(userOutput)) {
+			return true;
+		}
 		return false;
+	}
+	
+	public boolean intToBoolean (int i) {
+		if(i == 0) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 	/**
