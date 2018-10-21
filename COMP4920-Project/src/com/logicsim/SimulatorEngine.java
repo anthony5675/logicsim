@@ -94,7 +94,6 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 
 	/**
 	 * Allows indication of an IO point has just been pressed
-	 * @param bool == has an IO point been pressed
 	 */
 	public void setIOPressed(ConnectPoint cp) {
 		if(ioPressed == null) {

@@ -12,7 +12,6 @@ public class Connector extends IO {
 	private Component input;
 	private ConnectPoint inPoint;
 	private Component output;
-	private ConnectPoint outPoint;
 	
 	private int x1, y1, x2, y2;
 	

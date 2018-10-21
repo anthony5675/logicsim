@@ -40,21 +40,26 @@ public class SaveLoadUtils {
         }
 
         for (Component c : comps) {
-            JSONObject conn = new JSONObject();
+
             if(!c.getClass().getSimpleName().equals("Connector")) {
 
-                // Sources don't have outpoints; don't have to worry about them for connectors
+                // Output's don't have outpoints; don't have to worry about them for connectors
                 if (c instanceof Output)
                     continue;
 
-                if (c.outPoint.getCon() != null) {
-                    conn.put("outID", c.outPoint.getComp().saveId);
-                    conn.put("inID", c.outPoint.getCon().getOutput().saveId);
+                for (int i = 0; i < c.outPoint.getCons().size(); i++) {
+                    JSONObject conn = new JSONObject();
 
-                    if (c.outPoint.getCon().getOutput() instanceof Output || c.outPoint.getCon().getOutput() instanceof Not)
+                    Connector connector = c.outPoint.getCons().get(i);
+
+                    conn.put("outID", c.outPoint.getComp().saveId);
+                    conn.put("inID", connector.getOutput().saveId);
+
+                    if (connector.getOutput() instanceof Output || connector.getOutput() instanceof Not)
                         conn.put("inPos", false);
-                    else
-                        conn.put("inPos", c.outPoint.getCon() == c.outPoint.getCon().getOutput().inPoints.get(1).getCon());
+                    else {
+                        conn.put("inPos", connector.getOutPoint() == connector.getOutput().inPoints.get(1));
+                    }
 
                     connArr.put(conn);
                 }
@@ -69,8 +74,7 @@ public class SaveLoadUtils {
 
     /**
      * Method to write to a JSON file to be used as a save.
-     * @param path == Path to the save folder
-     * @param fileName == Name of the save file
+     * @param file == File to save to
      * @param data == Data to be written
      */
     public static void writeToSave(File file, String data) {
@@ -85,7 +89,7 @@ public class SaveLoadUtils {
     /**
      * Load file from a specified file name
      * @param se == The simulator engine
-     * @param fileName == Name of the save file to be loaded
+     * @param file == save file to be loaded
      */
     public static void load(SimulatorEngine se, File file) {
         // clear workspace before loading
@@ -153,10 +157,18 @@ public class SaveLoadUtils {
             int inID = c.getInt("inID");
             int outID = c.getInt("outID");
 
-            Connector connector = se.buildConnector(((Component)map.get(outID)).outPoint, null);
-            ((Component)map.get(outID)).outPoint.setCon(connector);
-            connector = se.buildConnector(((Component)map.get(inID)).inPoints.get(inPos), connector);
-            ((Component)map.get(inID)).inPoints.get(inPos).setCon(connector);
+            ConnectPoint leftcp = ((Component)map.get(outID)).outPoint;
+            ConnectPoint rightcp = ((Component)map.get(inID)).inPoints.get(inPos);
+
+            Connector connector = se.buildConnector(leftcp, null);
+            connector = se.buildConnector(rightcp, connector);
+
+            if (leftcp.getComp().getOutPoint() == leftcp || leftcp.getCons().isEmpty()) {
+                leftcp.addCon(connector);
+            }
+            if (rightcp.getComp().getOutPoint() == rightcp || rightcp.getCons().isEmpty()) {
+                rightcp.addCon(connector);
+            }
 
             se.getComponents().add(connector);
         }
