@@ -8,10 +8,19 @@ import java.awt.FlowLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+/**
+ * Class for custom tab component which includes the title and close button
+ * @author Jayden, Andre, Mitchell, Anthony
+ */
+
 public class WorkspaceTab extends JPanel {
 
     private SimulatorWindow sw;
 
+    /**
+     * Initialises the tab with its title property
+     * @param sw
+     */
     public WorkspaceTab(SimulatorWindow sw) {
         this.sw = sw;
         setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
@@ -31,6 +40,9 @@ public class WorkspaceTab extends JPanel {
         add(new CloseButton());
     }
 
+    /**
+     * Inner class that represents the close button.
+     */
     class CloseButton extends JButton implements MouseListener {
 
         public CloseButton() {
@@ -42,6 +54,10 @@ public class WorkspaceTab extends JPanel {
             addMouseListener(this);
         }
 
+        /**
+         * Handles mouse clicks, and closes the tab when pressed.
+         * @param e == A mouse event object describing what happened when clicked.
+         */
         @Override
         public void mouseClicked(MouseEvent e) {
             int index = sw.getTabs().indexOfTabComponent(WorkspaceTab.this);
