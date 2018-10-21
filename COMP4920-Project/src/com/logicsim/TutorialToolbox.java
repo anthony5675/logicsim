@@ -13,6 +13,7 @@ public class TutorialToolbox {
 	private TutorialEngine te;
 	private ArrayList<Component> comps;
 	private int state;
+
 	/**
 	 * Initializes an And object
 	 * @param x == The canvas this object resides in
@@ -25,7 +26,7 @@ public class TutorialToolbox {
 		y = 0;
 
 		width = 150;
-		height = 800; // TODO: Set these correctly and add to update if we do resizing
+		height = 800;
 		
 		comps = new ArrayList<Component>();
 
@@ -34,8 +35,7 @@ public class TutorialToolbox {
 	}
 
 	/**
-	 * If there is an image, paint just that
-	 * If there is not an image paint a gray rectangle
+	 * Paint a gray rectangle
 	 * Then paint all dumby objects inside the toolbox
 	 * @param g == Outward facing Graphics object to draw to
 	 */
@@ -108,13 +108,17 @@ public class TutorialToolbox {
 	}
 
 	/**
-	 * Provides the height of the component
+	 * Provides the height of the toolbox
 	 * @return Integer describing the height
 	 */
 	public int getHeight() {
 		return height;
 	}
 
+	/**
+	 * Provides a list of the components in the toolbox
+	 * @return ArrayList of components of what is in it
+	 */
 	public ArrayList<Component> getComponents() {
 		return comps;
 	}
@@ -129,19 +133,23 @@ public class TutorialToolbox {
 		fillToolbox();
 	}
 
+	/**
+	 * Change what the toolbox contains when the state changes
+	 * Also change what text message is displayed
+	 */
 	private void fillToolbox() {
 		int compHeight = 550;
 		String gap = "              ";
 		comps.clear();
 
-		if (getState() == 0) {
+		if (state == 0) {
 			comps.add(new Source(width/2 - IO.WIDTH/2, 100, te));
 			comps.add(new Output(width/2 - Gate.WIDTH/2, 100 + (compHeight/4), te));
 			comps.add(new TextMessage(475, 25, te, "Welcome to the Digital Logic Simulator Tutorial!\n\nLogic gates are the building blocks of any digital\nsystem. In the toolbox region you can see the\ndifferent gates that are available.\n "
 					+ "\nTo begin try dragging one of each connector\nonto the workspace region and connect them up\nby clicking the small boxes on their sides\nconsecutively."
 					+ "\n\nTo see the output of the circuit, click the input\nand look at the corresponding output. \n\nRed corresponds to 0 and green corresponds\nto 1. "
 					+ "\n\nLastly to see further information of the gates\nor their behaviour, try right clicking them. When \nyou're done click next to progress.\n\n"));
-		} else if (getState() == 1) {
+		} else if (state == 1) {
 			comps.add(new Source(width/2 - IO.WIDTH/2, 100, te));
 			comps.add(new And(width/2 - Gate.WIDTH/2, 100 + ((compHeight-100)/4), te));
 			comps.add(new Output(width/2 - Gate.WIDTH/2, 100 + (compHeight*2/4), te));
@@ -152,7 +160,7 @@ public class TutorialToolbox {
 					+ "Remember you can right-click the components\nto see more information of the gates/connectors\nand "
 					+ "see if you obtain the expected output."));
 			
-		} else if (getState() == 2) {
+		} else if (state == 2) {
 			comps.add(new Source(width/2 - IO.WIDTH/2, 100, te));
 			comps.add(new And(width/2 - Gate.WIDTH/2, 100 + ((compHeight)/4), te));
 			comps.add(new Or(width/2 - Gate.WIDTH/2, 100 + (compHeight*2/4), te));
@@ -166,7 +174,7 @@ public class TutorialToolbox {
 					+ "Use the tooltip (right-click gates) to identify \nwhich gate is which and try exploring different \ncombination.\n\n"
 					+ "Remember you can right-click the components\nto see more information of the gates/connectors and \n" 
 					+ "see if you obtain the expected output.\n\n"));
-		} else if (this.getState() == 3) {
+		} else if (state == 3) {
 			comps = new ArrayList<Component>();
 			comps.add(new Source(width/2 - IO.WIDTH/2, 75, te));
 			comps.add(new And(width/2 - Gate.WIDTH/2, 50 + (compHeight/6), te));
@@ -187,7 +195,7 @@ public class TutorialToolbox {
 					+ "as a NOT gate, so if you connect both inputs\n"
 					+ "into the same connector, it will behave as a\n"
 					+ "NOT gate."));
-		}else if(this.getState() == 4) {
+		}else if(state == 4) {
 			//Challenge mode 
 			comps = new ArrayList<Component>();
 			comps.add(new Source(width/2 - IO.WIDTH/2, 75, te));
@@ -216,7 +224,7 @@ public class TutorialToolbox {
 					                            "1"+gap+"0"+gap+"1\n" + 
 					                            "1"+gap+"1"+gap+"0\n \n"));
 
-		} else if(this.getState() == 5) {
+		} else if(state == 5) {
 			comps = new ArrayList<Component>();
 			comps.add(new And(width/2 - Gate.WIDTH/2, 100 + (compHeight/3), te));
 			comps.add(new Not(width/2 - Gate.WIDTH/2, 100 + (compHeight*2/3), te));
@@ -232,7 +240,7 @@ public class TutorialToolbox {
 					                            "0"+gap+"1"+gap+"1\n" + 
 					                            "1"+gap+"0"+gap+"1\n" + 
 					                            "1"+gap+"1"+gap+"0\n \n"));
-		} else if(this.getState() == 6) {
+		} else if(state == 6) {
 			comps = new ArrayList<Component>();
 			comps.add(new NOr(width/2 - Gate.WIDTH/2, 100 + (compHeight/3), te));
 			comps.add(new TextMessage(475, 25, te, "Challenge 3\n\n" 
@@ -246,13 +254,5 @@ public class TutorialToolbox {
 					                            + "1"+gap+"0\n \n"));
 		}
 	}
-
-	/**
-	 * @return current state
-	 */
-	public int getState() {
-		return state;
-	}
-
 
 }

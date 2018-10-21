@@ -2,13 +2,7 @@ package com.logicsim;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.IOException;
 import java.util.ArrayList;
-
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 import javax.swing.event.MouseInputListener;
 
@@ -93,7 +87,9 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 	}
 
 	/**
-	 * Allows indication of an IO point has just been pressed
+	 * Allows ConnectPoints to be connected using ioPressed
+	 * to hold state and wait for another to be pressed
+	 * @param cp = connect point clicked on
 	 */
 	public void setIOPressed(ConnectPoint cp) {
 		if(ioPressed == null) {
@@ -111,6 +107,8 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 		// Handle Second
 		c = buildConnector(ioPressed, c);
 		
+		// Add a connector to cp if it is an output point only
+		// and to an input point iff it has no connector already
 		if (cp.getComp().getOutPoint() == cp) {
 			cp.addCon(c);
 		} else {
@@ -118,6 +116,9 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 				cp.addCon(c);
 			}
 		}
+
+		// Add a connector to ioPressed if it is an output point only
+		// and to an input point iff it has no connector already
 		if (ioPressed.getComp().getOutPoint() == ioPressed) {
 			ioPressed.addCon(c);
 		} else {
@@ -129,6 +130,14 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 		ioPressed = null;
 	}
 
+	/**
+	 * If no connector exist one is created
+	 * This connector is then setup with the right values for
+	 * any connect points and components it needs
+	 * @param cp == A ConnectPoint to add to the connect
+	 * @param old == if one exists the one to reconfigure else null
+	 * @return A freshly half or fully configured Connector
+	 */
 	public Connector buildConnector(ConnectPoint cp, Connector old) {
 		Connector c;
 		if (old == null) {
@@ -137,6 +146,7 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 			c = old;
 		}
 
+		// Handle each setup of outpoint or inpoint as necessary
 		if (cp.getComp() instanceof Gate) {
 			Gate g = (Gate)cp.getComp();
 			if(g.getOutPoint() == cp) {
@@ -164,9 +174,18 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 		return c;
 	}
 
+	/**
+	 * Sets up the properties of half a connector based on properties of the ConnectPoint
+	 * @param cp1 == a connect point attempting to connect to cp2
+	 * @param cp2 == a connect point attempting to connect to cp1
+	 * @return true if can they be connected and false otherwise
+	 */
 	private boolean compatibleConnectPoints(ConnectPoint cp1, ConnectPoint cp2) {
+		// Cannot connect source to source or output to output
 		if ((cp1.getComp() instanceof Source) && (cp2.getComp() instanceof Source)) return false;
 		if ((cp1.getComp() instanceof Output) && (cp2.getComp() instanceof Output)) return false;
+		
+		// Cannot connect anything to itself
 		if (cp1.getComp() == cp2.getComp()) return false;
 		
 		// In Points can only have one connector so if cp1 is NOT an out point it is an in point
@@ -175,6 +194,9 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 		if (cp2.getComp().getOutPoint() != cp2 && cp2.getCons().size() > 0) return false;
 
 		if ((cp1.getComp() instanceof Gate) && !(cp2.getComp() instanceof Gate)) {
+			// If connect points belong to gate and not gate then
+			// They are only valid if a gate out to output
+			// or gate in from source
 			Gate g = (Gate)cp1.getComp();
 
 			if(g.getOutPoint() == cp1) {
@@ -185,6 +207,9 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 				if (cp2.getComp() instanceof Output) return false;
 			}
 		} else if (!(cp1.getComp() instanceof Gate) && (cp2.getComp() instanceof Gate)) {
+			// If connect points belong to gate and not gate then
+			// They are only valid if a gate out to output
+			// or gate in from source
 			Gate g = (Gate)cp2.getComp();
 
 			if(g.getOutPoint() == cp2) {
@@ -195,6 +220,9 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 				if (cp1.getComp() instanceof Output) return false;
 			}
 		} else if ((cp1.getComp() instanceof Gate) && (cp2.getComp() instanceof Gate)) {
+			// If connect points belong to gate and gate then
+			// They are only valid if the out point of one connects
+			// to an in point of the other
 			Gate g1 = (Gate)cp1.getComp();
 			Gate g2 = (Gate)cp2.getComp();
 
@@ -207,14 +235,6 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 			}
 		}
 		return true;
-	}
-
-	/**
-	 * Provides if an IO point has just been pressed
-	 * @return boolean describing if an IO point was just pressed
-	 */
-	public ConnectPoint getIOPressed() {
-		return ioPressed;
 	}
 
 	/**
@@ -311,6 +331,7 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		// If nothing to drag do not continue
+		// Else could be trying to drag an existing compoonent
 		if (beingDragged == null) {
 			for (Component c : comps) {
 				if (c.wasClicked(e.getX(), e.getY())) {
@@ -334,24 +355,19 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 	}
 
 	/**
-	 * Auto imported method, not used
+	 * On right click show tooltip
 	 * @param e == A mouse event object describing what happened
 	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if (SwingUtilities.isRightMouseButton(e)) {
 			for (Component c : tb.getComponents()) {
-				if (e.getX() >= c.getX() && e.getX() < c.getX() + c.getWidth()) {
-					if (e.getY() >= c.getY() && e.getY() <= c.getY() + c.getHeight()) {
-
-						// TODO: USE THIS WHEN ALL IS SETUP
-//				if (c.wasClicked(e.getX(), e.getY())) {
-						tt.setX(c.getX() + (c.getWidth()/2));
-						tt.setY(c.getY() + (c.getHeight()/2));
-						tt.setInfo(c.getClass().getSimpleName());
-						tt.toggleTip();
-						break;
-					}
+				if (c.wasClicked(e.getX(), e.getY())) {
+					tt.setX(c.getX() + (c.getWidth()/2));
+					tt.setY(c.getY() + (c.getHeight()/2));
+					tt.setInfo(c.getClass().getSimpleName());
+					tt.toggleTip();
+					break;
 				}
 			}
 			

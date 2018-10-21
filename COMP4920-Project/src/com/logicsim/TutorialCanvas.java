@@ -1,7 +1,5 @@
 package com.logicsim;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 /**
  * Class to handle everything going with the Canvas object
@@ -58,18 +56,9 @@ public class TutorialCanvas extends SimulatorCanvas implements Runnable {
 	 * Change state so different frames can be utilised.
 	 *
 	 */
-
 	public void setState(int newState) {
 		state = newState;
 		te.setState(newState);
-	}
-
-	/**
-	 * @return current state
-	 */
-
-	public int getState() {
-		return state;
 	}
 
 	/**
@@ -88,6 +77,10 @@ public class TutorialCanvas extends SimulatorCanvas implements Runnable {
 		return menu;
 	}
 
+	/**
+	 * Allows access to the more general menu
+	 * @param m the menu object
+	 */
 	public void setMenu(MenuWindow m) {
 		menu = m;
 	}

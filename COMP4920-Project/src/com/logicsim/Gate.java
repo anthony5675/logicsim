@@ -27,9 +27,15 @@ public abstract class Gate extends Component {
 		inPoints = new ArrayList<ConnectPoint>();
 	}
 
+	/**
+	 * When a gate is being deleted we must ensure any connector are also
+	 * @param se == The SimulatorEngine requesting this
+	 */
 	public void dispose(SimulatorEngine se) {
+		// If any outpoint exists then we must remove all connectors
 		if (outPoint != null) {
 			for (Connector c : outPoint.getCons()) {
+				// Inform other connected ConnectPoint to remove this Connector
 				if (c.getOutPoint() == outPoint) {
 					c.getInPoint().removeCon(c);
 				} else if (c.getInPoint() == outPoint) {
@@ -39,8 +45,10 @@ public abstract class Gate extends Component {
 			}
 		}
 		
+		// For each inPoint there is only one Connector if any
 		for (ConnectPoint cp : inPoints) {
 			if (cp.getCons().size() > 0) {
+				// Inform other connected ConnectPoint to remove this Connector
 				if (cp.getCons().get(0).getOutPoint() == outPoint) {
 					cp.getCons().get(0).getInPoint().removeCon(cp.getCons().get(0));
 				} else if (cp.getCons().get(0).getInPoint() == outPoint) {

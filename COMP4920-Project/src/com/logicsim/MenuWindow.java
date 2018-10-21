@@ -5,6 +5,10 @@ import java.awt.Dimension;
 
 import javax.swing.JFrame;
 
+/**
+ * Class to create in initialize a window to manage everything else
+ * @author Jayden, Andre, Mitchell, Anthony
+ */
 public class MenuWindow extends JFrame {
 
 	private MenuCanvas menu;
@@ -38,9 +42,8 @@ public class MenuWindow extends JFrame {
 		setTitle("Digital Logic Sim");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		// Create a new canvas to draw onto the JFrame
+		// Create a new canvas for each section to draw onto the JFrame
 		menu = new MenuCanvas(this);
-		// Allow canvas to handle its own mouse input
 		menu.setFocusable(true);
 		menu.addMouseListener(menu);
 		menu.setVisible(true);
@@ -64,6 +67,7 @@ public class MenuWindow extends JFrame {
 		Thread challengesThread = new Thread(challenges);
 		challengesThread.start();
 
+		// Setup the more general simulator window
 		simulator = new SimulatorWindow();
 		simulator.pack();
 		simulator.setResizable(false);
@@ -78,18 +82,34 @@ public class MenuWindow extends JFrame {
 		setLocationRelativeTo(null);
 	}
 
+	/**
+	 * Provides access to the main Simulator
+	 * @return the SimulatorWindow object
+	 */
 	public SimulatorWindow getSimulator() {
 		return simulator;
 	}
 
+	/**
+	 * Provides access to the general menu
+	 * @return the MenuCanvas object
+	 */
 	public MenuCanvas getMenu() {
 		return menu;
 	}
 
+	/**
+	 * Provides access to the tutorial
+	 * @return the TutorialCanvas object
+	 */
 	public TutorialCanvas getTutorial() {
 		return tutorial;
 	}
 
+	/**
+	 * Provides access to the challenges
+	 * @return the ChallengeCanvas object
+	 */
 	public ChallengeCanvas getChallenges() {
 		return challenges;
 	}

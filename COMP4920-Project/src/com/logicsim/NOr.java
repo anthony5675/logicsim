@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class NOr extends Gate {
 	
 	/**
-     * Initializes an Or object
+     * Initializes an NOr object
      * @param x == x coordinate to set where the OR gate will draw
      * @param y == y coordinate to set where the OR gate will draw
 	 * @param s 
@@ -49,6 +49,7 @@ public class NOr extends Gate {
 			result |= inputs.get(i).calculate();
 		}
 		
+		// Invert output
 		if (result == 0) {
 			return 1;
 		} else {
@@ -61,11 +62,6 @@ public class NOr extends Gate {
 	 */
 	@Override
 	public void update() {
-//		for (ConnectPoint cp : inPoints) {
-//			cp.setX(x - cp.getWidth());
-//			cp.setY(y + height/4);
-//		}
-
 		inPoints.get(0).setX(x - inPoints.get(0).getWidth());
 		inPoints.get(0).setY(y + height/8);
 
@@ -83,7 +79,6 @@ public class NOr extends Gate {
 
 	/**
 	 * If there is an image, paint just that
-	 * If there is not an image paint a white circle with a smaller white circle attached
 	 * @param g == Outward facing Graphics object to draw to
 	 */
 	@Override
@@ -106,7 +101,7 @@ public class NOr extends Gate {
 	}
 
 	/**
-	 * Handles what clicking on an OR gate will do
+	 * Handles what clicking on an NOR gate will do
 	 * @param e == A mouse event object describing what happened when clicked
 	 */
 	@Override

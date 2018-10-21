@@ -1,13 +1,9 @@
 package com.logicsim;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.awt.image.RescaleOp;
-
-import javax.swing.SwingUtilities;
 
 /**
  * Class to handle everything going with the Canvas object
@@ -28,7 +24,7 @@ public class MenuCanvas extends Canvas implements Runnable, MouseListener {
 	 * Initializes a SimulatorCanvas Object
 	 */
 	public MenuCanvas(MenuWindow m) {
-		setSize(800, 600); // TODO: need to get correctly
+		setSize(800, 600);
 		
 		menu = m;
 		
@@ -76,6 +72,7 @@ public class MenuCanvas extends Canvas implements Runnable, MouseListener {
 	 */
 	@Override
 	public void update(Graphics g) {
+		// Change splash opacity when needed
 		if (onSplash) {
 			if(splashOpacity != 0) splashOpacity--;
 		} else {
@@ -115,6 +112,7 @@ public class MenuCanvas extends Canvas implements Runnable, MouseListener {
 	 */
 	@Override
 	public void paint(Graphics g) {
+		// Do not paoint this at all when the splash is showing
 		if (!onSplash) {
 			g.setColor(Color.BLACK);
 			g.fillRect(0, 0, getWidth(), getHeight());
@@ -148,9 +146,14 @@ public class MenuCanvas extends Canvas implements Runnable, MouseListener {
 		}
 	}
 
+	/**
+	 * Handles what clicking somewhere on the canvas will do at a specific time
+	 * @param e == A mouse event object describing what happened when clicked
+	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
 		if (onSplash) return;
+		// Each button launches a different activity except "Exit"
 		if (buttons[0].wasClicked(e.getX(), e.getY())) {
 			menu.getSimulator().setVisible(true);
 			menu.setVisible(false);
@@ -165,18 +168,38 @@ public class MenuCanvas extends Canvas implements Runnable, MouseListener {
 		}
 	}
 
+	/**
+	 * Auto imported method, not used
+	 * @param e == A mouse event object describing what happened
+	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {}
 
+	/**
+	 * Auto imported method, not used
+	 * @param e == A mouse event object describing what happened
+	 */
 	@Override
 	public void mouseEntered(MouseEvent e) {}
 
+	/**
+	 * Auto imported method, not used
+	 * @param e == A mouse event object describing what happened
+	 */
 	@Override
 	public void mouseExited(MouseEvent e) {}
 
+	/**
+	 * Auto imported method, not used
+	 * @param e == A mouse event object describing what happened
+	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {}
 	
+	/**
+	 * Allows access to the more general menu
+	 * @param m the menu object
+	 */
 	public void setMenu(MenuWindow m) {
 		menu = m;
 	}

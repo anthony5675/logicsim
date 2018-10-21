@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class Not extends Gate {
 	
 	/**
-     * Initializes an Or object
+     * Initializes an Not object
      * @param x == x coordinate to set where the OR gate will draw
      * @param y == y coordinate to set where the OR gate will draw
 	 * @param s 
@@ -43,7 +43,7 @@ public class Not extends Gate {
 	public int calculate() {
 		if (inputs.size() < inputMin) return 0;
 		
-		// Get first input and bitwise OR with any further inputs
+		// Invert input for output
 		int result = inputs.get(0).calculate();
 		if (result == 0) {
 			return 1;
@@ -57,11 +57,6 @@ public class Not extends Gate {
 	 */
 	@Override
 	public void update() {
-//		for (ConnectPoint cp : inPoints) {
-//			cp.setX(x - cp.getWidth());
-//			cp.setY(y + height/4);
-//		}
-
 		inPoints.get(0).setX(x - inPoints.get(0).getWidth());
 		inPoints.get(0).setY(y + height/4);
 
@@ -76,7 +71,6 @@ public class Not extends Gate {
 
 	/**
 	 * If there is an image, paint just that
-	 * If there is not an image paint a white circle with a smaller white circle attached
 	 * @param g == Outward facing Graphics object to draw to
 	 */
 	@Override
@@ -99,7 +93,7 @@ public class Not extends Gate {
 	}
 
 	/**
-	 * Handles what clicking on an OR gate will do
+	 * Handles what clicking on an NOT gate will do
 	 * @param e == A mouse event object describing what happened when clicked
 	 */
 	@Override
@@ -137,6 +131,7 @@ public class Not extends Gate {
 		c.height = height;
 		
 		c.inputMin = inputMin;
+		c.inputMax = inputMax;
 		
 		c.inputs = new ArrayList<Connector>();
 		c.output = null;

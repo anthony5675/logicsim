@@ -15,16 +15,12 @@ public class Connector extends IO {
 	
 	private int x1, y1, x2, y2;
 	
+	/**
+	 * Initialises a Connector Object
+	 */
 	public Connector() {
 		super();
 		
-		x1 = x2 = y1 = y2 = 0;
-	}
-	
-	public Connector(Component in, Component out) {
-		input = in;
-		output = out;
-
 		x1 = x2 = y1 = y2 = 0;
 	}
 
@@ -51,8 +47,7 @@ public class Connector extends IO {
 	}
 
 	/**
-	 * If there is an image, paint just that
-	 * If there is not an image paint a line connecting two IO points
+	 * Paint a line connecting two IO points
 	 * @param g == Outward facing Graphics object to draw to
 	 */
 	@Override
@@ -73,30 +68,58 @@ public class Connector extends IO {
 	@Override
 	public void mousePressed(MouseEvent e) {}
 	
+	/**
+	 * Provides a way for left hand edge detection can be done
+	 * @return The horizontal location of the input point (left most point)
+	 */
 	public int getLeftEdge() {
 		return x;
 	}
 	
+	/**
+	 * Provides a way for right hand edge detection can be done
+	 * @return The horizontal location of the output point + output point width (right most point)
+	 */
 	public int getRightEdge() {
 		return x + width;
 	}
 	
+	/**
+	 * Allows a component to be added as an input
+	 * @param c == the input component
+	 */
 	public void setInput(Component c) {
 		input = c;
 	}
 
+	/**
+	 * Allows a component to be added as an output
+	 * @param c == the output component
+	 */
 	public void setOutput(Component c) {
 		output = c;
 	}
 
+	/**
+	 * Allows an input point to be added
+	 * @param c == the input point
+	 */
 	public void setInPoint(ConnectPoint c) {
 		inPoint = c;
 	}
 	
+	/**
+	 * Provides what the current input point is for this Connector
+	 * @return the input point for the connector
+	 */
 	public ConnectPoint getInPoint() {
 		return inPoint;
 	}
 
+	/**
+	 * Allows an output point to be added
+	 * @param c == the output point
+	 */
 	public void setOutPoint(ConnectPoint c) {
 		outPoint = c;
 	}
@@ -108,7 +131,20 @@ public class Connector extends IO {
 	 */
 	@Override
 	public Component clone() {
-		return null;
+		Connector c = new Connector();
+
+		c.x1 = x1;
+		c.x2 = x2;
+		c.y1 = y1;
+		c.y2 = y2;
+		
+		c.inPoint = inPoint;
+		c.outPoint = outPoint;
+		
+		c.input = input;
+		c.output = output;
+
+		return c;
 	}
 
 	public Component getOutput() {

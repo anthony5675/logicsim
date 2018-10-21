@@ -1,7 +1,6 @@
 package com.logicsim;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 import java.net.URL;
 
@@ -18,9 +17,6 @@ public class ImageLoader {
 	 */
     public static Image loadImage(String location) {
     	Image image = null;
-//        ImageIcon imageIcon = new ImageIcon(location);
-//        Image image = imageIcon.getImage();
-    	// Attempt to get images from the paths provided for both button states
 		try {
 			URL url = ImageLoader.class.getResource(location);
 			image = ImageIO.read(url);

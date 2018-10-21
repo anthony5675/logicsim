@@ -104,6 +104,10 @@ public class Output extends IO {
 		return x + width;
 	}
 	
+	/**
+	 * Setup a display specific input object
+	 * @param c == A connector to get what to display
+	 */
 	public void setInput(Connector c) {
 		input = c;
 	}

@@ -10,7 +10,7 @@ import java.awt.event.MouseEvent;
 public class NAnd extends Gate {
 	
 	/**
-     * Initializes an And object
+     * Initializes an NAnd object
      * @param x == x coordinate to set where the AND gate will draw
      * @param y == y coordinate to set where the AND gate will draw
      */
@@ -26,7 +26,6 @@ public class NAnd extends Gate {
 
 		inputMin = 2;
 
-		// These will soon be updated to a better format
 		inPoints.add(new ConnectPoint(x - (height/4), y + height/8, height/4, height/4, this));
 		inPoints.add(new ConnectPoint(x - (height/4), y + (height*5/8), height/4, height/4, this));
 		outPoint = new ConnectPoint(x + width, y + height/4, height/2, height/2, this);
@@ -39,7 +38,6 @@ public class NAnd extends Gate {
 	 * @return Integer value indicating if it is on or off
 	 */
 	public int calculate() {
-		// Are there enough inputs to calculate
 		if (inputs.size() < inputMin) return 0;
 
 		// Get first input and bitwise AND with any further inputs
@@ -48,6 +46,7 @@ public class NAnd extends Gate {
 			result &= inputs.get(i).calculate();
 		}
 		
+		// Invert output
 		if (result == 0) {
 			return 1;
 		} else {
@@ -60,12 +59,6 @@ public class NAnd extends Gate {
 	 */
 	@Override
 	public void update() {
-		// Update inPoint X and Y to make the connection point
-		// Move with the rest of the gate when dragging
-//		for (ConnectPoint cp : inPoints) {
-//			cp.setX(x - cp.getWidth());
-//			cp.setY(y + height/4);
-//		}
 		inPoints.get(0).setX(x - inPoints.get(0).getWidth());
 		inPoints.get(0).setY(y + height/8);
 
@@ -83,7 +76,6 @@ public class NAnd extends Gate {
 	
 	/**
 	 * If there is an image, paint just that
-	 * If there is not an image paint a white square with a smaller white square attached
 	 * @param g == Outward facing Graphics object to draw to
 	 */
 	public void paint(Graphics g) {
@@ -105,12 +97,11 @@ public class NAnd extends Gate {
 	}
 
 	/**
-	 * Handles what clicking on an AND gate will do
+	 * Handles what clicking on an NAND gate will do
 	 * @param e == A mouse event object describing what happened when clicked
 	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO: Check if its on an input/output point and tell SE
 		for (ConnectPoint cp : inPoints) if (cp.wasClicked(e.getX(), e.getY())) se.setIOPressed(cp);
 		if (outPoint != null && outPoint.wasClicked(e.getX(), e.getY())) {
 			se.setIOPressed(outPoint);

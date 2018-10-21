@@ -56,11 +56,6 @@ public class Or extends Gate {
 	 */
 	@Override
 	public void update() {
-//		for (ConnectPoint cp : inPoints) {
-//			cp.setX(x - cp.getWidth());
-//			cp.setY(y + height/4);
-//		}
-
 		inPoints.get(0).setX(x - inPoints.get(0).getWidth());
 		inPoints.get(0).setY(y + height/8);
 

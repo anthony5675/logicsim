@@ -1,6 +1,5 @@
 package com.logicsim;
 
-import javax.swing.*;
 import java.awt.*;
 
 /**
