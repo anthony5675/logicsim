@@ -152,6 +152,10 @@ public class TutorialEngine extends SimulatorEngine implements MouseListener, Mo
 	 * Runs any updates necessary on any objects
 	 */
 	public void update() {
+		if (tut instanceof ChallengeCanvas) {
+			table.setUserTable(((ChallengeCanvas)tut).checkAnswer());
+		}
+		
 		// Asks each component to update its own state
 		for(Component c : comps) c.update();
 		if (beingDragged != null) beingDragged.update();
