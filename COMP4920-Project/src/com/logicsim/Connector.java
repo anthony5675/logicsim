@@ -92,6 +92,10 @@ public class Connector extends IO {
 	public void setInPoint(ConnectPoint c) {
 		inPoint = c;
 	}
+	
+	public ConnectPoint getInPoint() {
+		return inPoint;
+	}
 
 	public void setOutPoint(ConnectPoint c) {
 		outPoint = c;

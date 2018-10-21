@@ -38,8 +38,9 @@ public class TutorialEngine extends SimulatorEngine implements MouseListener, Mo
 	private int state;
 
 	/**
-	 * Initializes a SimulatorEngine object
-	 * @param s == Canvas object which has generated this back end engine
+	 * Initializes a Tutorial object
+	 * @param t == Canvas object which has generated this back end engine
+	 * @param st == the initial state of the tutorial to manage which scene to start on
 	 */
 	public TutorialEngine(TutorialCanvas t, int st) {
 		super(t);
@@ -94,10 +95,14 @@ public class TutorialEngine extends SimulatorEngine implements MouseListener, Mo
 			tt.paint(g);
 		}
 		
+		// Paint next button only on the tutorial sections
+		// before the last one
 		if(state < CHALLENGE_START - 1) nextbtn.paint(g);
 		
+		// Paint the continue button only during the challenges except the last screen
 		if(state >= CHALLENGE_START && state < MAX_STATE) continuebtn.paint(g);
 		
+		// Paint the submit button and table only if it during the challenges
 		if (state >= CHALLENGE_START) {
 			submitbtn.paint(g);
 			table.paint(g);
@@ -123,8 +128,9 @@ public class TutorialEngine extends SimulatorEngine implements MouseListener, Mo
 	}
 
 	/**
-	 * Allows indication of an IO point has just been pressed
-	 * @param bool == has an IO point been pressed
+	 * Allows ConnectPoints to be connected using ioPassed
+	 * to hold state and wait for another to be pressed
+	 * @param cp = connect point clicked on
 	 */
 	public void setIOPressed(ConnectPoint cp) {
 		if(ioPressed == null) {
@@ -142,6 +148,8 @@ public class TutorialEngine extends SimulatorEngine implements MouseListener, Mo
 		// Handle Second
 		c = buildConnector(ioPressed, c);
 		
+		// Add a connector to cp if it is an output point only
+		// and to an input point iff it has no connector already
 		if (cp.getComp().getOutPoint() == cp) {
 			cp.addCon(c);
 		} else {
@@ -149,6 +157,9 @@ public class TutorialEngine extends SimulatorEngine implements MouseListener, Mo
 				cp.addCon(c);
 			}
 		}
+
+		// Add a connector to ioPressed if it is an output point only
+		// and to an input point iff it has no connector already
 		if (ioPressed.getComp().getOutPoint() == ioPressed) {
 			ioPressed.addCon(c);
 		} else {
@@ -160,44 +171,18 @@ public class TutorialEngine extends SimulatorEngine implements MouseListener, Mo
 		ioPressed = null;
 	}
 
-	public Connector buildConnector(ConnectPoint cp, Connector old) {
-		Connector c;
-		if (old == null) {
-			c = new Connector();
-		} else {
-			c = old;
-		}
-
-		if (cp.getComp() instanceof Gate) {
-			Gate g = (Gate)cp.getComp();
-			if(g.getOutPoint() == cp) {
-				c.setInput(g);
-				c.setInPoint(cp);
-				g.addOutput(c);
-			} else {
-				c.setOutput(g);
-				c.setOutPoint(cp);
-				g.addInput(c);
-			}
-		} else if (cp.getComp() instanceof Source) {
-			Source s = (Source)cp.getComp();
-			c.setInput(s);
-			c.setInPoint(cp);
-			s.setOutput(c);
-		} else if (cp.getComp() instanceof Output) {
-			Output o = (Output)cp.getComp();
-			c.setOutput(o);
-			c.setOutPoint(cp);
-			o.setInput(c);
-		} else {
-			return null;
-		}
-		return c;
-	}
-
+	/**
+	 * Sets up the properties of half a connector based on properties of the ConnectPoint
+	 * @param cp1 == a connect point attempting to connect to cp2
+	 * @param cp2 == a connect point attempting to connect to cp1
+	 * @return true if can they be connected and false otherwise
+	 */
 	private boolean compatibleConnectPoints(ConnectPoint cp1, ConnectPoint cp2) {
+		// Cannot connect source to source or output to output
 		if ((cp1.getComp() instanceof Source) && (cp2.getComp() instanceof Source)) return false;
 		if ((cp1.getComp() instanceof Output) && (cp2.getComp() instanceof Output)) return false;
+		
+		// Cannot connect anything to itself
 		if (cp1.getComp() == cp2.getComp()) return false;
 		
 		// In Points can only have one connector so if cp1 is NOT an out point it is an in point
@@ -206,6 +191,9 @@ public class TutorialEngine extends SimulatorEngine implements MouseListener, Mo
 		if (cp2.getComp().getOutPoint() != cp2 && cp2.getCons().size() > 0) return false;
 
 		if ((cp1.getComp() instanceof Gate) && !(cp2.getComp() instanceof Gate)) {
+			// If connect points belong to gate and not gate then
+			// They are only valid if a gate out to output
+			// or gate in from source
 			Gate g = (Gate)cp1.getComp();
 
 			if(g.getOutPoint() == cp1) {
@@ -216,6 +204,9 @@ public class TutorialEngine extends SimulatorEngine implements MouseListener, Mo
 				if (cp2.getComp() instanceof Output) return false;
 			}
 		} else if (!(cp1.getComp() instanceof Gate) && (cp2.getComp() instanceof Gate)) {
+			// If connect points belong to gate and not gate then
+			// They are only valid if a gate out to output
+			// or gate in from source
 			Gate g = (Gate)cp2.getComp();
 
 			if(g.getOutPoint() == cp2) {
@@ -226,6 +217,9 @@ public class TutorialEngine extends SimulatorEngine implements MouseListener, Mo
 				if (cp1.getComp() instanceof Output) return false;
 			}
 		} else if ((cp1.getComp() instanceof Gate) && (cp2.getComp() instanceof Gate)) {
+			// If connect points belong to gate and gate then
+			// They are only valid if the out point of one connects
+			// to an in point of the other
 			Gate g1 = (Gate)cp1.getComp();
 			Gate g2 = (Gate)cp2.getComp();
 
@@ -238,14 +232,6 @@ public class TutorialEngine extends SimulatorEngine implements MouseListener, Mo
 			}
 		}
 		return true;
-	}
-
-	/**
-	 * Provides if an IO point has just been pressed
-	 * @return boolean describing if an IO point was just pressed
-	 */
-	public ConnectPoint getIOPressed() {
-		return ioPressed;
 	}
 
 	/**
@@ -265,7 +251,7 @@ public class TutorialEngine extends SimulatorEngine implements MouseListener, Mo
 				// when clicked
 				tb.mousePressed(e);
 
-				// If afterwards there is a new object to
+				// If afterwards there is a new object to add
 				// then add it and prep it for being dragged
 				if (toBeAdded != null) {
 					toBeAdded.setX(e.getX());
@@ -281,19 +267,22 @@ public class TutorialEngine extends SimulatorEngine implements MouseListener, Mo
 			// If the click was not the toolbox then check if it was any component
 			for (Component c : comps) {
 				if (c.wasClicked(e.getX(), e.getY())) {
-					// Let it handle what happens to it (Might need to change
+					// Let it handle what happens to it
 					c.mousePressed(e);
 					return;
 				}
 			}
 			
+			// Next button and continue buttons advance state
+			// Continue also hides the table if it is showing
 			if (nextbtn.wasClicked(e.getX(), e.getY()) && state < CHALLENGE_START-1) {
 				tut.setState(state + 1);
 			} else if (continuebtn.wasClicked(e.getX(), e.getY()) && state >= CHALLENGE_START && state < MAX_STATE) {
 				tut.setState(state + 1);
 				table.setVisible(false);
 			} else if (submitbtn.wasClicked(e.getX(), e.getY()) && state >= CHALLENGE_START) {
-				//pop-up of their answer
+				// Submit shows then hides the table and changes its
+				// text appropriately
 				table.setVisible(!table.getVisible()); 
 				if(table.getVisible() == true) {
 					submitbtn.setText("Hide");
@@ -301,11 +290,14 @@ public class TutorialEngine extends SimulatorEngine implements MouseListener, Mo
 					submitbtn.setText("Submit");
 				}
 			} else if (clearbtn.wasClicked(e.getX(), e.getY())) {
-				comps.clear();
+				// Clear the canvas and reset static elements
+				// if it is on challenges
+				clearComponents();
 				if (tut instanceof ChallengeCanvas) {
 					((ChallengeCanvas)tut).setState(state);
 				}
 			} else if (menubtn.wasClicked(e.getX(), e.getY())) {
+				// return to the menu
 				tut.getMenu().getMenu().setVisible(true);
 				tut.setVisible(false);
 				if (state > CHALLENGE_START) {
@@ -319,27 +311,20 @@ public class TutorialEngine extends SimulatorEngine implements MouseListener, Mo
 
 	/**
 	 * Change state so different frames can be utilised.
-	 *
 	 */
-
 	public void setState(int newState) {
 		if(state < MAX_STATE) {
 			state = newState;
 		}
 		tb.setState(state);
-		comps.clear();
+		clearComponents();
 		
 		updateTable();
 	}
 
 	/**
-	 * @return current state
+	 * Change what the expected table will look like per state
 	 */
-
-	public int getState() {
-		return state;
-	}
-	
 	private void updateTable() {
 		if(state == CHALLENGE_START) {
 			ArrayList<ArrayList<String>> expectedOutput = new ArrayList<ArrayList<String>>();
@@ -425,7 +410,6 @@ public class TutorialEngine extends SimulatorEngine implements MouseListener, Mo
 	}
 
 	/**
-	 * (Currently not used)
 	 * This checks if at all two different components collide (one would draw on top of the other)
 	 * @param old == one of the components (usually the one already there)
 	 * @param newC == Another component which might collide with old
@@ -508,7 +492,7 @@ public class TutorialEngine extends SimulatorEngine implements MouseListener, Mo
 	}
 
 	/**
-	 * Auto imported method, not used
+	 * on right click show tooltip
 	 * @param e == A mouse event object describing what happened
 	 */
 	@Override
@@ -547,10 +531,17 @@ public class TutorialEngine extends SimulatorEngine implements MouseListener, Mo
 	@Override
 	public void mouseMoved(MouseEvent e) {}
 
+	/**
+	 * Provide the canvas this manages when asked
+	 */
 	public TutorialCanvas getTut() {
 		return tut;
 	}
 	
+	/**
+	 * Add a component to be drawn here
+	 * @param c == component to be added
+	 */
 	public void addComp(Component c) {
 		comps.add(c);
 	}

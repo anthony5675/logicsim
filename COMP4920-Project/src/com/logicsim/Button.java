@@ -3,9 +3,6 @@ package com.logicsim;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.event.MouseEvent;
 
 public class Button {
 
@@ -13,6 +10,9 @@ public class Button {
 	private Color background, foreground;
 	private String text;
 	
+	/**
+	 * Initialises a Button object
+	 */
 	public Button (int i, int j, int w, int h, Color b, Color f, String t) {
 		x = i;
 		y = j;
@@ -26,11 +26,6 @@ public class Button {
 	}
 
 	public void paint(Graphics g) {
-		Graphics2D g2 = (Graphics2D) g;
-//
-//        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-//                            RenderingHints.VALUE_ANTIALIAS_ON);
-        
         g.setFont(new Font("Aerial", Font.PLAIN, 24));
 		g.setColor(Color.BLACK);
 		g.drawRect(x, y, width, height);
@@ -43,7 +38,6 @@ public class Button {
 
 		g.setColor(foreground);
 		g.drawString(text, x + (width/2) - (stringWidth/2), y + height/2 + stringHeight/4);
-//		g2.dispose();
 	}
 
 	/**

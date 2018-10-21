@@ -363,6 +363,8 @@ public class SimulatorEngine implements MouseListener, MouseInputListener {
 					toRemove = c;
 				}
 			}
+			if (toRemove instanceof Gate) ((Gate)toRemove).dispose(this);
+			else if (toRemove instanceof IO) ((IO)toRemove).dispose(this);
 			comps.remove(toRemove);
 		}
 	}

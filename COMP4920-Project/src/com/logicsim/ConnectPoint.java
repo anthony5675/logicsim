@@ -115,5 +115,9 @@ public class ConnectPoint {
 	public void addCon(Connector c) {
 		cons.add(c);
 	}
+	
+	public void removeCon(Connector c) {
+		cons.remove(c);
+	}
 
 }
