@@ -13,7 +13,7 @@ import java.util.*;
 public class SaveLoadUtils {
 
     /**
-     * Saves files to "save_"+[0,n] name format in the saves folder
+     * Saves workspace state into the given file object.
      * @param se == The simulator engine
      */
     public static void save(SimulatorEngine se, File file) {
@@ -87,7 +87,7 @@ public class SaveLoadUtils {
     }
 
     /**
-     * Load file from a specified file name
+     * Load workspace state from a given file object.
      * @param se == The simulator engine
      * @param file == save file to be loaded
      */
@@ -137,7 +137,7 @@ public class SaveLoadUtils {
                 case "NOr":
                     comp = new NOr(x, y, se);
                     break;
-                case "NOt":
+                case "Not":
                     comp = new Not(x, y, se);
                     break;
                 case "Output":
