@@ -25,6 +25,7 @@ public class TutorialEngine extends SimulatorEngine implements MouseListener, Mo
 	private Tooltip tt; 
 	private Button next;
 	private Button submit;
+	private TruthTable table;
 
 	// Simulator objects
 	private Component toBeAdded;
@@ -56,6 +57,22 @@ public class TutorialEngine extends SimulatorEngine implements MouseListener, Mo
 		
 		next = new Button(650, 450, 100, 40, Color.BLACK, Color.WHITE, "Next");
 		submit = new Button(530, 450, 100, 40, Color.BLACK, Color.WHITE, "Submit");
+
+		if(st == 3) {
+			ArrayList<ArrayList<String>> expectedOutput = new ArrayList<ArrayList<String>>();
+			ArrayList<String> indexOne = new ArrayList<String>();
+			indexOne.add("Input 1");
+			indexOne.add(Integer.toString(0));
+			indexOne.add(Integer.toString(1));
+			ArrayList<String> indexTwo = new ArrayList<String>();
+			indexTwo.add("Input 2");
+			indexTwo.add(Integer.toString(1));
+			indexTwo.add(Integer.toString(0));
+			expectedOutput.add(indexOne);
+			expectedOutput.add(indexTwo);
+			table = new TruthTable(expectedOutput, expectedOutput);
+			table.setVisible(false);
+		}
 	}
 
 	/**
@@ -83,6 +100,7 @@ public class TutorialEngine extends SimulatorEngine implements MouseListener, Mo
 		
 		next.paint(g);
 		if (state >= CHALLENGE_START) submit.paint(g);
+		table.paint(g);
 	}
 
 	/**
@@ -253,10 +271,9 @@ public class TutorialEngine extends SimulatorEngine implements MouseListener, Mo
 				setState(state + 1);
 			} else if (submit.wasClicked(e.getX(), e.getY())) {
 				//pop-up of their answer
-				if (tut instanceof ChallengeCanvas) {
-					ChallengeCanvas chc = (ChallengeCanvas)tut;
-					chc.checkAnswer();
-				}
+				System.out.println(table == null);
+				table.setVisible(!table.getVisible()); 
+
 			}
 		}
 	}
