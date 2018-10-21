@@ -33,11 +33,6 @@ public class Toolbar extends JToolBar implements ActionListener {
         add(newButton("save"));
         add(newButton("load"));
         add(newButton("clear"));
-
-        savesFolder = new File(System.getProperty("user.home") + "/saves/");
-        if (!savesFolder.exists()) {
-            savesFolder.mkdir();
-        }
     }
 
     /**
@@ -63,7 +58,7 @@ public class Toolbar extends JToolBar implements ActionListener {
         String command = e.getActionCommand();
         if (command.equals("save")) {
             JFileChooser fileChooser = new JFileChooser();
-            fileChooser.setCurrentDirectory(savesFolder);
+            fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
 
             int retVal = fileChooser.showSaveDialog(this);
             if (retVal == JFileChooser.APPROVE_OPTION) {
@@ -73,7 +68,7 @@ public class Toolbar extends JToolBar implements ActionListener {
 
         } else if (command.equals("load")) {
             JFileChooser fileChooser = new JFileChooser();
-            fileChooser.setCurrentDirectory(savesFolder);
+            fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
 
             int retVal = fileChooser.showOpenDialog(this);
             if (retVal == JFileChooser.APPROVE_OPTION) {
